@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/13 14:58:20 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:05:14 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+void	*ft_calloc(size_t count, size_t size)
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
-	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
-	}
-	return (EXIT_SUCCESS);
+	char	*str;
+
+	if (count == 4294967295 || size == 4294967295)
+		return (0);
+	str = malloc(count * size);
+	if (!str)
+		return (0);
+	ft_memset(str, 0, count * size);
+	return (str);
 }

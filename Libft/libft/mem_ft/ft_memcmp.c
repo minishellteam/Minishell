@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/13 12:34:33 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:05:22 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+int	ft_memcmp(const void *s1, const void *s2, size_t size)
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
-	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
-	}
-	return (EXIT_SUCCESS);
+	size_t				i;
+	unsigned const char	*str1;
+	unsigned const char	*str2;
+
+	i = 0;
+	str1 = s1;
+	str2 = s2;
+	if (size == 0)
+		return (0);
+	size--;
+	while (str1[i] == str2[i] && i < size)
+		i++;
+	return (str1[i] - str2[i]);
 }

@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/25 09:12:10 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:04:15 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	if (lst && del)
 	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
+		del(lst->content);
+		free(lst);
 	}
-	return (EXIT_SUCCESS);
 }

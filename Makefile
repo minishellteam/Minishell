@@ -1,46 +1,53 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/20 09:37:56 by mkerkeni          #+#    #+#              #
-#    Updated: 2023/05/22 16:20:13 by mkerkeni         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME	= minishell
-LIBFT	= Libft/
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -fsanitize=address -g3
-
 SRCS	=	main.c \
 			get_vars.c \
-			minishell_utils.c \
+			minishell_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
-%.o:%.c
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+BOLD = \033[1m
+UNDERLINE = \033[4m
+RED = \033[31;2m
+BLACK = \033[38;5;238m
+BLUE = \033[38;5;153m
+GREEN = \033[38;5;48m
+YELLOW = \033[38;5;226m
+ORANGE = \033[38;5;202m
+PINK = \033[38;5;198m
+PURPLE = \033[38;5;147m
 
-all: $(NAME)
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+ifdef DEBUG
+CFLAGS += -fsanitize=address -g3
+endif
+
+.c.o:
+	@$(CC) $(CFLAGS) -c -I ./inc/ $< -o $(<:.c=.o)
+
+NAME = minishell
+
+all : $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "	Compilation in progress..."
-	@$(MAKE) -C $(LIBFT)
-	@$(CC) $(CFLAGS) -lreadline -o $(NAME) $^ $(LIBFT)libft.a
-	@echo "	Compiled !"
+	@echo "	$(PURPLE)$(UNDERLINE)Compiling...\033[0m ⏳"
+	@$(MAKE) -C ./libft/
+	@$(CC) $(CFLAGS) $(OBJS) -lreadline ./libft/libft.a -o $(NAME)
+	@clear
+	@echo "	$(YELLOW)$(BOLD)Compiled ! ✨\033[0m"
+
+debug:
+	@$(MAKE) DEBUG=1
 
 clean:
-	@rm -f $(OBJS)
-	@$(MAKE) clean -C $(LIBFT)
+	@$(MAKE) clean -C ./libft/
+	@rm -rf $(OBJS)
+	@echo "	$(RED)Deleted file .o \033[0m"
 
 fclean: clean
-	@rm -f $(NAME)
-	@rm -f Libft/libft.a
+	@rm -rf ./libft/libft.a
+	@rm -rf $(NAME)
+	@echo "	$(RED)Deleted file .a\033[0m"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug

@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/12 14:37:07 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:06:17 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+char	*ft_strdup(char *src)
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	int		i;
+	char	*dest;
+
+	i = 0;
+	dest = malloc((ft_strlen(src) + 1) * sizeof(char));
+	if (!dest)
+		return (0);
+	while (src[i] != '\0')
 	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
+		dest[i] = src[i];
+		i++;
 	}
-	return (EXIT_SUCCESS);
+	dest[i] = '\0';
+	return (dest);
 }

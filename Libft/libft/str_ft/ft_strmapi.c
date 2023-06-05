@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/18 16:42:53 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:06:52 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	char			*str;
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	j = 0;
+	if (!s)
+		return (0);
+	str = malloc(ft_strlen(s) + 1 * sizeof(char));
+	if (!str)
+		return (0);
+	while (s[i])
 	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
+		str[j] = f(i, (char)s[i]);
+		i++;
+		j++;
 	}
-	return (EXIT_SUCCESS);
+	str[j] = '\0';
+	return (str);
 }

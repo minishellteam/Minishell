@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/05/22 16:19:24 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:21:35 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "Libft/libft.h"
+# include "libft/inc/libft.h"
+# include "libft/inc/get_next_line.h"
+# include "libft/inc/ft_printf.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -38,7 +40,7 @@ int		main(int ac, char **av, char **env);
 
 char	**get_env_vars(t_command cmd);
 
-void	ft_error(char *message);
+void	handle_error(char *message);
 void	print_str_of_str(char **str);
 
 #endif

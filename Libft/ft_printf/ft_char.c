@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_char.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/12/06 10:44:28 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/03/04 16:27:03 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/ft_printf.h"
 
-int	main(int ac, char **av, char **env)
+size_t	ft_print_putchar(char c)
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	return (write(1, &c, 1));
+}
+
+size_t	ft_print_putstr(char *s)
+{
+	size_t	len;
+
+	len = 0;
+	if (!s)
+		return (write(1, "(null)", 6));
+	while (*s)
 	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
+		write(1, &*s++, 1);
+		len++;
 	}
-	return (EXIT_SUCCESS);
+	return (len);
 }

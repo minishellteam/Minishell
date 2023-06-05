@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:24:36 by ykifadji         ###   ########.fr       */
+/*   Created: 2022/11/13 12:29:06 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/05 13:05:18 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	main(int ac, char **av, char **env)
+void	*ft_memchr(const void *s, int c, size_t size)
 {
-	t_command	cmd;
-	char		**args;
-	char		*line;
-	
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	size_t	i;
+	char	*str;
+	size_t	s_len;
+
+	if (size == 0)
+		return (0);
+	i = 0;
+	str = (char *)s;
+	s_len = ft_strlen(s);
+	if (c == '\0')
+		return (str + s_len);
+	while (i < size)
 	{
-		line = readline("minishell$ ");
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		args = get_env_vars(cmd);
-		print_str_of_str(args);
+		if (str[i] == (char)c)
+			return ((char *)str + i);
+		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

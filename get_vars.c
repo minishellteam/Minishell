@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/05/22 16:21:33 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:21:09 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*get_value_var(t_command cmd)
 		}
 	}
 	if (!value)
-		ft_error("ERROR: Variable not found\n");
+		handle_error("ERROR: Variable not found\n");
 	return (value);
 }
 
