@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:21:09 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:57:39 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,3 +85,4 @@ char	**get_env_vars(t_command cmd)
 	}
 	return (args);
 }
+//my com
