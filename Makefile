@@ -41,12 +41,12 @@ debug:
 clean:
 	@$(MAKE) clean -C ./libft/
 	@rm -rf $(OBJS)
-	@echo "	$(RED)Deleted file .o \033[0m"
+	@echo "	❌ $(BOLD)$(RED)Deleted file .o \033[0m"
 
 fclean: clean
 	@rm -rf ./libft/libft.a
 	@rm -rf $(NAME)
-	@echo "	$(RED)Deleted file .a\033[0m"
+	@echo "	❌ $(BOLD)$(RED)Deleted file .a\033[0m"
 
 re: fclean all
 
