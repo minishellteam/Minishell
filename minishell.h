@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/07 12:05:46 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:43:03 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,3 +44,25 @@ void	handle_error(char *message);
 void	print_str_of_str(char **str);
 
 #endif
+
+/*static char	*handle_var(char *new_line, char *cmd_line, int i)
+{
+	char	*var;
+	char	*value;
+	int		j;
+
+	i++;
+	j = i;
+	while (ft_isalnum(cmd_line[i]) || cmd_line[i] == '_')
+		i++;
+	var = get_var(cmd_line, j, i);
+	value = getenv(var);
+	if (!value)
+		new_line = replace_var_by_nothing(new_line, ft_strlen(var));
+	else
+		new_line = replace_var_by_value(new_line, value, ft_strlen(var));
+	free(var);
+	var = NULL;
+	value = NULL;
+	return (new_line);
+}*/
