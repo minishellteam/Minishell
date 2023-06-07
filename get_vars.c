@@ -6,83 +6,134 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/06 09:57:40 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:05:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*replace_var_by_value(char *s, char *value)
+static char	*replace_var_by_value(char *s, char *value, int var_len)
 {
-	int	i;
-
-	i = -1;
-	if (s[0] == '$')
-	{
-		s[0] = '\0';
-		s = ft_strjoin(s, value);
-		return (s);	
-	}
-	while (s[++i])
-	{
-		if (s[i] == '$')
-		{
-			s = ft_substr(s, 0, ft_strlen(s) - (ft_strlen(s) - i));
-			s = ft_strjoin(s, value);
-		}
-	}
-	return (s);	
-}
-
-static char	*get_value_var(t_command cmd)
-{
-	char	*value;
-	int		i;
-
-	i = -1;
-	value = NULL;
-	cmd.var = ft_strjoin(cmd.var, "=");
-	while (cmd.env[++i])
-	{
-		if (ft_strnstr(cmd.env[i], cmd.var, ft_strlen(cmd.env[i])))
-		{
-			if (ft_strnstr(cmd.env[i], cmd.var, ft_strlen(cmd.var)))
-			{
-				value = cmd.env[i] + ft_strlen(cmd.var) + 1;
-				break ;
-			}
-		}
-	}
-	if (!value)
-		handle_error("ERROR: Variable not found\n");
-	return (value);
-}
-
-char	**get_env_vars(t_command cmd)
-{
-	char	**args;
 	int		i;
 	int		j;
-	char	*var;
-	char	*value;
-	
-	i = -1;
-	j = -1;
-	args = ft_split(cmd.cmd_line, ' ');
-	while (args[++i])
+	int		k;
+	char	*final;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	final = malloc(sizeof(char) * (ft_strlen(s) + ft_strlen(value) - var_len - 1) + 1);
+	if (!final)
+		handle_error("Malloc failure\n");	
+	while (s[i] && s[i] != '$')
 	{
-		j = -1;
-		while(args[i][++j])
+		final[k] = s[i];
+		i++;
+		k++;
+	}
+	if (s[i] == '$')
+	{
+		i++;
+		j = 0;
+		while (value[j])
 		{
-			if (args[i][j] == '$')
-			{
-				var = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j);
-				cmd.var = var;
-				value = get_value_var(cmd);
-				args[i] = replace_var_by_value(args[i], value);
-			}
+			final[k] = value[j];
+			j++;
+			k++;
 		}
 	}
-	return (args);
+	while (ft_isalnum(s[i]) || s[i] == '_')
+		i++;
+	while (s[i])
+	{
+		final[k] = s[i];
+		i++;
+		k++;
+	}
+	final[k] = '\0';
+	return (final);
 }
-//it is just a test
+
+static char	*replace_var_by_nothing(char *s, int var_len)
+{
+	char	*final;
+	int		i;
+	int		k;
+	
+	final = malloc(sizeof(char) * (ft_strlen(s) - var_len - 1) + 1);
+	i = 0;
+	k = 0;
+	while (s[i] && s[i] != '$')
+	{
+		final[k] = s[i];
+		i++;
+		k++;
+	}
+	if (s[i] && s[i] == '$' && s[i + 1])
+	{
+		i++;
+		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+			i++;	
+	}
+	while (s[i])
+	{
+		final[k] = s[i];
+		i++;
+		k++;
+	}
+	final[k] = '\0';
+	return (final);
+}
+
+char	*get_var(char *src, int start, int end)
+{
+	int		j;
+	char	*var;
+
+	var = malloc(sizeof(char) * (end - start) + 1);
+	j = 0;
+	while (start < end)
+	{
+		var[j] = src[start];
+		j++;
+		start++;
+	}
+	var[j] = '\0';
+	return (var);
+}
+
+char	*get_value_vars(t_command cmd)
+{
+	char	*new_line;
+	char	*var;
+	char	*value;
+	unsigned int		i;
+	unsigned int		j;
+	
+	i = 0;
+	j = 0;
+	new_line = ft_strdup(cmd.cmd_line);
+	while (cmd.cmd_line[i])
+	{
+		if (cmd.cmd_line[i] == '$')
+		{
+			i++;
+			j = i;
+			while (ft_isalnum(cmd.cmd_line[i]) || cmd.cmd_line[i] == '_')
+				i++;
+			var = get_var(cmd.cmd_line, j, i);
+			value = getenv(var);
+			if (!value)
+				new_line = replace_var_by_nothing(new_line, ft_strlen(var));
+			else
+				new_line = replace_var_by_value(new_line, value, ft_strlen(var));
+			free(var);
+			var = NULL;
+			value = NULL;
+		}
+		else
+			i++;
+	}
+	printf("newline = %s\n", new_line);
+	return (cmd.cmd_line);
+}
