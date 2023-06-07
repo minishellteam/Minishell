@@ -16,7 +16,8 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			get_vars.c \
-			minishell_utils.c
+			minishell_utils.c \
+			parsing.c
 
 OBJS = $(SRCS:.c=.o)
 
