@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 15:21:35 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:42:42 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,23 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_command {
+typedef struct s_data {
 	int		ac;
 	char	**av;
 	char	**env;
+	char	**cmds;
 	char	*path;
 	char	*var;
 	char	*cmd_line;
-}			t_command;
+}			t_data;
 
 int		main(int ac, char **av, char **env);
 
-char	**get_env_vars(t_command cmd);
+void	parsing(t_data *cmd, char *line);
 
-void	handle_error(char *message);
+char	**get_env_vars(t_data cmd);
+
+void	handle_error(char *message, int x);
 void	print_str_of_str(char **str);
 
 #endif

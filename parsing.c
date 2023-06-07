@@ -1,35 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/07 11:03:01 by ykifadji         ###   ########.fr       */
+/*   Created: 2023/06/06 10:31:22 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/07 11:48:28 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	check_chevron(char *str)
 {
-	t_data	cmd;
-	//char		**args;
-	char		*line;
-	 
-	(void)av;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n");
-	while(1)
+	int	i;
+
+	i = -1;
+	while (str[++i])
 	{
-		line = readline("minishell$ ");
-		parsing(&cmd, line);
-		add_history(line);
-		cmd.cmd_line = line;
-		cmd.env = env;
-		//args = get_env_vars(cmd);
-		//print_str_of_str(args);
+		if (str[i] == '>' && str[i + 2] == '>')
+			handle_error("minishell: syntax error near unexpected token `<'\n", \
+				0);
 	}
-	return (EXIT_SUCCESS);
+}
+
+void	parsing(t_data *cmd, char *line)
+{
+	int	j;
+	int	i;
+
+	cmd->cmds = ft_split(line, '|');
+	j = -1;
+	while (cmd->cmds[++j])
+	{
+		i = -1;
+		while (cmd->cmds[j][++i])
+		{
+			if (cmd->cmds[j][i] == '>')
+				check_chevron(cmd->cmds[j]);
+		}
+	}
 }

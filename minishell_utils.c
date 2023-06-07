@@ -6,15 +6,18 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/05 13:22:07 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:35:08 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *message)
+void	handle_error(char *message, int x)
 {
-	perror(message);
+	if (x == 1)
+		perror(message);
+	else if (x == 0)
+		ft_putstr_fd(message, 2);
 	exit(EXIT_FAILURE);
 }
 
