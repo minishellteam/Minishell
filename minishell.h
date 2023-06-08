@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/07 11:42:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/08 08:41:43 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+#include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -45,5 +46,7 @@ char	**get_env_vars(t_data cmd);
 
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str);
+
+void	signal_handler(int signal, siginfo_t *sa, void *content);
 
 #endif
