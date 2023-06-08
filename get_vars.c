@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/08 10:16:33 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/08 10:36:31 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*handle_var(char *new_line, char *var, char *value)
 	return (new_line);
 }
 
-char	*get_value_vars(t_command cmd)
+char	*get_value_vars(t_data cmd)
 {
 	char	*new_line;
 	char	*var;
