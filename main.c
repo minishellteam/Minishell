@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/08 10:32:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:49:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 int	main(int ac, char **av, char **env)
 {
 	t_data	cmd;
-	char		*args;
 	char		*line;
 
 	(void)av;
+	(void)env;
+	line = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	while (1)
@@ -27,7 +28,9 @@ int	main(int ac, char **av, char **env)
 		add_history(line);
 		cmd.line = line;
 		cmd.env = env;
-		args = get_value_vars(cmd);
-	}
+		cmd.var_line = get_value_vars(cmd);
+		free(line);
+		free(cmd.var_line);
+	}	
 	return (EXIT_SUCCESS);
 }
