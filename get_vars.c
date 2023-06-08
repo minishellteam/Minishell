@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/08 13:50:03 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:21:08 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_value_vars(t_data cmd)
 	new_line = NULL;
 	new_line = ft_strdup(cmd.line);
 	new_line = handle_var(new_line, var, value);
-	printf("newline = %s\n", new_line);
+	//printf("newline = %s\n", new_line);
 	cmd.var_line = new_line;
 	return (new_line);
 }
