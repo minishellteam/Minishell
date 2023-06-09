@@ -17,6 +17,7 @@ UP = UP = \033[A
 SRCS	=	main.c \
 			get_vars.c \
 			minishell_utils.c \
+			history.c \
 
 OBJS = $(SRCS:.c=.o)
 

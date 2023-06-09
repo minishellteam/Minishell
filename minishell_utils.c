@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/08 10:31:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:09:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@ void	handle_error(char *message, int x)
 	exit(EXIT_FAILURE);
 }
 
-void	print_str_of_str(char **str)
+void	print_str_of_str(char **str, int row)
 {
-	int	i;
+	int	y;
 
-	i = -1;
-	while (str[++i])
-	{
-		ft_printf("%s", str[i]);
-		ft_printf(" ");
-	}
-	ft_printf("\n");
+	y = -1;
+	while (++y < row)
+		printf("%s", str[y]);
+	printf("\n");
 }
