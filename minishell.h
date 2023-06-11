@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/11 11:13:15 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/11 17:04:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,26 @@ typedef struct s_data {
 	char	*var;
 	char	*line;
 	char	*var_line;
-	char	**history;
+	char	*history[HISTORY_SIZE];
 	int		hist_fd;
 	int		rows;
-	int		line_pos;
 }			t_data;
+
+t_data	g_sh;
+
+enum e_toktype {
+	STRING = 0,
+	PIPE = '|',
+	GREATER = '>',
+	LESSER = '<',
+	SINGLE_QUOTE = '\'',
+	DOUBLE_QUOTE = '\"',
+} ;
+
+typedef struct s_tok {
+	char			*token;
+	struct s_tok	*next;
+}					t_tok;
 
 int		main(int ac, char **av, char **env);
 
@@ -59,5 +74,7 @@ void	add_line_to_history(t_data *cmd);
 void	init_history(char **history);
 void	get_old_history(t_data *cmd);
 void	clear_history_file(t_data *cmd);
+
+void	tokenize_line(t_data g_sh);
 
 #endif

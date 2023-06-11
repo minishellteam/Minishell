@@ -18,6 +18,8 @@ SRCS	=	main.c \
 			get_vars.c \
 			minishell_utils.c \
 			history.c \
+			lst_functions.c \
+			lexer.c
 
 OBJS = $(SRCS:.c=.o)
 
