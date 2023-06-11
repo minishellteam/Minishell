@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/09 14:12:04 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/11 11:13:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@
 # include <readline/history.h>
 
 # ifndef HISTORY_SIZE
-#  define HISTORY_SIZE 10
+#  define HISTORY_SIZE 100
 # endif
+
 typedef struct s_data {
 	int		ac;
 	char	**av;
@@ -42,6 +43,7 @@ typedef struct s_data {
 	char	**history;
 	int		hist_fd;
 	int		rows;
+	int		line_pos;
 }			t_data;
 
 int		main(int ac, char **av, char **env);
@@ -53,9 +55,9 @@ char	*get_value_vars(t_data cmd);
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str, int row);
 
-void	add_line_to_history(t_data cmd);
+void	add_line_to_history(t_data *cmd);
 void	init_history(char **history);
-void	save_history_in_file(t_data cmd);
-void	get_old_history(t_data cmd);
+void	get_old_history(t_data *cmd);
+void	clear_history_file(t_data *cmd);
 
 #endif
