@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/11 17:04:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:52:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ void	init_history(char **history);
 void	get_old_history(t_data *cmd);
 void	clear_history_file(t_data *cmd);
 
-void	tokenize_line(t_data g_sh);
+void	tokenize_line();
+
+t_tok	*ft_lst_new(char *token);
+void	ft_lst_add_back(t_tok **lst, t_tok *new);
+void	print_list(t_tok *token);
+t_tok	*ft_lst_last(t_tok *lst);
+int		ft_lst_size(t_tok *lst);
 
 #endif
