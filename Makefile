@@ -19,7 +19,8 @@ SRCS	=	main.c \
 			minishell_utils.c \
 			history.c \
 			lst_functions.c \
-			lexer.c
+			get_token.c \
+			check_token.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -46,7 +47,7 @@ $(NAME): $(OBJS)
 	@clear
 	@echo "	$(YELLOW)$(BOLD)Compiled ! ✨$(DEF)"
 
-debug:
+debug: fclean
 	@$(MAKE) DEBUG=1
 
 clean:

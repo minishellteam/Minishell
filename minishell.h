@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/12 11:52:42 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:03:56 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,20 @@ char	*get_value_vars(t_data cmd);
 
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str, int row);
+void	get_error_message(char *error, int x);
+
+int		is_special_char(char token);
+int		ft_isspace(char token);
+char	*check_chevrons(int token_len);
+char	*get_quoted_token(char *token_start, char *token_end, int token_len);
 
 void	add_line_to_history(t_data *cmd);
 void	init_history(char **history);
 void	get_old_history(t_data *cmd);
 void	clear_history_file(t_data *cmd);
 
-void	tokenize_line();
+void	tokenize_line(void);
+char	*get_double_chevron_token(int token_len);
 
 t_tok	*ft_lst_new(char *token);
 void	ft_lst_add_back(t_tok **lst, t_tok *new);
