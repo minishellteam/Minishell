@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/13 17:16:47 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:53:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,32 +56,13 @@ char	*check_chevrons(int token_len)
 	return (token);
 }
 
-char	*get_quoted_token(char *token_start, char *token_end, int token_len)
+char	*get_double_chevron_token(int token_len)
 {
 	char	*token;
 
-	token = NULL;
-	token_len = 0;
-	if (*g_sh.line == '\"')
-	{
-		token_start = g_sh.line + 1;
-		g_sh.line++;
-		if (!ft_strchr(token_start, '\"'))
-			get_error_message(NULL, 2);
-		while (*g_sh.line && *g_sh.line != '\"')
-			g_sh.line++;
-		token_end = g_sh.line;
-		token_len = token_end - token_start;
-		token = malloc(sizeof(char) * token_len + 1);
-		ft_strlcpy(token, token_start, token_len + 1);
-		g_sh.line++;
-	}
-	// else if (*g_sh.line == '\'')
-	// {
-	// 	token_start = g_sh.line + 1;
-	// 	g_sh.line++;
-	// 	if (!ft_strchr(token_start, '\''))
-	// 		get_error_message(NULL, 2);
-	// }
+	token_len = 2;
+	token = malloc(sizeof(char) * token_len + 1);
+	ft_strlcpy(token, g_sh.line, token_len + 1);
+	g_sh.line += 2;
 	return (token);
 }

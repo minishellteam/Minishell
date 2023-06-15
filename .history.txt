@@ -1,16 +1,49 @@
-cd ..
-fgf
-fgf
-hvlkh
-c
-cdbc
-$HOME
-$COLORTERM
-$HOME
-fkghf$HOME $fgkh $PATH dgtj
-$HOME
-$HOME
-unset HOME
-$HOME
-export HOME=blabla
-$HOME
+"  gdh   " f
+"  gdh   h" f
+"  gdh   h" f       h
+echo|echo
+ec"ho"|echo
+ec"ho"'|'echo
+echo 1 | echo 2
+echo 1 '|' echo 2
+abc"def $HOME "ghi
+abc" fg$HOME hfh "def
+abc"  $HOME gdg "def
+abc" $HOME "def
+abc" $HOME d "def
+abc"  $HOME "def
+abc"  $HOME djh "def
+abc" $HOME "def
+abc" $HOME gf "def
+abc" $HOME gy "def
+abc" $HOME fy "def
+abc"hello"
+abc"hello"'h'
+"$HOME"
+./minishell
+abc"  $HOME "def
+abc"  $HOMEdef
+abbc" $HOME gkhg
+abc" $HOME fy "dkj df
+abc'def $HOME 'df
+abc'def $HOME df
+abc"def $HOME "df
+abc"def $HOME df
+avc " $HOME " g
+" $HOME " f
+abc" $HOME " f
+abc" $HOME "f f
+abc" $HOME f f
+abc " $HOME
+' $HOME 
+fg'$HOME
+fd'$HOME'
+fd '$HOME'
+fd "$HOME"
+abv"$HOME "dgf
+abc" $HOME f "def
+abc' $HOME 'def
+abc" $HOME "def
+abc" $HOME "dtf
+abc" $HOME "ff
+asf" $HOME "gd

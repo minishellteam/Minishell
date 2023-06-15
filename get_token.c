@@ -6,22 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/13 16:56:59 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:42:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_double_chevron_token(int token_len)
-{
-	char	*token;
-
-	token_len = 2;
-	token = malloc(sizeof(char) * token_len + 1);
-	ft_strlcpy(token, g_sh.line, token_len + 1);
-	g_sh.line += 2;
-	return (token);
-}
 
 char	*get_ex_code_token(char *token_start, int token_len)
 {
@@ -62,18 +51,74 @@ char	*get_special_tok(char special_char, int token_len)
 	return (token);
 }
 
+int	check_quote_in_str(void)
+{
+	int	x;
+
+	x = 0;
+	if (*g_sh.line == '\"')
+	{
+		g_sh.line++;
+		if (!ft_strchr(g_sh.line, '\"'))
+			get_error_message(NULL, 2);
+		while (*g_sh.line && *g_sh.line != '\"')
+			g_sh.line++;
+		x = 1;
+	}
+	else if (*g_sh.line == '\'')
+	{
+		g_sh.line++;
+		if (!ft_strchr(g_sh.line, '\''))
+			get_error_message(NULL, 2);
+		while (*g_sh.line && *g_sh.line != '\'')
+			g_sh.line++;
+	}
+	printf("x = %d\n", x);
+	return (x);
+}
+
+char	*remove_quotes(char *token)
+{
+	int		i;
+	char	*before_quote;
+	char	*after_quote;
+	
+	i = -1;
+	while (token[++i])
+	{
+		if (token[i] == '\"')
+		{
+			before_quote = ft_substr(token, 0, i + 1);
+			after_quote = ft_substr(token, i + 1, ft_strlen(token) - i + 1);
+			token = ft_strjoin(before_quote, after_quote);
+		}
+	}
+	return (token);
+}
+
 char	*get_string_tok(char *token_start, char *token_end, int token_len)
 {
 	char	*token;
+	char	*var;
+	char	*value;
+	int		x;
 
 	token = NULL;
-	while (*g_sh.line && !is_special_char(*g_sh.line)
-		&& !ft_isspace(*g_sh.line) && *g_sh.line != '\"' && *g_sh.line != '\'')
+	var = NULL;
+	value = NULL;
+	x = 0;
+	while (*g_sh.line && !is_special_char(*g_sh.line) && !ft_isspace(*g_sh.line))
+	{
 		g_sh.line++;
+		x = check_quote_in_str();
+	}
 	token_end = g_sh.line;
 	token_len = token_end - token_start;
 	token = malloc(sizeof(char) * (token_len + 1));
 	ft_strlcpy(token, token_start, token_len + 1);
+	token = remove_quotes(token);
+	if (x == 1)
+		token = handle_var(token, var, value);
 	return (token);
 }
 
@@ -119,5 +164,6 @@ void	tokenize_line(void)
 		while (ft_isspace(*g_sh.line))
 			g_sh.line++;
 	}
+	g_sh.tokens = tokens;
 	print_list(tokens);
 }

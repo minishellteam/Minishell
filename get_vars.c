@@ -6,13 +6,13 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:16:52 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/11 13:07:37 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:31:32 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*replace_var_by_value(char *line, char *value, int start, int end)
+char	*replace_var_by_value(char *line, char *value, int start, int end)
 {
 	char	*before_dollar;
 	char	*after_var;
@@ -24,7 +24,7 @@ static char	*replace_var_by_value(char *line, char *value, int start, int end)
 		x = 2;
 	before_dollar = ft_substr(line, 0, start - x);
 	after_var = ft_substr(line, end, ft_strlen(line) - end);
-	free(line);
+	//free(line);
 	if (!value)
 		line = ft_strjoin(before_dollar, after_var);
 	else
@@ -38,7 +38,7 @@ static char	*replace_var_by_value(char *line, char *value, int start, int end)
 	return (line);
 }
 
-static char	*handle_var(char *new_line, char *var, char *value)
+char	*handle_var(char *new_line, char *var, char *value)
 {
 	int		i;
 	int		j;

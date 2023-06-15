@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/13 16:03:56 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:31:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 #  define HISTORY_SIZE 100
 # endif
 
+typedef struct s_tok {
+	char			*token;
+	struct s_tok	*next;
+}					t_tok;
+
 typedef struct s_data {
 	int		ac;
 	char	**av;
@@ -43,29 +48,27 @@ typedef struct s_data {
 	char	*history[HISTORY_SIZE];
 	int		hist_fd;
 	int		rows;
+	t_tok	*tokens;
 }			t_data;
 
 t_data	g_sh;
 
 enum e_toktype {
-	STRING = 0,
-	PIPE = '|',
-	GREATER = '>',
-	LESSER = '<',
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '\"',
+	STRING,
+	PIPE,
+	GREATER,
+	LESSER,
+	DOUBLE_GREATER,
+	DOUBLE_LESSER,
 } ;
-
-typedef struct s_tok {
-	char			*token;
-	struct s_tok	*next;
-}					t_tok;
 
 int		main(int ac, char **av, char **env);
 
-void	parsing(t_data *cmd, char *line);
+//void	parsing(t_data *cmd, char *line);
 
 char	*get_value_vars(t_data cmd);
+char	*replace_var_by_value(char *line, char *value, int start, int end);
+char	*handle_var(char *new_line, char *var, char *value);
 
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str, int row);
@@ -74,12 +77,14 @@ void	get_error_message(char *error, int x);
 int		is_special_char(char token);
 int		ft_isspace(char token);
 char	*check_chevrons(int token_len);
-char	*get_quoted_token(char *token_start, char *token_end, int token_len);
 
-void	add_line_to_history(t_data *cmd);
+char	*get_quoted_token(char *token_start, char *token_end, int token_len);
+char	*get_s_quote_tok(char *token_start, char *token_end, int token_len);
+
+void	add_line_to_history(void);
 void	init_history(char **history);
-void	get_old_history(t_data *cmd);
-void	clear_history_file(t_data *cmd);
+void	get_old_history(void);
+void	clear_history_file(void);
 
 void	tokenize_line(void);
 char	*get_double_chevron_token(int token_len);

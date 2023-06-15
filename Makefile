@@ -20,7 +20,9 @@ SRCS	=	main.c \
 			history.c \
 			lst_functions.c \
 			get_token.c \
-			check_token.c
+			check_token.c \
+			handle_quotes.c \
+			get_token_type.c
 
 OBJS = $(SRCS:.c=.o)
 
