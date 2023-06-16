@@ -1,49 +1,79 @@
-"  gdh   " f
-"  gdh   h" f
-"  gdh   h" f       h
-echo|echo
-ec"ho"|echo
-ec"ho"'|'echo
-echo 1 | echo 2
-echo 1 '|' echo 2
-abc"def $HOME "ghi
-abc" fg$HOME hfh "def
-abc"  $HOME gdg "def
-abc" $HOME "def
-abc" $HOME d "def
-abc"  $HOME "def
-abc"  $HOME djh "def
-abc" $HOME "def
-abc" $HOME gf "def
-abc" $HOME gy "def
-abc" $HOME fy "def
-abc"hello"
-abc"hello"'h'
-"$HOME"
-./minishell
-abc"  $HOME "def
-abc"  $HOMEdef
-abbc" $HOME gkhg
-abc" $HOME fy "dkj df
-abc'def $HOME 'df
-abc'def $HOME df
-abc"def $HOME "df
-abc"def $HOME df
-avc " $HOME " g
-" $HOME " f
-abc" $HOME " f
-abc" $HOME "f f
-abc" $HOME f f
-abc " $HOME
-' $HOME 
-fg'$HOME
-fd'$HOME'
-fd '$HOME'
-fd "$HOME"
-abv"$HOME "dgf
-abc" $HOME f "def
-abc' $HOME 'def
-abc" $HOME "def
-abc" $HOME "dtf
-abc" $HOME "ff
-asf" $HOME "gd
+haha'"hello"'
+haha'hello'
+haha 'hello'
+haha "hello"
+haha"hello"
+haha"hello"
+haha"hello"
+haha"hello"
+haha"hello"
+haha"hello"
+haha"hello"
+haha"coucou"
+haha'coucou'
+ "ec"h'o' "ec"h'o'
+ a"ec"h'o' "ec"h'o'
+ a"ec"h'o' a"ec"h'o'
+"ec"h'o' "ec"h'o'
+"ec"h'o' "ec"h'o'""
+""
+ech"o"
+ech"o" " "
+ech"o" "o"
+ech"o" "o"
+"ec"h'o' "ec"h'o'""
+"ec"h'o' "ec"h'o'" "
+abc" $HOME f"def
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   " $HOME . " s|c
+   a" $HOME . " s|c
+   a" $HOME . b" s|c
+   a" $HOME . b"c  s|c
+  coucou  a" $HOME . b"c  s|c
+  coucou  a" $HOME . b"c  s|c
+"ec"h'o' "ec"h'o'
+"ec"h'o' "ec"h'o'""
+"ec"h'o' "ec"h'o'"
+while (g_sh.line && !ft_isspace(*g_sh.line))
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"
+"ec"h'o' "ec"h'o'"e
+"ec"h'o' "ec"h'o'""e
+"ec"h'o' "ec"h'o'"""e
+ech""o
+ech"dgkh fh "gh
+ech"dgkh fh "
+ech"dgkh fh 
+fdsv "
+"rgwewe ""
+"rgwewe "" """
+""
+" "
+" ""
+" "v"
+" "v"
+" "ehllo"
+""" fds
+"""fds
+"echo"|

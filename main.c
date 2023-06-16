@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/15 11:41:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:43:13 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 	g_sh.env = env;
+	g_sh.x = 0;
 	init_history(g_sh.history);
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/15 16:31:42 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/16 10:43:02 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data {
 	int		hist_fd;
 	int		rows;
 	t_tok	*tokens;
+	int		x;
 }			t_data;
 
 t_data	g_sh;

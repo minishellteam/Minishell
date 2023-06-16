@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/15 16:42:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:46:16 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	check_quote_in_str(void)
 {
 	int	x;
 
-	x = 0;
+	x = g_sh.x;
+	printf("PASS\n");
 	if (*g_sh.line == '\"')
 	{
 		g_sh.line++;
@@ -73,7 +74,7 @@ int	check_quote_in_str(void)
 		while (*g_sh.line && *g_sh.line != '\'')
 			g_sh.line++;
 	}
-	printf("x = %d\n", x);
+	g_sh.line++;
 	return (x);
 }
 
@@ -86,39 +87,73 @@ char	*remove_quotes(char *token)
 	i = -1;
 	while (token[++i])
 	{
-		if (token[i] == '\"')
+		if (token[i] == '\"' || token[i] == '\'')
 		{
-			before_quote = ft_substr(token, 0, i + 1);
+			before_quote = ft_substr(token, 0, i);
 			after_quote = ft_substr(token, i + 1, ft_strlen(token) - i + 1);
 			token = ft_strjoin(before_quote, after_quote);
 		}
 	}
 	return (token);
 }
-
-char	*get_string_tok(char *token_start, char *token_end, int token_len)
+char	*handle_double_quote(char *token_start, char *token_end, int token_len)
 {
 	char	*token;
 	char	*var;
 	char	*value;
-	int		x;
 
 	token = NULL;
 	var = NULL;
 	value = NULL;
+	while (g_sh.line && !ft_isspace(*g_sh.line))
+		g_sh.line++;
+	token_end = g_sh.line;
+	token_len = token_end - token_start;
+	token = ft_substr(token_start, 0, token_len + 1);
+	token = handle_var(token, var, value);
+	token = remove_quotes(token);
+	g_sh.line++;
+	return (token);
+}
+
+// HANMIN HELP
+char	*str_quote(char *line, char quote_type)
+{
+	int		start, end = 0;
+	char	*str;
+
+	start = ++end;
+	while (line[end] && line[end] != quote_type)
+		end++;
+	if (!line[end])
+		return (NULL);
+	str = ft_substr(line, start, end - start);
+	if (quote_type == '\"')
+		str = find_env(str);
+	return (str);
+}
+
+
+char	*get_string_tok(char *token_start, char *token_end, int token_len)
+{
+	char	*token;
+	int		x;
+
+	token = NULL;
 	x = 0;
 	while (*g_sh.line && !is_special_char(*g_sh.line) && !ft_isspace(*g_sh.line))
 	{
-		g_sh.line++;
 		x = check_quote_in_str();
+		if (x == 1)
+		{
+			token = handle_double_quote(token_start, token_end, token_len);
+			return (token);
+		}
 	}
 	token_end = g_sh.line;
 	token_len = token_end - token_start;
 	token = malloc(sizeof(char) * (token_len + 1));
 	ft_strlcpy(token, token_start, token_len + 1);
-	token = remove_quotes(token);
-	if (x == 1)
-		token = handle_var(token, var, value);
 	return (token);
 }
 
@@ -134,9 +169,7 @@ char	*get_token(char *token_start)
 	while (ft_isspace(*g_sh.line))
 		g_sh.line++;
 	token_start = g_sh.line;
-	if (*g_sh.line == '\"' || *g_sh.line == '\'')
-		token = get_quoted_token(token_start, token_end, token_len);
-	else if (is_special_char(*g_sh.line))
+	if (is_special_char(*g_sh.line))
 		token = get_special_tok(*g_sh.line, token_len);
 	else if (*g_sh.line == '$' && *(g_sh.line + 1) == '?')
 		token = get_ex_code_token(g_sh.line, token_len);
