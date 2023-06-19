@@ -6,11 +6,28 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/16 10:43:13 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:51:53 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// // HANMIN HELP
+// char	*str_quote(char *line, char quote_type)
+// {
+// 	int		start, end = 0;
+// 	char	*str;
+
+// 	start = ++end;
+// 	while (line[end] && line[end] != quote_type)
+// 		end++;
+// 	if (!line[end])
+// 		return (NULL);
+// 	str = ft_substr(line, start, end - start);
+// 	if (quote_type == '\"')
+// 		str = find_env(str);
+// 	return (str);
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -34,7 +51,7 @@ int	main(int ac, char **av, char **env)
 		add_history(g_sh.line);
 		add_line_to_history();
 		tokenize_line();
-		//get_token_type();
+		get_token_type();
 		//free(g_sh.line);
 		//free(g_sh.var_line);
 	}	

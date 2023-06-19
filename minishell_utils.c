@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/13 17:04:52 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:14:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	handle_error(char *message, int x)
 		perror(message);
 	else if (x == 0)
 		ft_putstr_fd(message, 2);
-	exit(EXIT_FAILURE);
 }
 
 void	get_error_message(char *error, int x)
@@ -40,7 +39,7 @@ void	get_error_message(char *error, int x)
 		end_msg = "syntax error near unexpected token `";
 		error_msg = ft_strjoin (begin_msg, end_msg);
 		error_msg = ft_strjoin(error_msg, error);
-		error_msg = ft_strjoin(error_msg, "'\n");
+		error_msg = ft_strjoin(error_msg, "\'\n");
 	}
 	else if (x == 2)
 	{

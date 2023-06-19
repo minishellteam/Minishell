@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/16 10:43:02 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:00:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 typedef struct s_tok {
 	char			*token;
+	char			*type;
 	struct s_tok	*next;
 }					t_tok;
 
@@ -65,6 +66,15 @@ enum e_toktype {
 
 int		main(int ac, char **av, char **env);
 
+void	add_line_to_history(void);
+void	init_history(char **history);
+void	get_old_history(void);
+void	clear_history_file(void);
+
+void	tokenize_line(void);
+
+void	get_token_type(void);
+
 //void	parsing(t_data *cmd, char *line);
 
 char	*get_value_vars(t_data cmd);
@@ -77,17 +87,16 @@ void	get_error_message(char *error, int x);
 
 int		is_special_char(char token);
 int		ft_isspace(char token);
+int		is_forbidden_char(char token);
+int		check_question_mark(char *token);
+
+char	*search_and_replace_var(char *token, char *var, char *value);
+char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len);
+char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
+void	check_quote_in_str(char *token_start, char *token_end);
+
 char	*check_chevrons(int token_len);
 
-char	*get_quoted_token(char *token_start, char *token_end, int token_len);
-char	*get_s_quote_tok(char *token_start, char *token_end, int token_len);
-
-void	add_line_to_history(void);
-void	init_history(char **history);
-void	get_old_history(void);
-void	clear_history_file(void);
-
-void	tokenize_line(void);
 char	*get_double_chevron_token(int token_len);
 
 t_tok	*ft_lst_new(char *token);

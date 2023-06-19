@@ -22,7 +22,8 @@ SRCS	=	main.c \
 			get_token.c \
 			check_token.c \
 			handle_quotes.c \
-			get_token_type.c
+			get_token_type.c \
+			handle_chevrons.c 
 
 OBJS = $(SRCS:.c=.o)
 
