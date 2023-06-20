@@ -1,92 +1,28 @@
-"ec"h'o' "ec"h'o'
-"ec"h'o' "ec"h'o'
-dg ; 
-*
-t"ghh"g'j'
-;
-dfkd $? 
-dfkd ? h
-h || f
-dgfh $? fh
-dgfh ? fh
-dkj $? "hello"|>ok
-"ec"h'o'|'"ec"h'o'
-"ec"h'o'|'"ec"h'o''
-"ec"h'o'|"ec"h'o'
-"ec"h'o'|"ec"h'o'
-"$HOME"
-kfh"gfkj"'0'
-kfh"gfkj"'0' "fh$HOME " d
-kfh"gfkj"'0' "fh$HOME "d
-kfh"gfkj"'0' "fh$HOME"d
-kfh"gfkj"'0' "fh$HOMEe"d
-kfh"gfkj"'0' "fh$HOMEe"d
-'$HOME'
-'$HOME' "$HOME"
-'$HOME' "$HOME"|>coucou
->>>>
->>
->>>
->>>>
->>>
->>
->>
->>>>
->>>
-<>
-><
-if (*(g_sh.line + 2) == '>' || *(g_sh.line + 2) == '<')
-{
-if (*(g_sh.line + 3) == '>')
-get_error_message(">>", 1);
-else if (*(g_sh.line + 3) == '<')
-get_error_message("<<", 1);
-else
-get_error_message(g_sh.line + 2, 1);
-return (NULL);
->>>
->>>
-<<<
->>>
-<<<
->>>>
->>>
-coucou >>> salut
-<<<
->>>
->>>
->>>>
-<<<
-<<<<
->>>>
->>>>>>
->>>
-<<<<
-<<
-<<<
-<<<<<
-<<>
->><
-<>>
-><
-><<
-<>>
-><<
-<>>
-><
-><
->>> | hou
->> | hou
->>|hou
->>|cat
->> |cat
->>> |cat
->>> f
->>> |
->> |
-coucou|>salut|
-coucou|>>>salut
-coucou|>salut>>
-couoc|salut>g<<
-couco|d>f<<|
-couco|d>f<<|
+$HOME $HOMEo a$LOGNAME
+a$HOMEo coucou
+a $HOMEo coucou
+a $HOMEo f
+a $HOMEo f
+d $HOMEo fh
+d $HOMEo fh|
+|d $HOMEo fh|
+$HOMEo g
+"okok$HOME . "$HOME
+$HOME
+$HOME $HOMEt
+|>>>><<<<gkfdhg$HOME$COLORTERM "    $HOHO $HOME "
+coucou|>salut
+coucou|<salut
+coucou|>d
+coucou|salut>|gg|d|
+dgh| f| r|
+fjh| d|f|
+fgj|h|fh|
+coucou|salut|>
+couocu|>coucou|>dj
+>>haha|"'echo""
+>>haha|"'echo"
+>>haha|"'echo"'
+>>haha|"'echo"
+|echo
+echo |

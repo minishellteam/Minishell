@@ -15,15 +15,20 @@ UP = UP = \033[A
 
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
-			get_vars.c \
 			minishell_utils.c \
 			history.c \
-			lst_functions.c \
-			get_token.c \
-			check_token.c \
-			handle_quotes.c \
-			get_token_type.c \
-			handle_chevrons.c 
+			signal.c \
+			./lexer/get_vars.c \
+			./lexer/lst_functions.c \
+			./lexer/get_token.c \
+			./lexer/check_token.c \
+			./lexer/handle_quotes.c \
+			./lexer/get_token_type.c \
+			./lexer/handle_chevrons.c \
+			./parser/parsing.c \
+			./builtins/built_exit.c \
+			./builtins/built_echo.c \
+			#./builtins/built_export.c
 
 OBJS = $(SRCS:.c=.o)
 

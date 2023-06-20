@@ -6,11 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/12 15:26:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:25:53 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_tok	*ft_lst_new(char *token)
 {
@@ -19,8 +19,9 @@ t_tok	*ft_lst_new(char *token)
 	new_lst = malloc(sizeof(t_tok));
 	if (!new_lst)
 		return (NULL);
-	new_lst->token = token;
+	new_lst->tok = token;
 	new_lst->next = NULL;
+	new_lst->prev = NULL;
 	return (new_lst);
 }
 
@@ -37,17 +38,37 @@ void	ft_lst_add_back(t_tok **lst, t_tok *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+	new->prev = tmp;
 }
 
-void	print_list(t_tok *token)
+void	print_list(t_tok *token, int x)
 {
 	t_tok	*tmp;
 
 	tmp = token;
-	while (tmp != NULL)
+	if (x == 0)
 	{
-		printf("%s\n", tmp->token);
-		tmp = tmp->next;
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->tok);
+			tmp = tmp->next;
+		}
+	}
+	else if (x == 1)
+	{
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->type);
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->prev->type);
+			tmp = tmp->next;
+		}
 	}
 }
 

@@ -6,45 +6,21 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 10:32:50 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/19 15:48:53 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:21:14 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-char	*search_and_replace_var(char *token, char *var, char *value)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (token[i])
-	{
-		if (token[i] == '$')
-		{
-			i++;
-			j = i;
-			while (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?')
-				i++;
-			var = ft_substr(token, j, i - j);
-			//if (var == '?')
-			//	value = get_ex_code_value();	
-			value = getenv(var);
-			free(var);
-			token = replace_var_by_value(token, value, j, i);
-			i = 0;
-		}
-		else
-			i++;
-	}
-	return (token);
-}
+#include "../minishell.h"
 
 char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len)
 {
 	char	*str_tok;
+	char	*var;
+	char	*value;
 
 	str_tok = NULL;
+	var = NULL;
+	value = NULL;
 	if (*g_sh.line && *g_sh.line != '\'' && *g_sh.line != '\"'
 		&& !ft_isspace(*g_sh.line) && !is_special_char(*g_sh.line))
 	{
@@ -56,6 +32,7 @@ char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len)
 		token_len = token_end - token_start + 1;
 		str_tok = malloc(sizeof(char) * (token_len + 1));
 		ft_strlcpy(str_tok, token_start, token_len + 1);
+		str_tok = search_and_replace_var(str_tok, var, value);
 	}
 	else
 		str_tok = "";
@@ -83,7 +60,7 @@ char	*get_quoted_token(char *start, char *end, int token_len, char q_type)
 	return (quoted_token);
 }
 
-void	check_quote_in_str(char *token_start, char *token_end)
+int	check_quote_in_str(char *token_start, char *token_end)
 {
 	char	token_type;
 
@@ -104,9 +81,10 @@ void	check_quote_in_str(char *token_start, char *token_end)
 	if (!ft_strchr(g_sh.line, token_type))
 	{
 		get_error_message(NULL, 2);
-		return ;
+		return (1);
 	}
 	while (*token_end && *token_end != token_type)
 		token_end++;
 	token_end++;
+	return (0);
 }

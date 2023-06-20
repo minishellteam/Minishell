@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 09:30:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:47:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -32,31 +33,47 @@
 # endif
 
 typedef struct s_tok {
-	char			*token;
+	char			*tok;
 	char			*type;
 	struct s_tok	*next;
+	struct s_tok	*prev;
 }					t_tok;
 
-typedef struct s_data {
-	int		ac;
-	char	**av;
+# define BUFF_SIZE 10000
+
+typedef struct s_export {
 	char	**env;
-	char	**cmds;
-	char	*path;
-	char	*var;
-	char	*line;
-	char	*var_line;
-	char	*history[HISTORY_SIZE];
-	int		hist_fd;
-	int		rows;
-	t_tok	*tokens;
-	int		x;
-}			t_data;
+	char	**exp;
+}	t_export;
+
+typedef struct s_data {
+	t_export	*export;
+	int			ac;
+	char		**av;
+	char		**env;
+	char		**cmds;
+	char		*path;
+	char		*var;
+	char		*line;
+	char		*var_line;
+	char		*history[HISTORY_SIZE];
+	int			hist_fd;
+	int			rows;
+	t_tok		*toks;
+	int			x;
+	char		*final;
+	int			i;
+	int			j;
+	int			c;
+	int			n;
+	char		**echo;
+}				t_data;
 
 t_data	g_sh;
 
 enum e_toktype {
 	STRING,
+	EMPTY,
 	PIPE,
 	GREATER,
 	LESSER,
@@ -77,9 +94,10 @@ void	get_token_type(void);
 
 void	parsing(t_data *cmd, char *line);
 
-char	*get_value_vars(t_data cmd);
+char	*get_value_vars(char *str);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 char	*handle_var(char *new_line, char *var, char *value);
+char	*search_and_replace_var(char *token, char *var, char *value);
 
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str, int row);
@@ -90,10 +108,9 @@ int		ft_isspace(char token);
 int		is_forbidden_char(char token);
 int		check_question_mark(char *token);
 
-char	*search_and_replace_var(char *token, char *var, char *value);
 char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len);
 char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
-void	check_quote_in_str(char *token_start, char *token_end);
+int		check_quote_in_str(char *token_start, char *token_end);
 
 char	*check_chevrons(int token_len);
 
@@ -101,8 +118,18 @@ char	*get_double_chevron_token(int token_len);
 
 t_tok	*ft_lst_new(char *token);
 void	ft_lst_add_back(t_tok **lst, t_tok *new);
-void	print_list(t_tok *token);
+void	print_list(t_tok *token, int x);
 t_tok	*ft_lst_last(t_tok *lst);
 int		ft_lst_size(t_tok *lst);
+
+void	parse_tokens(void);
+
+void	signal_handler(int signal, siginfo_t *sa, void *content);
+
+/*===================BUILTINS=========================*/
+void	ft_builts(t_data *cmd);
+void	built_exit(t_data *cmd);
+void	built_echo(t_data *cmd);
+//void	built_export(t_data *cmd);
 
 #endif

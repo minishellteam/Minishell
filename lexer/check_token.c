@@ -6,11 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/19 14:33:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:49:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	is_special_char(char token)
 {

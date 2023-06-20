@@ -6,11 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/19 16:51:47 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:28:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static char	*get_ex_code_token(char *token_start, int token_len)
 {
@@ -60,13 +60,13 @@ static char	*get_string_tok(char *start, char *end, int token_len)
 	char	*str_tok;
 	char	tok_type;
 
-	token = NULL;
 	str_tok = NULL;
 	token = get_non_quoted_tok(start, end, token_len);
 	while (*g_sh.line && !is_special_char(*g_sh.line)
 		&& !ft_isspace(*g_sh.line))
 	{
-		check_quote_in_str(start, end);
+		if (check_quote_in_str(start, end))
+			return (NULL);
 		if (g_sh.x == 1)
 			tok_type = '\"';
 		else if (g_sh.x == 2)
@@ -105,12 +105,12 @@ static char	*get_token(char *token_start)
 
 void	tokenize_line(void)
 {
-	t_tok	*tokens;
+	t_tok	*toks;
 	t_tok	*tok;
 	char	*token;
 	char	*token_start;
 
-	tokens = NULL;
+	toks = NULL;
 	if (*g_sh.line == '?')
 	{
 		get_error_message("?", 0);
@@ -123,10 +123,12 @@ void	tokenize_line(void)
 		if (!token)
 			return ;
 		tok = ft_lst_new(token);
-		ft_lst_add_back(&tokens, tok);
+		ft_lst_add_back(&toks, tok);
 		while (ft_isspace(*g_sh.line))
 			g_sh.line++;
 	}
-	g_sh.tokens = tokens;
-	print_list(tokens);
+	g_sh.toks = toks;
+	print_list(g_sh.toks, 0);
+	get_token_type();
+	print_list(g_sh.toks, 1);
 }

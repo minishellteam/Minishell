@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 18:35:36 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/13 12:32:43 by ykifadji         ###   ########.fr       */
+/*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
+/*   Updated: 2023/06/20 10:20:18 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/libft.h"
+#include "minishell.h"
 
-int	ft_strlen(const char *str)
+void	signal_handler(int signal, siginfo_t *sa, void *content)
 {
-	int	i;
+	int		i;
+	char	*line;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	(void)content;
+	i = sa->si_pid;
+	if (signal == SIGINT)
+	{
+		line = readline("minishell$ ");
+	}
+	if (signal == SIGQUIT)
+		printf("pass\n");
 }

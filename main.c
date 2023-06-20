@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 09:26:47 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:55:52 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	main(int ac, char **av, char **env)
 {
+	struct sigaction	sig;
+	// t_data			cmd;
+
 	(void)av;
 	(void)env;
 	g_sh.env = env;
@@ -23,6 +26,10 @@ int	main(int ac, char **av, char **env)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	clear_history_file();
 	get_old_history();
+	ft_bzero(&sig, sizeof(sig));
+	sig.sa_flags = SA_RESTART | SA_NODEFER;
+	sig.sa_sigaction = signal_handler;
+	sigaction(SIGINT, &sig, NULL);
 	while (1)
 	{
 		g_sh.line = readline("minishell$ ");
@@ -34,9 +41,10 @@ int	main(int ac, char **av, char **env)
 		add_history(g_sh.line);
 		add_line_to_history();
 		tokenize_line();
-		get_token_type();
+		parse_tokens();
+		//ft_builts(&cmd);
 		//free(g_sh.line);
 		//free(g_sh.var_line);
-	}	
+	}
 	return (EXIT_SUCCESS);
 }
