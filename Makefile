@@ -19,7 +19,9 @@ SRCS	=	main.c \
 			minishell_utils.c \
 			parsing.c \
 			signal.c \
-			builtins.c
+			./builtins/built_exit.c \
+			./builtins/built_echo.c \
+			./builtins/built_export.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -46,7 +48,7 @@ $(NAME): $(OBJS)
 	@clear
 	@echo "	$(YELLOW)$(BOLD)Compiled ! ✨$(DEF)"
 
-debug:
+debug: fclean
 	@$(MAKE) DEBUG=1
 
 clean:

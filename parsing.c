@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:31:22 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/07 11:48:28 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:18:26 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void	check_chevron(char *str)
 void	parsing(t_data *cmd, char *line)
 {
 	int	j;
-	int	i;
+	//int	i;
 
 	cmd->cmds = ft_split(line, '|');
 	j = -1;
-	while (cmd->cmds[++j])
-	{
-		i = -1;
-		while (cmd->cmds[j][++i])
-		{
-			if (cmd->cmds[j][i] == '>')
-				check_chevron(cmd->cmds[j]);
-		}
-	}
+	// while (cmd->cmds[++j])
+	// {
+	// 	i = -1;
+	// 	while (cmd->cmds[j][++i])
+	// 	{
+	// 		if (cmd->cmds[j][i] == '>')
+	// 			check_chevron(cmd->cmds[j]);
+	// 	}
+	// }
 }

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/08 08:41:43 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:31:52 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,47 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define BUFF_SIZE 10000
+
+typedef struct s_export {
+	char	**env;
+	char	**exp;
+}	t_export;
+
 typedef struct s_data {
+	t_export	*export;
 	int		ac;
 	char	**av;
 	char	**env;
 	char	**cmds;
 	char	*path;
 	char	*var;
-	char	*cmd_line;
+	char	*line;
+	char	*var_line;
+	char	*final;
+	int		i;
+	int		j;
+	int		c;
+	int		n;
+	char	**echo;
 }			t_data;
 
 int		main(int ac, char **av, char **env);
 
 void	parsing(t_data *cmd, char *line);
 
-char	**get_env_vars(t_data cmd);
+char	**get_value_vars(t_data cmd);
 
 void	handle_error(char *message, int x);
+void	get_error_message(char *error, int x);
 void	print_str_of_str(char **str);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
+
+/*===================BUILTINS=========================*/
+void	ft_builts(t_data *cmd);
+void	built_exit(t_data *cmd);
+void	built_echo(t_data *cmd);
+void	built_export(t_data *cmd);
 
 #endif
