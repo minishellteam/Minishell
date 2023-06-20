@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/19 17:00:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:30:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	tokenize_line(void);
 
 void	get_token_type(void);
 
-//void	parsing(t_data *cmd, char *line);
+void	parsing(t_data *cmd, char *line);
 
 char	*get_value_vars(t_data cmd);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
