@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 16:25:53 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/22 09:42:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_tok	*ft_lst_last(t_tok *lst)
 
 int	ft_lst_size(t_tok *lst)
 {
-	int		i;
+	int	i;
 
 	if (lst == NULL)
 		return (0);

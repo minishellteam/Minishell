@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:51:03 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 15:29:32 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/22 09:43:33 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@
 // 	}
 // }
 
-
-void	get_token_type(void)
+t_tok	*get_token_type(t_tok *toks)
 {
 	t_tok	*tmp;
 
-	tmp = g_sh.toks;
+	tmp = toks;
 	while (tmp != NULL)
 	{
 		if (!ft_strncmp(tmp->tok, "", ft_strlen(tmp->tok)))
@@ -61,4 +60,5 @@ void	get_token_type(void)
 			tmp->type = "STRING";
 		tmp = tmp->next;
 	}
+	return (toks);
 }

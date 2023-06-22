@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 14:55:52 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:05:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ int	main(int ac, char **av, char **env)
 			printf("exit\n");
 			exit(1);
 		}
-		add_history(g_sh.line);
+		if (*g_sh.line)
+			add_history(g_sh.line);
 		add_line_to_history();
 		tokenize_line();
+		print_list(g_sh.toks, 1);
 		parse_tokens();
+		printf("--------------\n");
+		print_list(g_sh.toks, 1);
 		//ft_builts(&cmd);
 		//free(g_sh.line);
 		//free(g_sh.var_line);

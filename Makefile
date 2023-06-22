@@ -26,6 +26,7 @@ SRCS	=	main.c \
 			./lexer/get_token_type.c \
 			./lexer/handle_chevrons.c \
 			./parser/parsing.c \
+			./parser/get_string_type.c \
 			./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			#./builtins/built_export.c

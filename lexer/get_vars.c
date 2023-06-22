@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 13:00:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/22 09:44:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*search_and_replace_var(char *token, char *var, char *value)
 				i++;
 			var = ft_substr(token, j, i - j);
 			//if (var == '?')
-			//	value = get_ex_code_value();	
+			//	value = get_ex_code_value();
 			value = getenv(var);
 			free(var);
 			token = replace_var_by_value(token, value, j, i);

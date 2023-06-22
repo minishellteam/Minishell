@@ -1,28 +1,54 @@
-$HOME $HOMEo a$LOGNAME
-a$HOMEo coucou
-a $HOMEo coucou
-a $HOMEo f
-a $HOMEo f
-d $HOMEo fh
-d $HOMEo fh|
-|d $HOMEo fh|
-$HOMEo g
-"okok$HOME . "$HOME
+$HOMEr ok > h | h
+$Hfdgh ok 
+$Hfdgh
+$H
 $HOME
-$HOME $HOMEt
-|>>>><<<<gkfdhg$HOME$COLORTERM "    $HOHO $HOME "
-coucou|>salut
-coucou|<salut
-coucou|>d
-coucou|salut>|gg|d|
-dgh| f| r|
-fjh| d|f|
-fgj|h|fh|
-coucou|salut|>
-couocu|>coucou|>dj
->>haha|"'echo""
->>haha|"'echo"
->>haha|"'echo"'
->>haha|"'echo"
-|echo
-echo |
+$HOME > f | g
+$HOME
+$HOMEf
+$HOMEr
+$HOMEr g | g
+$HOMEr d
+d $HOMEr
+<>Makefile haha
+$HOMEf fvjh c
+$HOMEe dk ct
+"$HOMEe" dk ct
+fdhjg $HOMEe gdjkh <jg |tf
+fdkjh ; h
+"hello 
+e'c'h"o"
+fdh
+dfhfga
+ag
+f
+>><
+>|
+||
+| hx
+ggf |
+ggf |<
+ggf | et <
+infile <
+ggf | et <
+ggf | et < fkj
+
+
+gh
+
+flhk >
+>
+coucou >
+coucou >
+>
+> g
+> g
+g > g
+g >
+g >|
+g |
+g |g
+<
+?
+MYVAR="fdgz"
+fhg $hfk g $hkh f

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 15:47:24 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:10:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_data {
 	int			hist_fd;
 	int			rows;
 	t_tok		*toks;
+	int			empty;
+	t_tok		*rest;
 	int			x;
 	char		*final;
 	int			i;
@@ -90,9 +92,15 @@ void	clear_history_file(void);
 
 void	tokenize_line(void);
 
-void	get_token_type(void);
+t_tok	*get_token_type(t_tok *toks);
 
-void	parsing(t_data *cmd, char *line);
+void	parse_tokens(void);
+
+void	remove_empty_tok(void);
+void	get_options(void);
+void	get_files(void);
+void	get_commands(void);
+void	get_arguments(void);
 
 char	*get_value_vars(char *str);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
@@ -112,9 +120,9 @@ char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len);
 char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
 int		check_quote_in_str(char *token_start, char *token_end);
 
-char	*check_chevrons(int token_len);
-
-char	*get_double_chevron_token(int token_len);
+char	*get_double_chevrons_token(int token_len);
+int		check_chevrons(t_tok *pipeline);
+int		is_chevron(char	*token, int x);
 
 t_tok	*ft_lst_new(char *token);
 void	ft_lst_add_back(t_tok **lst, t_tok *new);
