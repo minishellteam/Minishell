@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/19 14:31:52 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/23 08:42:34 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 typedef struct s_export {
 	char	**env;
 	char	**exp;
+	int		j;
 }	t_export;
 
 typedef struct s_data {
@@ -70,5 +71,9 @@ void	ft_builts(t_data *cmd);
 void	built_exit(t_data *cmd);
 void	built_echo(t_data *cmd);
 void	built_export(t_data *cmd);
+void	built_pwd(t_data *cmd);
+void	built_cd(t_data *cmd);
+void	built_env(t_data *cmd);
+void	free_tab(t_data *cmd);
 
 #endif

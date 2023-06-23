@@ -21,7 +21,8 @@ SRCS	=	main.c \
 			signal.c \
 			./builtins/built_exit.c \
 			./builtins/built_echo.c \
-			./builtins/built_export.c
+			./builtins/built_export.c \
+			./builtins/built_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

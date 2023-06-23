@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/15 15:12:33 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/23 07:47:10 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_n(t_data *cmd)
 	bool = 0;
 	while (cmd->echo[++cmd->j])
 	{
-		if (cmd->echo[cmd->j][0] == '-')
+		if (cmd->echo[cmd->j][0] == '-' && ft_strlen(cmd->echo[cmd->j]) > 1)
 		{
 			cmd->i = 0;
 			while (cmd->echo[cmd->j][++cmd->i])

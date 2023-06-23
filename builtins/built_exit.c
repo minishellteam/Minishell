@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/19 14:32:17 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/23 07:58:05 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,10 @@ void	built_exit(t_data *cmd)
 
 void	ft_builts(t_data *cmd)
 {
-	char	buffer[BUFF_SIZE];
-	char	**tmp;
-
 	built_exit(cmd);
 	built_echo(cmd);
-	if (!ft_strncmp(cmd->cmds[0], "pwd", 3) && ft_strlen(cmd->cmds[0]) == 3)
-	{
-		if (getcwd(buffer, BUFF_SIZE))
-			printf("%s\n", buffer);
-		else
-			handle_error("minishell: ", 1);
-	}
-	if (!ft_strncmp(cmd->cmds[0], "cd", 2))
-	{
-		tmp = ft_split(cmd->line, ' ');
-		if (chdir(tmp[1]) == -1)
-			handle_error("minishell$ ", 1);
-	}
+	built_pwd(cmd);
+	built_cd(cmd);
 	built_export(cmd);
+	built_env(cmd);
 }
