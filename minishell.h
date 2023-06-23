@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 15:10:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:44:01 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ t_tok	*get_token_type(t_tok *toks);
 
 void	parse_tokens(void);
 
+int		check_before_pipe(t_tok *pipeline);
+int		get_nb_of_pipes(void);
+int		check_double_pipe(void);
+
 void	remove_empty_tok(void);
 void	get_options(void);
 void	get_files(void);
@@ -129,6 +133,7 @@ void	ft_lst_add_back(t_tok **lst, t_tok *new);
 void	print_list(t_tok *token, int x);
 t_tok	*ft_lst_last(t_tok *lst);
 int		ft_lst_size(t_tok *lst);
+void	free_list(t_tok *lst);
 
 void	parse_tokens(void);
 

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 10:49:50 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:02:30 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	is_special_char(char token)
 {
 	if (token == '|' || token == '<' || token == '>' || token == '\\'
 		|| token == ';' || token == '&' || token == '*' || token == '['
-		|| token == ']' || token == '{' || token == '}' || token == '?')
+		|| token == ']' || token == '{' || token == '}' || token == '?'
+		|| token == '(' || token == ')')
 		return (1);
 	return (0);
 }
@@ -32,7 +33,8 @@ int	ft_isspace(char token)
 int	is_forbidden_char(char token)
 {
 	if (token == '&' || token == '*' || token == ';' || token == '\\'
-		|| token == '[' || token == ']' || token == '{' || token == '}')
+		|| token == '[' || token == ']' || token == '{' || token == '}'
+		|| token == '(' || token == ')')
 		return (1);
 	return (0);
 }

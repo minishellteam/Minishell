@@ -1,54 +1,18 @@
-$HOMEr ok > h | h
-$Hfdgh ok 
-$Hfdgh
-$H
-$HOME
-$HOME > f | g
-$HOME
-$HOMEf
-$HOMEr
-$HOMEr g | g
-$HOMEr d
-d $HOMEr
-<>Makefile haha
-$HOMEf fvjh c
-$HOMEe dk ct
-"$HOMEe" dk ct
-fdhjg $HOMEe gdjkh <jg |tf
-fdkjh ; h
-"hello 
-e'c'h"o"
-fdh
-dfhfga
-ag
-f
+ls | ls
+ls | ls
+ls | |ls
+ls | ""|ls
+ls | $HOMEe|ls
+>
+>>
+>>>
 >><
->|
-||
-| hx
-ggf |
-ggf |<
-ggf | et <
-infile <
-ggf | et <
-ggf | et < fkj
-
-
-gh
-
-flhk >
->
-coucou >
-coucou >
->
-> g
-> g
-g > g
-g >
-g >|
-g |
-g |g
-<
-?
-MYVAR="fdgz"
-fhg $hfk g $hkh f
+<<<>>
+ls | ls
+ls | ls
+h>|"">J" $"
+h>|"">J" $"
+exit
+dgkh>h|jgf>gfj
+lfgkh
+ls | ls

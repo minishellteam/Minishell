@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 15:34:03 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:46:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ static int	parse_pipeline(t_tok *pipeline)
 	{
 		get_error_message("|", 1);
 		return (0);
+	}
+	if (check_before_pipe(pipeline))
+	{
+		get_error_message("|", 1);
+		return (1);
 	}
 	if (check_chevrons(pipeline))
 		return (1);
@@ -42,22 +47,6 @@ t_tok	*get_pipeline(void)
 	else
 		g_sh.rest = NULL;
 	return (pipeline);
-}
-
-static int	get_nb_of_pipes(void)
-{
-	t_tok	*tmp;
-	int		pipe_nb;
-
-	tmp = g_sh.toks;
-	pipe_nb = 0;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
-			pipe_nb++;
-		tmp = tmp->next;
-	}
-	return (pipe_nb);
 }
 
 static t_tok	*get_copy_tokens(void)
@@ -85,7 +74,8 @@ void	parse_tokens(void)
 	int		i;
 	t_tok	*toks_cpy;
 
-	//remove_empty_tok();
+	if (check_double_pipe())
+		return ;
 	toks_cpy = get_copy_tokens();
 	g_sh.rest = toks_cpy;
 	pipe_nb = get_nb_of_pipes();
@@ -96,6 +86,8 @@ void	parse_tokens(void)
 		if (parse_pipeline(pipeline))
 			return ;
 	}
+	free_list(toks_cpy);
+	free_list(g_sh.rest);
 	get_options();
 	get_files();
 	get_commands();

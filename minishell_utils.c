@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/20 09:54:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:03:02 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	get_error_message(char *error, int x)
 	error_msg = NULL;
 	if (x == 0)
 	{
-		end_msg = ": command not found\n";
+		end_msg = ": undefined token\n";
 		error_msg = ft_strjoin(begin_msg, error);
 		error_msg = ft_strjoin(error_msg, end_msg);
 	}

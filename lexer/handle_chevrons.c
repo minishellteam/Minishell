@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:32:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 17:07:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:56:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,39 @@ int	is_chevron(char	*token, int x)
 	return (0);
 }
 
-static void	check_next_tok(char *next_tok, char *token)
+static int	check_next_tok(char *next_tok, char *token)
 {
 	if (is_chevron(next_tok, 0))
+	{
 		get_error_message(token, 1);
+		return (1);
+	}
+	return (0);
+}
+
+int	check_multiple_chevrons(t_tok *tmp)
+{
+	if (!ft_strncmp(tmp->type, "GREATER", ft_strlen(tmp->type)))
+	{
+		if (check_next_tok(tmp->next->type, ">"))
+			return (1);
+	}
+	else if (!ft_strncmp(tmp->type, "DOUBLE_GREATER", ft_strlen(tmp->type)))
+	{
+		if (check_next_tok(tmp->next->type, ">>"))
+			return (1);
+	}
+	else if (!ft_strncmp(tmp->type, "LESSER", ft_strlen(tmp->type)))
+	{
+		if (check_next_tok(tmp->next->type, "<"))
+			return (1);
+	}
+	else if (!ft_strncmp(tmp->type, "DOUBLE_LESSER", ft_strlen(tmp->type)))
+	{
+		if (check_next_tok(tmp->next->type, "<<"))
+			return (1);
+	}
+	return (0);
 }
 
 int	check_chevrons(t_tok *pipeline)
@@ -45,23 +74,15 @@ int	check_chevrons(t_tok *pipeline)
 	t_tok	*tmp;
 
 	tmp = pipeline;
-
-	while (tmp)
+	while (tmp && tmp->next)
 	{
-		if (is_chevron(tmp->type, 0) && !tmp->next)
+		if (is_chevron(tmp->type, 1) && !tmp->next)
 		{
-			printf("PASS\n");
 			get_error_message(tmp->tok, 1);
 			return (1);
 		}
-		if (!ft_strncmp(tmp->type, "GREATER", ft_strlen(tmp->type)))
-			check_next_tok(tmp->next->type, ">");
-		else if (!ft_strncmp(tmp->type, "DOUBLE_GREATER", ft_strlen(tmp->type)))
-			check_next_tok(tmp->next->type, ">>");
-		else if (!ft_strncmp(tmp->type, "LESSER", ft_strlen(tmp->type)))
-			check_next_tok(tmp->next->type, "<");
-		else if (!ft_strncmp(tmp->type, "DOUBLE_LESSER", ft_strlen(tmp->type)))
-			check_next_tok(tmp->next->type, "<<");
+		if (check_multiple_chevrons(tmp))
+			return (1);
 		if (is_chevron(tmp->type, 0) && is_chevron(tmp->next->type, 0))
 			return (1);
 		tmp = tmp->next;

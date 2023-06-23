@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 17:08:46 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:40:17 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,40 +83,40 @@ void	get_arguments(void)
 	}
 }
 
-void	remove_token(t_tok *tmp)
-{
-	t_tok	*current;
-	t_tok	*new_next;
+// void	remove_token(t_tok *tmp)
+// {
+// 	t_tok	*current;
+// 	t_tok	*new_next;
 
-	current = g_sh.toks;
-	new_next = NULL;
-	if (current == tmp)
-		g_sh.toks = g_sh.toks->next;
-	while (current && current->next)
-	{
-		if (current->next == tmp)
-		{
-			if (current->next->next)
-			{
-				new_next = current->next->next;
-				current->next = new_next;
-			}
-			else
-				current->next = NULL;
-		}
-		current = current->next;
-	}
-}
+// 	current = g_sh.toks;
+// 	new_next = NULL;
+// 	if (current == tmp)
+// 		g_sh.toks = g_sh.toks->next;
+// 	while (current && current->next)
+// 	{
+// 		if (current->next == tmp)
+// 		{
+// 			if (current->next->next)
+// 			{
+// 				new_next = current->next->next;
+// 				current->next = new_next;
+// 			}
+// 			else
+// 				current->next = NULL;
+// 		}
+// 		current = current->next;
+// 	}
+// }
 
-void	remove_empty_tok(void)
-{
-	t_tok	*tmp;
+// void	remove_empty_tok(void)
+// {
+// 	t_tok	*tmp;
 
-	tmp = g_sh.toks;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->type, "EMPTY", ft_strlen(tmp->type)))
-			remove_token(tmp);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = g_sh.toks;
+// 	while (tmp)
+// 	{
+// 		if (!ft_strncmp(tmp->type, "EMPTY", ft_strlen(tmp->type)))
+// 			remove_token(tmp);
+// 		tmp = tmp->next;
+// 	}
+// }
