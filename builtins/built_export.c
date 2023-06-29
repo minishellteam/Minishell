@@ -6,23 +6,23 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/23 07:44:18 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/24 08:36:48 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	cpy_env(t_data *cmd)
+static void	cpy_env(void)
 {
-	cmd->j = -1;
-	while (cmd->env[++cmd->j])
+	g_sh.j = -1;
+	while (g_sh.env[++g_sh.j])
 	{
-		cmd->export->env[cmd->j] = malloc(sizeof(char) \
-			* (ft_strlen(cmd->env[cmd->j]) + 1));
-		ft_strlcpy(cmd->export->env[cmd->j], cmd->env[cmd->j], \
-			(ft_strlen(cmd->env[cmd->j]) + 1));
+		g_sh.export->env[g_sh.j] = malloc(sizeof(char) \
+			* (ft_strlen(g_sh.env[g_sh.j]) + 1));
+		ft_strlcpy(g_sh.export->env[g_sh.j], g_sh.env[g_sh.j], \
+			(ft_strlen(g_sh.env[g_sh.j]) + 1));
 	}
-	cmd->env[cmd->j + 1] = NULL;
+	g_sh.env[g_sh.j + 1] = NULL;
 }
 
 static void	search_min(t_export *export, int i)
@@ -67,36 +67,37 @@ static void	cpy_export(t_export *export, int j)
 	export->exp[j][k + 2] = '\0';
 }
 
-size_t	len_env(t_data *cmd)
+static int	len_env(void)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
-	while (cmd->env[len])
+	while (g_sh.env[len])
 		len++;
 	return (len + 1);
 }
 
-void	built_export(t_data *cmd)
+void	built_export(void)
 {
 	int	i;
 	char	*prefix;
 
-	if (!ft_strncmp(cmd->cmds[0], "export", 6) && ft_strlen(cmd->cmds[0]) == 6)
+	if (!ft_strncmp(g_sh.cmds[0], "export", 6) && ft_strlen(g_sh.cmds[0]) == 6)
 	{
 		i = -1;
 		prefix = "declare -x ";
-		cmd->export->env = malloc(sizeof(char *) * (unsigned long)len_env);
-		cmd->export->exp = malloc(sizeof(char *) * (unsigned long)len_env);
-		cpy_env(cmd);
-		while (cmd->export->env[++i])
+		g_sh.export = malloc(sizeof(t_export));
+		g_sh.export->exp = malloc(sizeof(char *) * len_env());
+		g_sh.export->env = malloc(sizeof(char *) * len_env());
+		cpy_env();
+		while (g_sh.export->env[++i])
 		{
-			search_min(cmd->export, i);
-			cpy_export(cmd->export, i);
-			cmd->export->exp[i] = ft_strjoin(prefix, cmd->export->exp[i], 2);
-			cmd->export->env[cmd->export->j][0] = 126;
-			printf("%s \n", cmd->export->exp[i]);
+			search_min(g_sh.export, i);
+			cpy_export(g_sh.export, i);
+			g_sh.export->exp[i] = ft_strjoin(prefix, g_sh.export->exp[i], 2);
+			g_sh.export->env[g_sh.export->j][0] = 126;
+			printf("%s \n", g_sh.export->exp[i]);
 		}
-		free_tab(cmd);
+		free_tab();
 	}
 }
