@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 15:13:49 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:24:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,28 @@ static char	*get_special_tok(char special_char, int token_len)
 	return (token);
 }
 
-static char	*get_string_tok(char *start, char *end, int token_len)
+char	*get_string_tok(char *token_start, char *token_end, int token_len)
 {
 	char	*token;
-	char	*quoted_tok;
-	char	*str_tok;
-	char	tok_type;
 
-	str_tok = NULL;
-	token = get_non_quoted_tok(start, end, token_len);
-	while (*g_sh.line && !is_special_char(*g_sh.line)
-		&& !ft_isspace(*g_sh.line))
+	token = NULL;
+	token_start = g_sh.line;
+	while (*g_sh.line && !ft_isspace(*g_sh.line) && !is_special_char(*g_sh.line))
 	{
-		if (check_quote_in_str(start, end))
-			return (NULL);
-		if (g_sh.x == 1)
-			tok_type = '\"';
-		else if (g_sh.x == 2)
-			tok_type = '\'';
-		else
-			return (NULL);
-		quoted_tok = get_quoted_token(start, end, token_len, tok_type);
-		token = ft_strjoin(token, quoted_tok);
+		if (*g_sh.line == '\"' || *g_sh.line == '\'')
+		{
+			if (check_quote_in_str(token_start, token_end))
+				return (NULL);
+			g_sh.line++;	
+			while (*g_sh.line != '\'' && *g_sh.line != '\"')
+				g_sh.line++;
+		}
 		g_sh.line++;
-		str_tok = get_non_quoted_tok(start, end, token_len);
-		token = ft_strjoin(token, str_tok);
 	}
+	token_end = g_sh.line - 1;
+	token_len = token_end - token_start + 1;
+	token = malloc(sizeof(char) * (token_len + 1));
+	ft_strlcpy(token, token_start, token_len + 1);
 	return (token);
 }
 
@@ -128,7 +124,8 @@ void	tokenize_line(void)
 			g_sh.line++;
 	}
 	g_sh.toks = toks;
+	print_list(g_sh.toks, 0);
 	g_sh.toks = get_token_type(g_sh.toks);
-	system("leaks minishell");
+	print_list(g_sh.toks, 1);
 	parse_tokens();
 }
