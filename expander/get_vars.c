@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 09:44:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:17:01 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*search_and_replace_var(char *token, char *var, char *value)
 	int		j;
 
 	i = 0;
+	g_sh.x = 0;
 	while (token[i])
 	{
 		if (token[i] == '$')
@@ -30,6 +31,8 @@ char	*search_and_replace_var(char *token, char *var, char *value)
 			//if (var == '?')
 			//	value = get_ex_code_value();
 			value = getenv(var);
+			if (!value)
+				g_sh.x = 1;
 			free(var);
 			token = replace_var_by_value(token, value, j, i);
 			i = ft_strlen(value);

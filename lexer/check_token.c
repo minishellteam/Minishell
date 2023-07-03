@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 13:02:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:15:55 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,33 @@ int	check_question_mark(char *token)
 			return (1);
 		}
 	}
+	return (0);
+}
+int	check_quote_in_str(char *token_start, char *token_end)
+{
+	char	token_type;
+
+	token_type = 0;
+	if (*g_sh.line == '\"')
+	{
+		token_type = '\"';
+		g_sh.x = 1;
+	}
+	else if (*g_sh.line == '\'')
+	{
+		token_type = '\'';
+		g_sh.x = 2;
+	}
+	g_sh.line++;
+	token_start = g_sh.line;
+	token_end = g_sh.line;
+	if (!ft_strchr(g_sh.line, token_type))
+	{
+		get_error_message(NULL, 2);
+		return (1);
+	}
+	while (*token_end && *token_end != token_type)
+		token_end++;
+	token_end++;
 	return (0);
 }

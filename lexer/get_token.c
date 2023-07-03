@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/29 15:24:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:37:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	*get_token(char *token_start)
 	char	*token;
 	char	*token_end;
 	int		token_len;
-
+ 
 	token = NULL;
 	token_len = 0;
 	token_end = NULL;
@@ -124,8 +124,9 @@ void	tokenize_line(void)
 			g_sh.line++;
 	}
 	g_sh.toks = toks;
-	print_list(g_sh.toks, 0);
+	//print_list(g_sh.toks, 0);
 	g_sh.toks = get_token_type(g_sh.toks);
-	print_list(g_sh.toks, 1);
+	//print_list(g_sh.toks, 1);
+	handle_quotes();
 	parse_tokens();
 }

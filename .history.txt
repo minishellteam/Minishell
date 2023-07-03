@@ -29,3 +29,69 @@ couocu<file "$HOME "g|ok
 couocu<file "$HOME " g|ok
 couocu<file"$HOME "f g|ok
 couocu<file"$HOME f g|h
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut $HOME"f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok "$HOME" 'g'
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+"salut "f | > ok
+
+
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+printf("q_type = %c\n", q_type);
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut "f | > ok
+coucou"salut $HOME "f | > ok
+coucou"salut "f | > ok
+coucou"salut $HOME "f | > ok
+coucou"salut $HOME "    f | > ok
+coucou"salut $HOMEf " f | > ok
+coucou"salut $HOMEf g" f | > ok
+coucou $HOME  f | > ok
+coucou $HOMEf | > ok
+coucou "$HOMEf" | > ok
+coucou "$HOMEf"g | > ok
+coucou '$HOMEg'g | > ok
+e'c'h"o"
+$HOME
+$HOMEd
+"$HOMEd"
+$HOMEf
+"$HOMEf"
+$HOMEr
+"$HOMEr"
+"$HOMER"
+"$HODG"
+$HODG
+g$HODG
+g"$HODG"
+a$HOMDT
+a$hkfj
+a$HOME
+a$HOME
+a$HOMEf
+a$HOME
+a$HOMfE
+a"$HOMfE"
+a$HOME
+a$HOMEf
+a"$HOMEf"
+a$HOMEf
+a$HOMEr
+a$HOFhj
+$kg
+a$hkfhj
+$hkfhj
+"$hkfhj"
+a"$hkfhj"

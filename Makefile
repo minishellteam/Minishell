@@ -18,15 +18,15 @@ SRCS	=	main.c \
 			minishell_utils.c \
 			history.c \
 			signal.c \
-			./lexer/get_vars.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
 			./lexer/check_token.c \
-			./lexer/handle_quotes.c \
 			./lexer/get_token_type.c \
 			./lexer/handle_chevrons.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
+			./expander/expand.c \
+			./expander/get_vars.c \
 			./parser/pipe_check.c \
 			./builtins/built_exit.c \
 			./builtins/built_echo.c \

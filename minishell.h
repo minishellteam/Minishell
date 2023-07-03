@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 14:44:01 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:57:54 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ int		ft_isspace(char token);
 int		is_forbidden_char(char token);
 int		check_question_mark(char *token);
 
-char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len);
-char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
+//char	*get_non_quoted_tok(char *token, char *token_start, char *token_end, int token_len);
+//char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
 int		check_quote_in_str(char *token_start, char *token_end);
 
 char	*get_double_chevrons_token(int token_len);
@@ -136,6 +136,8 @@ int		ft_lst_size(t_tok *lst);
 void	free_list(t_tok *lst);
 
 void	parse_tokens(void);
+
+int		handle_quotes(void);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
