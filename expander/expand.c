@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/04 15:38:53 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:47:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static char	*get_string_tok(t_tok *token, char *start, char *end, int token_len)
 	tmp_tok = get_non_quoted_tok(token, start, end, token_len);
 	while (*(token->tok) && !is_special_char(*(token->tok))
 		&& !ft_isspace(*(token->tok)))
-	{ 
+	{
 		quote_type = get_quote_type(token->tok);
 		if (!get_quote_type(token->tok))
 			return (NULL);

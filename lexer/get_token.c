@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/04 10:15:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:47:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*get_string_tok(char *token_start, char *token_end, int token_len)
 		{
 			if (check_quote_in_str(token_start, token_end))
 				return (NULL);
-			g_sh.line++;	
+			g_sh.line++;
 			while (*g_sh.line != '\'' && *g_sh.line != '\"')
 				g_sh.line++;
 		}
@@ -83,7 +83,7 @@ static char	*get_token(char *token_start)
 	char	*token;
 	char	*token_end;
 	int		token_len;
- 
+
 	token = NULL;
 	token_len = 0;
 	token_end = NULL;

@@ -6,13 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/04 15:48:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:47:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 char	*search_and_replace_var(char *token, char *var, char *value)
 {

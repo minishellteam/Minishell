@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/30 11:15:55 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:47:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	check_question_mark(char *token)
 	}
 	return (0);
 }
+
 int	check_quote_in_str(char *token_start, char *token_end)
 {
 	char	token_type;
