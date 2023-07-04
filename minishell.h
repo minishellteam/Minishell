@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/03 11:57:54 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:46:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*get_value_vars(char *str);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 char	*handle_var(char *new_line, char *var, char *value);
 char	*search_and_replace_var(char *token, char *var, char *value);
+char	get_quote_type(char *token);
 
 void	handle_error(char *message, int x);
 void	print_str_of_str(char **str, int row);

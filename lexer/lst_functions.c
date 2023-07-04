@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 14:47:13 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:57:17 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	print_list(t_tok *token, int x)
 	{
 		while (tmp != NULL)
 		{
-			printf("%s\n", tmp->tok);
+			printf("%s", tmp->tok);
+			printf("$\n");
 			tmp = tmp->next;
 		}
 	}

@@ -6,11 +6,13 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/03 16:17:01 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:48:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
 
 char	*search_and_replace_var(char *token, char *var, char *value)
 {
@@ -62,4 +64,18 @@ char	*replace_var_by_value(char *line, char *value, int start, int end)
 	free(before_dollar);
 	free(after_var);
 	return (line);
+}
+
+char	get_quote_type(char *token)
+{
+	char	token_type;
+
+	token_type = 0;
+	if (*token == '\"')
+		token_type = '\"';
+	else if (*token == '\'')
+		token_type = '\'';
+	else
+		return (0);
+	return (token_type);
 }

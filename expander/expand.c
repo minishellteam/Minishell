@@ -6,25 +6,36 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/03 16:57:23 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:38:53 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	get_quote_type(char *token)
-{
-	char	token_type;
+// static char	*replace_empty_by_space(char *token)
+// {
+// 	int	i;
+// 	int	len;
 
-	token_type = 0;
-	if (*token == '\"')
-		token_type = '\"';
-	else if (*token == '\'')
-		token_type = '\'';
-	else
-		return (0);
-	return (token_type);
-}
+// 	len = ft_strlen(token);
+// 	i = -1;
+// 	if (!token[len - 1])
+// 	{
+// 			if (!ft_strncmp(token, "", ft_strlen(token)))
+// 		{
+// 			token = " ";
+// 			return (token);
+// 		}
+// 		while (token[++i])
+// 		{
+// 			while (token[i])
+// 				i++;
+// 			token[i] = ' ';
+// 			return(token);
+// 		}
+// 	}
+// 	return (token);
+// }
 
 static char	*get_quoted_token(t_tok *tok, char *start, char *end, char q_type)
 {
@@ -44,12 +55,12 @@ static char	*get_quoted_token(t_tok *tok, char *start, char *end, char q_type)
 	len = end - start + 1;
 	quoted_token = malloc(sizeof(char) * (len + 1));
 	ft_strlcpy(quoted_token, start, len + 1);
-	if (q_type == '\"')
-	{
-		quoted_token = search_and_replace_var(quoted_token, var, value);
-		if (g_sh.x == 1)
-			quoted_token = " ";
-	}
+	// if (q_type == '\"')
+	// {
+	// 	quoted_token = search_and_replace_var(quoted_token, var, value);
+	// 	// if (g_sh.x == 1)
+	// 	// 	quoted_token = replace_empty_by_space(quoted_token);
+	// }
 	return (quoted_token);
 }
 
@@ -127,6 +138,7 @@ int	handle_quotes(void)
 		}
 		tmp = tmp->next;
 	}
+	printf("after expander:\n");
 	print_list(g_sh.toks, 0);
 	print_list(g_sh.toks, 1);
 	return (0);

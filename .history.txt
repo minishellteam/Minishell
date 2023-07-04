@@ -1,97 +1,72 @@
-ls | ls
-ls | ls
-ls | |ls
-ls | ""|ls
-ls | $HOMEe|ls
->
->>
->>>
->><
-<<<>>
-ls | ls
-ls | ls
-h>|"">J" $"
-h>|"">J" $"
-exit
-dgkh>h|jgf>gfj
-lfgkh
-ls | ls
-couocu<file"$HOME "g|ok
-couocu<file"$HOME "g|ok
-couocu<file"$HOME "g|ok
-couocu<file"$HOME "g|ok
-couocu<file"$HOME g|ok
-couocu<file"$HOME "g|ok
-couocu<file"$HOME g|ok
-couocu<file"$HOME' g|ok
-couocu<file"$HOME "g|ok
-couocu<file "$HOME "g|ok
-couocu<file "$HOME " g|ok
-couocu<file"$HOME "f g|ok
-couocu<file"$HOME f g|h
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut $HOME"f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok "$HOME" 'g'
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-"salut "f | > ok
-
-
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-printf("q_type = %c\n", q_type);
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut "f | > ok
-coucou"salut $HOME "f | > ok
-coucou"salut "f | > ok
-coucou"salut $HOME "f | > ok
-coucou"salut $HOME "    f | > ok
-coucou"salut $HOMEf " f | > ok
-coucou"salut $HOMEf g" f | > ok
-coucou $HOME  f | > ok
-coucou $HOMEf | > ok
-coucou "$HOMEf" | > ok
-coucou "$HOMEf"g | > ok
-coucou '$HOMEg'g | > ok
-e'c'h"o"
+a$f$HOME"
+a"f$HOME"
+a"f$HOM"
+a"f$HOME"
+d"f$HO"
+f"g$HOg"
+f"g$HOME"
 $HOME
-$HOMEd
-"$HOMEd"
-$HOMEf
-"$HOMEf"
+g$HOME
+g$HOE
+$HOE
+"$HOE"
+"$HOE"f
+"d$HOE"f
+"$HOg"
+"$HOg"g
+"$hk"
+"$hfj"
+"f$hfj"
+"$hkj"
+"$fhj"
+"$hgj"
+"$fhkj"
+"g$kg"
+"g$hfju"
+"f$hf"
+"$hf"
+"f$hf"
+"$g"
+"$hond"
+"$hfo"
+"a$hfo"
+"$hfo"
+"$gj"
+"$fh"
+$ho
+$HOME
+"$HOME"
+"$HOM"
+"d$HOM"
+"$HOM"
+"$HOM f"
+"$HOM"f
+"$HOM "f
+"$HOM f"f
+"$fg g"
+"$hod g"
+"$fh h"
+"$fh"
+"$fh "
+$HOME
+"$HOME"
+"$HOM"
+"$HOM f"
+"$HOM f"f
+f$HOME
+f$HOM
+f$HOM f
+"f$HOM" f
+f"f$HO"d
+f"$HO"d
+$HOME
 $HOMEr
 "$HOMEr"
-"$HOMER"
-"$HODG"
-$HODG
-g$HODG
-g"$HODG"
-a$HOMDT
-a$hkfj
-a$HOME
-a$HOME
-a$HOMEf
-a$HOME
-a$HOMfE
-a"$HOMfE"
-a$HOME
-a$HOMEf
-a"$HOMEf"
-a$HOMEf
-a$HOMEr
-a$HOFhj
-$kg
-a$hkfhj
-$hkfhj
-"$hkfhj"
-a"$hkfhj"
+g"$HOMEr"
+g"g$HOMEr"
+echo g"$ok"f
+echo g$ok
+echo g"$HOME"f
+echo g$HOME f
+echo g$HOMEd f
+echo $HOMEd f
