@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/24 08:25:09 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:47:35 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data {
 	int			ac;
 	char		**av;
 	char		**env;
+	char		**myenv;
 	char		**cmds;
 	char		*path;
 	char		*var;
@@ -134,6 +135,10 @@ int		ft_lst_size(t_tok *lst);
 void	parse_tokens(void);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
+
+void	my_env(void);
+int		len_env(char **env);
+
 
 /*===================BUILTINS=========================*/
 void	ft_builts(void);

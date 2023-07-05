@@ -30,8 +30,8 @@ SRCS	=	main.c \
 			./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \
-			./builtins/built_utils.c
-			#./builtins/built_export.c
+			./builtins/built_utils.c \
+			./builtins/built_unset.c
 
 OBJS = $(SRCS:.c=.o)
 

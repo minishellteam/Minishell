@@ -6,11 +6,19 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/23 14:53:32 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/01 11:06:47 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	free_exit(void)
+{
+	if (g_sh.export->env || g_sh.export->exp)
+		free_tab();
+	system("leaks minishell");
+	exit(EXIT_SUCCESS);
+}
 
 static void	arg_error(void)
 {
@@ -55,7 +63,7 @@ void	built_exit(void)
 			exit(EXIT_FAILURE);
 		else if (ft_strlen(g_sh.line) > 4 && g_sh.line[5] == '0')
 			exit(EXIT_SUCCESS);
-		exit(EXIT_SUCCESS);
+		free_exit();
 	}
 }
 

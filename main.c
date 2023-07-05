@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/24 08:35:21 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:18:37 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av, char **env)
 	sig.sa_flags = SA_RESTART | SA_NODEFER;
 	sig.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sig, NULL);
+	my_env();
 	while (1)
 	{
 		g_sh.line = readline("minishell$ ");
@@ -40,15 +41,15 @@ int	main(int ac, char **av, char **env)
 		}
 		if (*g_sh.line)
 			add_history(g_sh.line);
-		//add_line_to_history();
-		//tokenize_line();
-		//print_list(g_sh.toks, 1);
-		//parse_tokens();
-		//printf("--------------\n");
-		//print_list(g_sh.toks, 1);
+		// add_line_to_history();
+		// tokenize_line();
+		// print_list(g_sh.toks, 1);
+		// parse_tokens();
+		// printf("--------------\n");
+		// print_list(g_sh.toks, 1);
 		ft_builts();
-		free(g_sh.line);
-		free(g_sh.var_line);
+		// free(g_sh.line);
+		// free(g_sh.var_line);
 	}
 	return (EXIT_SUCCESS);
 }

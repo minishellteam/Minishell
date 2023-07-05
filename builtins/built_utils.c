@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/24 08:28:59 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:55:46 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ void	free_tab(void)
 {
 	int	j;
 
-	j = -1;
-	while (g_sh.export->env[++j] && g_sh.export->exp[j])
+	j = 0;
+	while (g_sh.export->env[j] || g_sh.export->exp[j])
 	{
 		if (g_sh.export->env[j])
 			free(g_sh.export->env[j]);
 		if (g_sh.export->exp[j])
 			free(g_sh.export->exp[j]);
+		j++;
 	}
 	free(g_sh.export->env);
 	free(g_sh.export->exp);
@@ -63,4 +64,18 @@ void	built_env(void)
 		while (g_sh.env[++i])
 			printf("%s\n", g_sh.env[i]);
 	}
+}
+
+void	my_env(void)
+{
+	g_sh.j = -1;
+	g_sh.myenv = malloc(sizeof(char *) * len_env(g_sh.env));
+	while (g_sh.env[++g_sh.j])
+	{
+		g_sh.myenv[g_sh.j] = malloc(sizeof(char) \
+			* (ft_strlen(g_sh.env[g_sh.j]) + 1));
+		ft_strlcpy(g_sh.myenv[g_sh.j], g_sh.env[g_sh.j], \
+			(ft_strlen(g_sh.env[g_sh.j]) + 1));
+	}
+	g_sh.env[g_sh.j + 1] = NULL;
 }

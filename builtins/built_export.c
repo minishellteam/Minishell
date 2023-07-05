@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/24 08:36:48 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:48:28 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static void	cpy_env(void)
 {
 	g_sh.j = -1;
-	while (g_sh.env[++g_sh.j])
+	while (g_sh.myenv[++g_sh.j])
 	{
 		g_sh.export->env[g_sh.j] = malloc(sizeof(char) \
-			* (ft_strlen(g_sh.env[g_sh.j]) + 1));
-		ft_strlcpy(g_sh.export->env[g_sh.j], g_sh.env[g_sh.j], \
-			(ft_strlen(g_sh.env[g_sh.j]) + 1));
+			* (ft_strlen(g_sh.myenv[g_sh.j]) + 1));
+		ft_strlcpy(g_sh.export->env[g_sh.j], g_sh.myenv[g_sh.j], \
+			(ft_strlen(g_sh.myenv[g_sh.j]) + 1));
 	}
-	g_sh.env[g_sh.j + 1] = NULL;
+	g_sh.export->env[g_sh.j + 1] = NULL;
 }
 
 static void	search_min(t_export *export, int i)
@@ -67,12 +67,12 @@ static void	cpy_export(t_export *export, int j)
 	export->exp[j][k + 2] = '\0';
 }
 
-static int	len_env(void)
+int	len_env(char **env)
 {
 	int	len;
 
 	len = 0;
-	while (g_sh.env[len])
+	while (env[len])
 		len++;
 	return (len + 1);
 }
@@ -87,8 +87,8 @@ void	built_export(void)
 		i = -1;
 		prefix = "declare -x ";
 		g_sh.export = malloc(sizeof(t_export));
-		g_sh.export->exp = malloc(sizeof(char *) * len_env());
-		g_sh.export->env = malloc(sizeof(char *) * len_env());
+		g_sh.export->exp = malloc(sizeof(char *) * len_env(g_sh.myenv));
+		g_sh.export->env = malloc(sizeof(char *) * len_env(g_sh.env));
 		cpy_env();
 		while (g_sh.export->env[++i])
 		{
@@ -98,6 +98,6 @@ void	built_export(void)
 			g_sh.export->env[g_sh.export->j][0] = 126;
 			printf("%s \n", g_sh.export->exp[i]);
 		}
-		free_tab();
+		//free_tab();
 	}
 }
