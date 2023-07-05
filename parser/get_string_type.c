@@ -6,27 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 12:40:17 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:07:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	get_options(void)
-{
-	t_tok	*tmp;
-
-	tmp = g_sh.toks;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
-		{
-			if (!ft_strncmp(tmp->tok, "-", 1))
-				tmp->type = "OPTION";
-		}
-		tmp = tmp->next;
-	}
-}
 
 void	get_files(void)
 {
@@ -37,48 +21,6 @@ void	get_files(void)
 	{
 		if (is_chevron(tmp->type, 1))
 			tmp->next->type = "FILE";
-		tmp = tmp->next;
-	}
-}
-
-void	get_commands(void)
-{
-	t_tok	*tmp;
-	t_tok	*tmp2;
-
-	tmp = g_sh.toks;
-	tmp2 = tmp;
-	while (tmp && tmp->next)
-	{
-		while (tmp2 && ft_strncmp(tmp2->type, "PIPE", ft_strlen(tmp2->type)))
-		{
-			if (!ft_strncmp(tmp2->type, "STRING", ft_strlen(tmp2->type)))
-			{
-				tmp2->type = "COMMAND";
-				while (tmp2 && tmp2->next
-					&& ft_strncmp(tmp2->type, "PIPE", ft_strlen(tmp2->type)))
-					tmp2 = tmp2->next;
-				if (!tmp2 || !tmp2->next)
-					return ;
-				tmp2 = tmp2->next;
-				tmp = tmp2;
-				break ;
-			}
-			tmp2 = tmp2->next;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	get_arguments(void)
-{
-	t_tok	*tmp;
-
-	tmp = g_sh.toks;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
-			tmp->type = "ARGUMENT";
 		tmp = tmp->next;
 	}
 }

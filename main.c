@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/29 15:22:48 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:15:48 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	main(int ac, char **av, char **env)
 			add_history(g_sh.line);
 		add_line_to_history();
 		tokenize_line();
+		print_list(g_sh.toks, 0);
+		print_list(g_sh.toks, 1);
 		//free_list(g_sh.toks);
 		//free(g_sh.line);
 

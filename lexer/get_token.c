@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/04 16:47:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:02:01 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,30 @@ static char	*get_special_tok(char special_char, int token_len)
 	return (token);
 }
 
-char	*get_string_tok(char *token_start, char *token_end, int token_len)
+static char	*get_string_tok(char *token_start, char *token_end, int token_len)
 {
 	char	*token;
+	char	*quote;
 
 	token = NULL;
 	token_start = g_sh.line;
-	while (*g_sh.line && !ft_isspace(*g_sh.line) && !is_special_char(*g_sh.line))
+	while (*g_sh.line && !ft_isspace(*g_sh.line) 
+		&& !is_special_char(*g_sh.line))
 	{
 		if (*g_sh.line == '\"' || *g_sh.line == '\'')
 		{
+			quote = g_sh.line;
+			if ((*g_sh.line == '\"' && *(g_sh.line + 1) == '\"')
+				|| (*g_sh.line == '\'' && *(g_sh.line + 1) == '\''))
+			{
+				g_sh.line += 2;
+				token = "";
+				return (token);
+			}
 			if (check_quote_in_str(token_start, token_end))
 				return (NULL);
 			g_sh.line++;
-			while (*g_sh.line != '\'' && *g_sh.line != '\"')
+			while (*g_sh.line != *quote)
 				g_sh.line++;
 		}
 		g_sh.line++;
@@ -120,13 +130,11 @@ void	tokenize_line(void)
 			return ;
 		tok = ft_lst_new(token);
 		ft_lst_add_back(&toks, tok);
-		while (ft_isspace(*g_sh.line))
+		while (*g_sh.line && ft_isspace(*g_sh.line))
 			g_sh.line++;
 	}
 	g_sh.toks = toks;
-	print_list(g_sh.toks, 0);
 	g_sh.toks = get_token_type(g_sh.toks);
-	//print_list(g_sh.toks, 1);
 	handle_quotes();
 	parse_tokens();
 }

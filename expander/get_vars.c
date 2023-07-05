@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/04 16:47:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:59:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ char	get_quote_type(char *token)
 	else
 		return (0);
 	return (token_type);
+}
+
+char	*get_vars(t_tok *token)
+{
+	char	*var;
+	char	*value;
+	char	*tok;
+
+	var = NULL;
+	value = NULL;
+	tok = search_and_replace_var(token->tok, var, value);
+	return (tok);
 }

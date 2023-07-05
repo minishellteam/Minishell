@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:32:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 13:56:59 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:01:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_next_tok(char *next_tok, char *token)
 	return (0);
 }
 
-int	check_multiple_chevrons(t_tok *tmp)
+static int	check_multiple_chevrons(t_tok *tmp)
 {
 	if (!ft_strncmp(tmp->type, "GREATER", ft_strlen(tmp->type)))
 	{
@@ -74,7 +74,7 @@ int	check_chevrons(t_tok *pipeline)
 	t_tok	*tmp;
 
 	tmp = pipeline;
-	while (tmp && tmp->next)
+	while (tmp)
 	{
 		if (is_chevron(tmp->type, 1) && !tmp->next)
 		{

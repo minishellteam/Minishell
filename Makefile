@@ -25,7 +25,7 @@ SRCS	=	main.c \
 			./lexer/handle_chevrons.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
-			./expander/expand.c \
+			./expander/expand_quotes.c \
 			./expander/get_vars.c \
 			./parser/pipe_check.c \
 			./builtins/built_exit.c \

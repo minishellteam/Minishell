@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 14:46:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:13:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	parse_pipeline(t_tok *pipeline)
 	return (0);
 }
 
-t_tok	*get_pipeline(void)
+static t_tok	*get_pipeline(void)
 {
 	t_tok	*pipeline;
 	t_tok	*end;
@@ -88,8 +88,5 @@ void	parse_tokens(void)
 	}
 	free_list(toks_cpy);
 	free_list(g_sh.rest);
-	get_options();
 	get_files();
-	get_commands();
-	get_arguments();
 }
