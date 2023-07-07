@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/24 08:43:11 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/06 08:10:08 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	signal_handler(int signal, siginfo_t *sa, void *content)
 {
-	int i;
-
 	(void)content;
-	i = sa->si_pid;
+	(void)sa;
 	if (signal == SIGINT)
 	{
 		printf("\n");
