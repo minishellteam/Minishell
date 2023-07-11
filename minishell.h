@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 11:47:35 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/11 12:01:44 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void	built_export(void);
 void	built_pwd(void);
 void	built_cd(void);
 void	built_env(void);
+void	built_unset(void);
 void	free_tab(void);
+void	export_var(char *var);
 
 #endif

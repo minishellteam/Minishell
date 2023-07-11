@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/05 11:55:46 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/11 09:36:45 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	built_env(void)
 	i = -1;
 	if (!ft_strncmp(g_sh.cmds[0], "env", 3))
 	{
-		while (g_sh.env[++i])
-			printf("%s\n", g_sh.env[i]);
+		while (g_sh.myenv[++i])
+			printf("%s\n", g_sh.myenv[i]);
 	}
 }
 
@@ -77,5 +77,5 @@ void	my_env(void)
 		ft_strlcpy(g_sh.myenv[g_sh.j], g_sh.env[g_sh.j], \
 			(ft_strlen(g_sh.env[g_sh.j]) + 1));
 	}
-	g_sh.env[g_sh.j + 1] = NULL;
+	g_sh.myenv[g_sh.j + 1] = NULL;
 }

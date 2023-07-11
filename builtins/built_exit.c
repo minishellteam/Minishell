@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/01 11:06:47 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/11 11:36:46 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 static void	free_exit(void)
 {
-	if (g_sh.export->env || g_sh.export->exp)
-		free_tab();
-	system("leaks minishell");
+	// if (g_sh.export->env || g_sh.export->exp)
+	// 	free_tab();
 	exit(EXIT_SUCCESS);
 }
 
@@ -71,9 +70,10 @@ void	ft_builts()
 {
 	g_sh.cmds = ft_split(g_sh.line, '|');
 	built_exit();
-	built_echo();
+	//built_echo();
 	built_pwd();
 	built_cd();
 	built_export();
 	built_env();
+	built_unset();
 }

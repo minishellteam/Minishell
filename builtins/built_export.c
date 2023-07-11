@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/05 11:48:28 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/11 12:04:48 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,19 @@ int	len_env(char **env)
 
 void	built_export(void)
 {
-	int	i;
+	int		i;
 	char	*prefix;
+	//char	**tmp;
 
 	if (!ft_strncmp(g_sh.cmds[0], "export", 6) && ft_strlen(g_sh.cmds[0]) == 6)
 	{
 		i = -1;
+		// tmp = ft_split(g_sh.cmds[0], ' ');
+		// export_var(tmp[1]);
 		prefix = "declare -x ";
 		g_sh.export = malloc(sizeof(t_export));
 		g_sh.export->exp = malloc(sizeof(char *) * len_env(g_sh.myenv));
-		g_sh.export->env = malloc(sizeof(char *) * len_env(g_sh.env));
+		g_sh.export->env = malloc(sizeof(char *) * len_env(g_sh.myenv));
 		cpy_env();
 		while (g_sh.export->env[++i])
 		{
