@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_chevrons.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:32:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 16:01:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:05:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,26 @@ int	check_chevrons(t_tok *pipeline)
 		}
 		if (check_multiple_chevrons(tmp))
 			return (1);
-		if (is_chevron(tmp->type, 0) && is_chevron(tmp->next->type, 0))
+		if (tmp && tmp->next && is_chevron(tmp->type, 0)
+			&& is_chevron(tmp->next->type, 0))
 			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-char	*get_double_chevrons_token(int token_len)
+char	*get_double_chevrons_token(t_vars *var)
 {
 	char	*token;
 
-	token_len = 2;
+	var->len = 2;
 	token = NULL;
-	if ((*g_sh.line == '>' && *(g_sh.line + 1) == '>')
-		|| (*g_sh.line == '<' && *(g_sh.line + 1) == '<'))
+	if ((*(var->line) == '>' && *(var->line + 1) == '>')
+		|| (*(var->line) == '<' && *(var->line + 1) == '<'))
 	{
-		token = malloc(sizeof(char) * token_len + 1);
-		ft_strlcpy(token, g_sh.line, token_len + 1);
-		g_sh.line += 2;
+		token = malloc(sizeof(char) * var->len + 1);
+		ft_strlcpy(token, var->line, var->len + 1);
+		var->line += 2;
 	}
 	return (token);
 }

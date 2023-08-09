@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 14:13:24 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/10 00:25:12 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,33 @@ static int	parse_pipeline(t_tok *pipeline)
 	return (0);
 }
 
-static t_tok	*get_pipeline(void)
+static t_tok	*get_pipeline(t_vars *var)
 {
 	t_tok	*pipeline;
 	t_tok	*end;
 
-	pipeline = g_sh.rest;
-	end = g_sh.rest;
+	pipeline = var->rest;
+	end = var->rest;
 	while (end && end->next
 		&& ft_strncmp(end->type, "PIPE", ft_strlen(end->type)))
 		end = end->next;
 	if (end && end->next)
 	{
-		g_sh.rest = end->next;
+		var->rest = end->next;
 		end->next = NULL;
 	}
 	else
-		g_sh.rest = NULL;
+		var->rest = NULL;
 	return (pipeline);
 }
 
-static t_tok	*get_copy_tokens(void)
+static t_tok	*get_copy_tokens(t_tok *toks)
 {
 	t_tok	*new_tok;
 	t_tok	*toks_cpy;
 	t_tok	*tmp;
 
-	tmp = g_sh.toks;
+	tmp = toks;
 	toks_cpy = NULL;
 	while (tmp)
 	{
@@ -67,26 +67,27 @@ static t_tok	*get_copy_tokens(void)
 	return (toks_cpy);
 }
 
-void	parse_tokens(void)
+int	parse_tokens(t_vars *var)
 {
-	t_tok	*pipeline;
-	int		pipe_nb;
-	int		i;
-	t_tok	*toks_cpy;
+	t_tok			*pipeline;
+	int				pipe_nb;
+	int				i;
+	t_tok			*toks_cpy;
 
-	if (check_double_pipe())
-		return ;
-	toks_cpy = get_copy_tokens();
-	g_sh.rest = toks_cpy;
-	pipe_nb = get_nb_of_pipes();
+	if (check_double_pipe(var->toks))
+		return (1);
+	toks_cpy = get_copy_tokens(var->toks);
+	var->rest = toks_cpy;
+	pipe_nb = get_nb_of_pipes(var->toks);
 	i = -1;
 	while (++i <= pipe_nb)
 	{
-		pipeline = get_pipeline();
+		pipeline = get_pipeline(var);
 		if (parse_pipeline(pipeline))
-			return ;
+			return (1);
 	}
 	free_list(toks_cpy);
-	free_list(g_sh.rest);
-	get_files();
+	free_list(var->rest);
+	get_files(var->toks);
+	return (0);
 }

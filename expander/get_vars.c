@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 09:53:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 13:59:37 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:51:30 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*search_and_replace_var(char *token, char *var, char *value)
 	int		j;
 
 	i = 0;
-	g_sh.x = 0;
 	while (token[i])
 	{
 		if (token[i] == '$')
@@ -31,8 +30,6 @@ char	*search_and_replace_var(char *token, char *var, char *value)
 			//if (var == '?')
 			//	value = get_ex_code_value();
 			value = getenv(var);
-			if (!value)
-				g_sh.x = 1;
 			free(var);
 			token = replace_var_by_value(token, value, j, i);
 			i = ft_strlen(value);

@@ -17,7 +17,6 @@ UP = UP = \033[A
 SRCS	=	main.c \
 			minishell_utils.c \
 			history.c \
-			signal.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
 			./lexer/check_token.c \
@@ -28,9 +27,10 @@ SRCS	=	main.c \
 			./expander/expand_quotes.c \
 			./expander/get_vars.c \
 			./parser/pipe_check.c \
-			./builtins/built_exit.c \
+			#./builtins/built_exit.c \
 			./builtins/built_echo.c \
-			#./builtins/built_export.c
+			./builtins/built_export.c \
+			signal.c \
 
 OBJS = $(SRCS:.c=.o)
 

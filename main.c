@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 14:15:48 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/10 00:00:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,40 @@
 
 int	main(int ac, char **av, char **env)
 {
+	static char	*line;
+	//t_hist		*hist;
 	//struct sigaction	sig;
 	// t_data			cmd;
 
 	(void)av;
 	(void)env;
-	g_sh.env = env;
-	g_sh.x = 0;
-	init_history(g_sh.history);
+//	hist = (t_hist *)malloc(sizeof(t_hist));
+	//hist->hist_fd = 0;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
-	clear_history_file();
-	get_old_history();
+	//init_history(hist->history);
+	//clear_history_file(hist);
+	//get_old_history(hist);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;
 	// sig.sa_sigaction = signal_handler;
 	// sigaction(SIGINT, &sig, NULL);
 	while (1)
 	{
-		g_sh.line = readline("minishell$ ");
-		if (!g_sh.line)
+		line = readline("minishell$ ");
+		if (!line)
 		{
-			free(g_sh.line);
-			free_list(g_sh.toks);
-			//system("leaks minishell");
+			free(line);
+			//free(hist->history);
+			//free(hist);
 			printf("exit\n");
 			exit(1);
 		}
-		if (*g_sh.line)
-			add_history(g_sh.line);
-		add_line_to_history();
-		tokenize_line();
-		print_list(g_sh.toks, 0);
-		print_list(g_sh.toks, 1);
-		//free_list(g_sh.toks);
-		//free(g_sh.line);
-
+		if (*line)
+			add_history(line);
+	//	add_line_to_history(line, hist->history, hist->hist_fd);
+		tokenize_line(line);
 		//ft_builts(&cmd);
-		//free(g_sh.line);
-		//free(g_sh.var_line);
 	}
 	return (EXIT_SUCCESS);
 }

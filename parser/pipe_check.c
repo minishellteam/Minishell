@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:49:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/23 13:57:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 00:58:47 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	check_before_pipe(t_tok *pipeline)
 	return (0);
 }
 
-int	get_nb_of_pipes(void)
+int	get_nb_of_pipes(t_tok *toks)
 {
 	t_tok	*tmp;
 	int		pipe_nb;
 
-	tmp = g_sh.toks;
+	tmp = toks;
 	pipe_nb = 0;
 	while (tmp)
 	{
@@ -45,11 +45,11 @@ int	get_nb_of_pipes(void)
 	return (pipe_nb);
 }
 
-int	check_double_pipe(void)
+int	check_double_pipe(t_tok *toks)
 {
 	t_tok	*tmp;
 
-	tmp = g_sh.toks;
+	tmp = toks;
 	while (tmp && tmp->next)
 	{
 		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))

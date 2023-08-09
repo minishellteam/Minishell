@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 16:01:24 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/10 00:30:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,30 @@
 #  define HISTORY_SIZE 100
 # endif
 
+typedef struct s_hist {
+	char		*history[HISTORY_SIZE];
+	int			rows;
+	int			hist_fd;
+}				t_hist;
+
 typedef struct s_tok {
 	char			*tok;
 	char			*type;
 	struct s_tok	*next;
 	struct s_tok	*prev;
 }					t_tok;
+
+typedef struct s_vars {
+	t_tok	*toks;
+	t_tok	*tok;
+	t_tok	*rest;
+	char	*token;
+	char	*start;
+	char	*end;
+	int		len;
+	char	*line;
+	int		x;
+}			t_vars;
 
 # define BUFF_SIZE 10000
 
@@ -51,13 +69,6 @@ typedef struct s_data {
 	char		**env;
 	char		**cmds;
 	char		*var;
-	char		*line;
-	char		*history[HISTORY_SIZE];
-	int			hist_fd;
-	int			rows;
-	t_tok		*toks;
-	t_tok		*rest;
-	int			x;
 	char		*final;
 	int			i;
 	int			j;
@@ -65,8 +76,6 @@ typedef struct s_data {
 	int			n;
 	char		**echo;
 }				t_data;
-
-t_data	g_sh;
 
 int		main(int ac, char **av, char **env);
 
@@ -76,26 +85,29 @@ void	get_error_message(char *error, int x);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
-/*===================HISTORY=========================*/
+/*==================================HISTORY===================================*/
 
-void	add_line_to_history(void);
+void	add_line_to_history(char *line, char **history, int hist_fd);
 void	init_history(char **history);
-void	get_old_history(void);
-void	clear_history_file(void);
+void	get_old_history(t_hist *hist);
+void	clear_history_file(t_hist *hist);
 
-/*===================LEXER============================*/
+/*===================================LEXER====================================*/
 
-void	tokenize_line(void);
+void	tokenize_line(char *line);
 
 int		is_special_char(char token);
 int		ft_isspace(char token);
 int		is_forbidden_char(char token);
-int		check_question_mark(char *token);
-int		check_quote_in_str(char *token_start, char *token_end);
+int		check_question_mark(char *line, char *token);
+int		check_quote_in_str(t_vars *var, char *start, char *end);
 
-char	*get_double_chevrons_token(int token_len);
+char	*get_double_chevrons_token(t_vars *var);
 int		check_chevrons(t_tok *pipeline);
 int		is_chevron(char	*token, int x);
+
+char	*get_ex_code_token(t_vars *var);
+t_tok	*get_token_type(t_tok *toks);
 
 t_tok	*ft_lst_new(char *token);
 void	ft_lst_add_back(t_tok **lst, t_tok *new);
@@ -104,22 +116,9 @@ t_tok	*ft_lst_last(t_tok *lst);
 int		ft_lst_size(t_tok *lst);
 void	free_list(t_tok *lst);
 
-t_tok	*get_token_type(t_tok *toks);
+/*==================================EXPANDER==================================*/
 
-/*===================PARSER===========================*/
-
-void	parse_tokens(void);
-
-int		check_before_pipe(t_tok *pipeline);
-int		get_nb_of_pipes(void);
-int		check_double_pipe(void);
-
-void	remove_empty_tok(void);
-void	get_files(void);
-
-/*===================EXPANDER=========================*/
-
-int		handle_quotes(void);
+int		handle_quotes(t_vars *var);
 int		expand_vars(void);
 char	*get_vars(t_tok *token);
 
@@ -127,7 +126,18 @@ char	get_quote_type(char *token);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 char	*search_and_replace_var(char *token, char *var, char *value);
 
-/*===================BUILTINS=========================*/
+/*===================================PARSER===================================*/
+
+int		parse_tokens(t_vars *var);
+
+int		check_before_pipe(t_tok *pipeline);
+int		get_nb_of_pipes(t_tok *toks);
+int		check_double_pipe(t_tok *toks);
+
+//void	remove_empty_tok(void);
+void	get_files(t_tok *toks);
+
+/*===================================BUILTINS=================================*/
 
 void	ft_builts(t_data *cmd);
 void	built_exit(t_data *cmd);

@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   get_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:51:03 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 09:43:33 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:50:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	get_token_type(void)
+// void	get_token_type(t_tok *toks)
 // {
 // 	enum e_toktype token_type;
 
 // 	token_type = STRING;
-// 	while (g_sh.toks != NULL)
+// 	while (toks != NULL)
 // 	{
-// 		if (!ft_strncmp(g_sh.toks->tok, "", ft_strlen(g_sh.toks->tok)))
+// 		if (!ft_strncmp(toks->tok, "", ft_strlen(toks->tok)))
 // 			token_type = EMPTY;
-// 		else if (!ft_strncmp(g_sh.toks->tok, "|", ft_strlen(g_sh.toks->tok)))
+// 		else if (!ft_strncmp(toks->tok, "|", ft_strlen(toks->tok)))
 // 			token_type = PIPE;
-// 		else if (!ft_strncmp(g_sh.toks->tok, ">", ft_strlen(g_sh.toks->tok)))
+// 		else if (!ft_strncmp(toks->tok, ">", ft_strlen(toks->tok)))
 // 			token_type = GREATER;
-// 		else if (!ft_strncmp(g_sh.toks->tok, ">>", ft_strlen(g_sh.toks->tok)))
+// 		else if (!ft_strncmp(toks->tok, ">>", ft_strlen(toks->tok)))
 // 			token_type = DOUBLE_GREATER;
-// 		else if (!ft_strncmp(g_sh.toks->tok, "<", ft_strlen(g_sh.toks->tok)))
+// 		else if (!ft_strncmp(toks->tok, "<", ft_strlen(toks->tok)))
 // 			token_type = LESSER;
-// 		else if (!ft_strncmp(g_sh.toks->tok, "<<", ft_strlen(g_sh.toks->tok)))
+// 		else if (!ft_strncmp(toks->tok, "<<", ft_strlen(toks->tok)))
 // 			token_type = DOUBLE_LESSER;
 // 		else
 // 			token_type = STRING;
-// 		g_sh.toks = g_sh.toks->next;
+// 		toks = toks->next;
 // 	}
 // }
 
@@ -61,4 +61,16 @@ t_tok	*get_token_type(t_tok *toks)
 		tmp = tmp->next;
 	}
 	return (toks);
+}
+
+char	*get_ex_code_token(t_vars *var)
+{
+	char	*token;
+
+	var->len = 2;
+	var->start = var->line;
+	token = malloc(sizeof(char) * var->len + 1);
+	ft_strlcpy(token, var->start, var->len + 1);
+	var->line += 2;
+	return (token);
 }

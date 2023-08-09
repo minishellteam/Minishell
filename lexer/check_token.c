@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 15:20:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:55:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int	is_forbidden_char(char token)
 	return (0);
 }
 
-int	check_question_mark(char *token)
+int	check_question_mark(char *line, char *token)
 {
 	if (token[0] == '?')
 	{
-		if (*(g_sh.line - 1) != '$')
+		if (*(line - 1) != '$')
 		{
 			get_error_message(token, 0);
 			return (1);
@@ -52,31 +52,31 @@ int	check_question_mark(char *token)
 	return (0);
 }
 
-int	check_quote_in_str(char *token_start, char *token_end)
+int	check_quote_in_str(t_vars *var, char *start, char *end)
 {
 	char	token_type;
 
 	token_type = 0;
-	token_start = g_sh.line;
-	token_end = g_sh.line + 1;
-	if (*token_start == '\"')
+	start = var->line;
+	end = var->line + 1;
+	if (*start == '\"')
 	{
 		token_type = '\"';
-		g_sh.x = 1;
+		var->x = 1;
 	}
-	else if (*token_start == '\'')
+	else if (*start == '\'')
 	{
 		token_type = '\'';
-		g_sh.x = 2;
+		var->x = 2;
 	}
-	token_start++;
-	if (!ft_strchr(token_start, token_type))
+	start++;
+	if (!ft_strchr(start, token_type))
 	{
 		get_error_message(NULL, 2);
-		return (1);
+		return (var->x);
 	}
-	while (*token_end && *token_end != token_type)
-		token_end++;
-	token_end++;
+	while (*end && *end != token_type)
+		end++;
+	end++;
 	return (0);
 }

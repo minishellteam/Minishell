@@ -3,46 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:03:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/15 11:42:14 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:41:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_line_to_history(void)
+void	add_line_to_history(char *line, char **history, int hist_fd)
 {
 	int		y;
 	int		i;
 
 	y = 0;
 	i = 0;
-	g_sh.line = ft_strjoin(g_sh.line, "\n");
-	if (g_sh.history[HISTORY_SIZE - 1])
+	line = ft_strjoin(line, "\n");
+	if (history[HISTORY_SIZE - 1])
 	{
-		g_sh.history[0] = NULL;
-		free(g_sh.history[0]);
+		history[0] = NULL;
+		free(history[0]);
 		i = 0;
 		while (++i < HISTORY_SIZE)
-			g_sh.history[i - 1] = g_sh.history[i];
+			history[i - 1] = history[i];
 		y = HISTORY_SIZE - 1;
 	}
 	else
-		while (g_sh.history[y] && y < HISTORY_SIZE)
+		while (history[y] && y < HISTORY_SIZE)
 			y++;
-	g_sh.history[y] = ft_strdup(g_sh.line);
-	ft_putstr_fd(g_sh.history[y], g_sh.hist_fd);
+	history[y] = ft_strdup(line);
+	ft_putstr_fd(history[y], hist_fd);
 }
 
-static int	get_nb_of_rows(void)
+static int	get_nb_of_rows(t_hist *hist)
 {
 	int		fd;
 	char	*line;
-	int		rows;
 
-	rows = 0;
+	hist->rows = 0;
 	fd = open(".history.txt", O_RDONLY, 0777);
 	if (fd == -1)
 		handle_error("ERROR: Failed to open '.history' file", 1);
@@ -51,11 +50,11 @@ static int	get_nb_of_rows(void)
 	{
 		while (line)
 		{
-			rows++;
+			hist->rows++;
 			free(line);
 			line = get_next_line(fd);
 		}
-		g_sh.rows = rows;
+		printf("rows = %d\n", hist->rows);
 		if (close(fd) == -1)
 			handle_error("Error: Failed to close '.history.txt' file", 1);
 		return (1);
@@ -63,34 +62,36 @@ static int	get_nb_of_rows(void)
 	return (0);
 }
 
-void	get_old_history(void)
+void	get_old_history(t_hist *hist)
 {
 	int		i;
 	char	*line;
 
 	i = -1;
-	g_sh.hist_fd = open(".history.txt", O_RDWR | O_APPEND, 0777);
-	if (g_sh.hist_fd == -1)
+	hist->hist_fd = open(".history.txt", O_RDWR | O_APPEND, 0777);
+	if (hist->hist_fd == -1)
 		handle_error("ERROR: Failed to open '.history' file", 1);
-	if (get_nb_of_rows())
+	if (get_nb_of_rows(hist))
 	{
-		if (g_sh.rows > HISTORY_SIZE)
-			while (++i < g_sh.rows - HISTORY_SIZE)
-				get_next_line(g_sh.hist_fd);
+		if (hist->rows > HISTORY_SIZE)
+			while (++i < hist->rows - HISTORY_SIZE)
+				get_next_line(hist->hist_fd);
 		i = -1;
 		while (++i < HISTORY_SIZE)
-			free(g_sh.history[i]);
-		init_history(g_sh.history);
+			free(hist->history[i]);
+		init_history(hist->history);
 		i = -1;
-		line = get_next_line(g_sh.hist_fd);
+		line = get_next_line(hist->hist_fd);
 		while (line && ++i < HISTORY_SIZE)
 		{
-			g_sh.history[i] = ft_strdup(line);
-			line = get_next_line(g_sh.hist_fd);
+			hist->history[i] = ft_strdup(line);
+			line = get_next_line(hist->hist_fd);
 		}
 	}
+	free(line);
 }
 
+// we initialize the history array with NULL for security
 void	init_history(char **history)
 {
 	int	i;
@@ -100,14 +101,17 @@ void	init_history(char **history)
 		history[i] = NULL;
 }
 
-void	clear_history_file(void)
+/* check history file to clear it 
+if it has a size bigger than the max history size */
+
+void	clear_history_file(t_hist *hist)
 {
-	int	fd;
+	int		fd;
 
 	fd = 0;
-	if (get_nb_of_rows())
+	if (get_nb_of_rows(hist))
 	{
-		if (g_sh.rows >= HISTORY_SIZE)
+		if (hist->rows >= HISTORY_SIZE)
 		{
 			fd = open(".history.txt", O_WRONLY | O_TRUNC, 0777);
 			if (fd == -1)

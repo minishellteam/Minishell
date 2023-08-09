@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   get_string_type.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 14:07:37 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/09 01:03:36 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_files(void)
+void	get_files(t_tok *toks)
 {
 	t_tok	*tmp;
 
-	tmp = g_sh.toks;
+	tmp = toks;
 	while (tmp && tmp->next)
 	{
 		if (is_chevron(tmp->type, 1))
@@ -25,15 +25,15 @@ void	get_files(void)
 	}
 }
 
-// void	remove_token(t_tok *tmp)
+// void	remove_token(t_tok *toks, t_tok *tmp)
 // {
 // 	t_tok	*current;
 // 	t_tok	*new_next;
 
-// 	current = g_sh.toks;
+// 	current = toks;
 // 	new_next = NULL;
 // 	if (current == tmp)
-// 		g_sh.toks = g_sh.toks->next;
+// 		toks = toks->next;
 // 	while (current && current->next)
 // 	{
 // 		if (current->next == tmp)
@@ -54,7 +54,7 @@ void	get_files(void)
 // {
 // 	t_tok	*tmp;
 
-// 	tmp = g_sh.toks;
+// 	tmp = toks;
 // 	while (tmp)
 // 	{
 // 		if (!ft_strncmp(tmp->type, "EMPTY", ft_strlen(tmp->type)))
