@@ -6,62 +6,57 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/09 23:52:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/27 00:17:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_quoted_token(t_tok *tok, t_vars *var, char q_type)
+static char	*get_quoted_token(t_vars *var, char q_type)
 {
-	char	*quoted_token;
-	char	*variable;
-	char	*value;
+	char	*quoted_tok;
+	char	*start;
 
-	quoted_token = NULL;
-	variable = NULL;
-	value = NULL;
-	tok->tok++;
-	var->start = tok->tok;
-	while (*(tok->tok) && *(tok->tok) != q_type)
-		tok->tok++;
-	var->end = tok->tok - 1;
-	var->len = var->end - var->start + 1;
-	quoted_token = malloc(sizeof(char) * (var->len + 1));
-	ft_strlcpy(quoted_token, var->start, var->len + 1);
+	quoted_tok = NULL;
+	var->var = NULL;
+	var->value = NULL;
+	var->start++;
+	start = var->start;
+	while (*(var->start) && *(var->start) != q_type)
+		var->start++;
+	var->end = var->start - 1;
+	var->len = var->end - start + 1;
+	var->start++;
+	quoted_tok = malloc(sizeof(char) * (var->len + 1));
+	ft_strlcpy(quoted_tok, start, var->len + 1);
 	if (q_type == '\"')
-		quoted_token = search_and_replace_var(quoted_token, variable, value);
-	return (quoted_token);
+		quoted_tok = get_var(quoted_tok, var->var, var->value, 0);
+	return (quoted_tok);
 }
 
-static char	*get_non_quoted_tok(t_tok *tok, t_vars *var)
+static char	*get_non_quoted_tok(t_vars *var)
 {
 	char	*str_tok;
-	char	*variable;
-	char	*value;
+	char	*start;
 
 	str_tok = NULL;
-	variable = NULL;
-	value = NULL;
-	if (*(tok->tok) && *(tok->tok) != '\'' && *(tok->tok) != '\"'
-		&& !ft_isspace(*(tok->tok)) && !is_special_char(*(tok->tok)))
+	var->var = NULL;
+	var->value = NULL;
+	if (*(var->start) && *(var->start) != '\'' && *(var->start) != '\"')
 	{
-		var->start = (tok->tok);
-		while (*(tok->tok) && *(tok->tok) != '\'' && *(tok->tok) != '\"'
-			&& !ft_isspace(*(tok->tok)) && !is_special_char(*(tok->tok)))
-			tok->tok++;
-		var->end = (tok->tok) - 1;
-		var->len = var->end - var->start + 1;
+		start = var->start;
+		while (*(var->start) && *(var->start) != '\'' && *(var->start) != '\"')
+			var->start++;
+		var->end = var->start - 1;
+		var->len = var->end - start + 1;
 		str_tok = malloc(sizeof(char) * (var->len + 1));
-		ft_strlcpy(str_tok, var->start, var->len + 1);
-		str_tok = search_and_replace_var(str_tok, variable, value);
+		ft_strlcpy(str_tok, start, var->len + 1);
+		str_tok = get_var(str_tok, var->var, var->value, 0);
 	}
-	else
-		str_tok = "";
 	return (str_tok);
 }
 
-static char	*expand_token(t_tok *token, t_vars *var)
+static char	*expand_token(char *token, t_vars *var)
 {
 	char	*tmp_tok;
 	char	*quoted_tok;
@@ -69,20 +64,25 @@ static char	*expand_token(t_tok *token, t_vars *var)
 	char	quote_type;
 
 	str_tok = NULL;
-	tmp_tok = get_non_quoted_tok(token, var);
-	while (*(token->tok) && !is_special_char(*(token->tok))
-		&& !ft_isspace(*(token->tok)))
+	tmp_tok = get_non_quoted_tok(var);
+	while (*(var->start))
 	{
-		quote_type = get_quote_type(token->tok);
-		if (!get_quote_type(token->tok))
+		quote_type = get_quote_type(var->start);
+		if (!get_quote_type(var->start))
 			return (NULL);
-		quoted_tok = get_quoted_token(token, var, quote_type);
-		tmp_tok = ft_strjoin(tmp_tok, quoted_tok);
-		token->tok++;
-		str_tok = get_non_quoted_tok(token, var);
-		tmp_tok = ft_strjoin(tmp_tok, str_tok);
+		quoted_tok = get_quoted_token(var, quote_type);
+		if (tmp_tok)
+			tmp_tok = ft_strjoingnl(tmp_tok, quoted_tok, 1);
+		else
+			tmp_tok = quoted_tok;
+		str_tok = get_non_quoted_tok(var);
+		if (str_tok)
+			tmp_tok = ft_strjoingnl(tmp_tok, str_tok, 1);
 	}
-	return (tmp_tok);
+	free(token);
+	token = ft_strdup(tmp_tok);
+	free(tmp_tok);
+	return (token);
 }
 
 static int	check_if_empty_tok(t_tok *tmp, t_vars *var)
@@ -96,7 +96,7 @@ static int	check_if_empty_tok(t_tok *tmp, t_vars *var)
 			var->end++;
 		if (*(var->end) == '\"' && !*(var->end + 1))
 		{
-			tmp->tok = get_vars(tmp);
+			tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
 			if (!ft_strncmp(tmp->tok, "\"\"", ft_strlen(tmp->tok)))
 			{
 				tmp->type = "EMPTY";
@@ -118,18 +118,24 @@ int	handle_quotes(t_vars *var)
 	t_tok	*tmp;
 
 	tmp = var->toks;
-	var->start = NULL;
-	var->end = NULL;
-	var->len = 0;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
 		{
 			if (check_if_empty_tok(tmp, var) == 1)
-				break ;
-			tmp->tok = expand_token(tmp, var);
-			if (!ft_strncmp(tmp->tok, "", ft_strlen(tmp->tok)))
-				tmp->type = "SKIP";
+				continue ;
+			var->start = tmp->tok;
+			if (ft_strchr(tmp->tok, '\"') || ft_strchr(tmp->tok, '\''))
+				tmp->tok = expand_token(tmp->tok, var);
+			else if (ft_strchr(tmp->tok, '$'))
+			{
+				if (tmp->tok[0] == '$')
+					tmp->tok = get_var(tmp->tok, var->var, var->value, 1);
+				else
+					tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
+				if (!ft_strncmp(tmp->tok, "", ft_strlen(tmp->tok)))
+					tmp->type = "SKIP";
+			}
 		}
 		tmp = tmp->next;
 	}

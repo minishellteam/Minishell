@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/10 01:02:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/27 00:10:57 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ static char	*get_special_tok(t_vars *var)
 	char	special_tok[2];
 	char	*token;
 
-	if (*(var->line) == '|' && *((var->line) + 1) == '|')
-	{
-		get_error_message("|", 1);
-		return (NULL);
-	}
 	token = get_double_chevrons_token(var);
 	if (token)
 		return (token);
@@ -85,49 +80,49 @@ static char	*get_string_tok(t_vars *var)
 
 static char	*get_token(t_vars *var)
 {
-	var->token = NULL;
+	char	*token;
+
+	token = NULL;
 	var->len = 0;
 	var->end = NULL;
 	while (ft_isspace(*(var->line)))
 		var->line++;
 	var->start = var->line;
 	if (is_special_char(*(var->line)))
-		var->token = get_special_tok(var);
+		token = get_special_tok(var);
 	else if (*var->line == '$' && *(var->line + 1) == '?')
-		var->token = get_ex_code_token(var);
+		token = get_ex_code_token(var);
 	else
-		var->token = get_string_tok(var);
-	return (var->token);
+		token = get_string_tok(var);
+	return (token);
 }
 
-void	tokenize_line(char *line)
+int	tokenize_line(char *line, t_vars *var)
 {
-	t_vars	*var;
-
-	var = (t_vars *)malloc(sizeof(t_vars));
-	var->toks = NULL;
-	var->token = NULL;
 	var->line = line;
 	if (*(var->line) == '?')
 	{
 		get_error_message("?", 0);
-		return ;
+		free(var);
+		return (1);
 	}
 	while (*(var->line))
 	{
 		var->start = line;
 		var->token = get_token(var);
 		if (!var->token)
-			return ;
+			return (1);
 		var->tok = ft_lst_new(var->token);
 		ft_lst_add_back(&(var->toks), var->tok);
 		while (*(var->line) && ft_isspace(*(var->line)))
 			var->line++;
 	}
 	var->toks = get_token_type(var->toks);
-	handle_quotes(var);
 	if (parse_tokens(var))
-		return ;
+		return (1);
+	check_limiter(var);
+	handle_quotes(var);
 	print_list(var->toks, 0);
 	print_list(var->toks, 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/10 00:56:49 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/10 23:49:13 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_files(t_tok *toks)
 		if (is_chevron(tmp->type, 1))
 		{
 			if (!ft_strncmp(tmp->type, "DOUBLE_LESSER", ft_strlen(tmp->type)))
-				tmp->next->type = "DELIMITER";
+				tmp->next->type = "LIMITER";
 			else
 				tmp->next->type = "FILE";
 		}

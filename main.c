@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/10 00:00:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:46:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	static char	*line;
+	t_vars	*var;
 	//t_hist		*hist;
 	//struct sigaction	sig;
 	// t_data			cmd;
@@ -34,19 +35,37 @@ int	main(int ac, char **av, char **env)
 	// sigaction(SIGINT, &sig, NULL);
 	while (1)
 	{
+		var = (t_vars *)malloc(sizeof(t_vars));
+		var->toks = NULL;
+		var->token = NULL;
+		var->data = NULL;
 		line = readline("minishell$ ");
 		if (!line)
 		{
 			free(line);
 			//free(hist->history);
 			//free(hist);
+			free_list_input(var->data, 0);
+			free_list(&(var->toks), 0);
+			free(var);
 			printf("exit\n");
 			exit(1);
 		}
 		if (*line)
 			add_history(line);
 	//	add_line_to_history(line, hist->history, hist->hist_fd);
-		tokenize_line(line);
+		if (tokenize_line(line, var))
+		{
+			free(line);
+			free_list_input(var->data, 0);
+			free_list(&(var->toks), 0);
+			free(var);
+			return (EXIT_FAILURE);
+		}
+		free(line);
+		free_list_input(var->data, 0);
+		free_list(&(var->toks), 0);
+		free(var);
 		//ft_builts(&cmd);
 	}
 	return (EXIT_SUCCESS);

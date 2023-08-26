@@ -24,6 +24,8 @@ SRCS	=	main.c \
 			./lexer/handle_chevrons.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
+			./expander/here_doc.c \
+			./expander/lst_functions_2.c \
 			./expander/expand_quotes.c \
 			./expander/get_vars.c \
 			./parser/pipe_check.c \
@@ -36,7 +38,7 @@ OBJS = $(SRCS:.c=.o)
 
 #------------------COMPILE------------------#
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 ifdef DEBUG
 CFLAGS += -fsanitize=address -g3
 endif

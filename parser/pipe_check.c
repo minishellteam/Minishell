@@ -6,17 +6,17 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:49:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/09 00:58:47 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:50:12 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_before_pipe(t_tok *pipeline)
+int	check_before_pipe(t_vars *var)
 {
 	t_tok	*tmp;
 
-	tmp = pipeline;
+	tmp = var->pipeline;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
