@@ -6,16 +6,26 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/26 00:46:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:52:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	free_vars(char *line, t_vars *var)
+{
+	free(line);
+	free_list_input(var->data, 0);
+	free_list(&(var->toks), 0);
+	//free_tab(var->cmd->args);
+	//free(var->cmd);
+	free(var);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	static char	*line;
-	t_vars	*var;
+	t_vars		*var;
 	//t_hist		*hist;
 	//struct sigaction	sig;
 	// t_data			cmd;
@@ -42,12 +52,11 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			free(line);
+			//free_tab(var->cmd->args);
+			//free(var->cmd);
+			free_vars(line, var);
 			//free(hist->history);
 			//free(hist);
-			free_list_input(var->data, 0);
-			free_list(&(var->toks), 0);
-			free(var);
 			printf("exit\n");
 			exit(1);
 		}
@@ -56,16 +65,15 @@ int	main(int ac, char **av, char **env)
 	//	add_line_to_history(line, hist->history, hist->hist_fd);
 		if (tokenize_line(line, var))
 		{
-			free(line);
-			free_list_input(var->data, 0);
-			free_list(&(var->toks), 0);
-			free(var);
+			free_vars(line, var);
 			return (EXIT_FAILURE);
 		}
-		free(line);
-		free_list_input(var->data, 0);
-		free_list(&(var->toks), 0);
-		free(var);
+		if (get_cmd_infos(var))
+		{
+			free_vars(line, var);
+			return (EXIT_FAILURE);
+		}
+		free_vars(line, var);
 		//ft_builts(&cmd);
 	}
 	return (EXIT_SUCCESS);

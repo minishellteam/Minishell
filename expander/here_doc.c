@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/27 00:23:48 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:49:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	get_input(t_vars *var, char *limiter)
 {
 	char	*line;
 	t_input	*data;
-	t_input	*new;
 
 	limiter = ft_strjoin(limiter, "\n");
 	line = get_next_line(0);
@@ -59,12 +58,9 @@ static int	get_input(t_vars *var, char *limiter)
 		if (is_limiter(line, limiter))
 		{
 			var->data = data;
-			free (line);
-			free(limiter);
-			return (0);
+			break ;
 		}
-		new = ft_lstnew_input(line);
-		ft_lstadd_back_input(&data, new);
+		ft_lstadd_back_input(&data, ft_lstnew_input(line));
 	}
 	free(line);
 	free(limiter);
@@ -113,8 +109,10 @@ int	check_limiter(t_vars *var)
 				get_input(var, tmp->tok);
 			}
 			else
+			{
 				if (!get_input(var, tmp->tok))
 					expand_input(var);
+			}
 		}
 		tmp = tmp->next;
 	}

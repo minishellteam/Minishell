@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/22 13:51:31 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:25:30 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	parse_tokens(t_vars *var)
 	if (check_double_pipe(var->toks))
 		return (1);
 	pipe_nb = get_nb_of_pipes(var->toks);
+	var->pipe_nb = pipe_nb;
 	i = -1;
 	while (++i <= pipe_nb)
 	{

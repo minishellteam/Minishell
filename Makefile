@@ -29,6 +29,8 @@ SRCS	=	main.c \
 			./expander/expand_quotes.c \
 			./expander/get_vars.c \
 			./parser/pipe_check.c \
+			get_cmd_infos.c \
+			get_redirections.c \
 			#./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \

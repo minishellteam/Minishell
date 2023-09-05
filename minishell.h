@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/27 00:06:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/05 10:54:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct s_tok {
 	struct s_tok	*prev;
 }					t_tok;
 
+typedef struct s_cmd {
+	char	**args;
+	int		pid;
+	int		fdin;
+	int		fdout;
+}			t_cmd;
+
 typedef struct s_vars {
 	t_tok	*toks;
 	t_tok	*tok;
@@ -63,8 +70,11 @@ typedef struct s_vars {
 	int		len;
 	char	*line;
 	int		x;
+	int		pipe_nb;
 	t_input	*data;
+	t_cmd	*cmd;
 }			t_vars;
+
 
 # define BUFF_SIZE 10000
 
@@ -89,8 +99,9 @@ typedef struct s_data {
 int		main(int ac, char **av, char **env);
 
 void	handle_error(char *message, int x);
-void	print_str_of_str(char **str, int row);
 void	get_error_message(char *error, int x);
+void	print_tab(char **tab);
+void	free_tab(char	**tab);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
@@ -133,14 +144,6 @@ void	free_list_input(t_input *lst, int x);
 
 int		check_limiter(t_vars *var);
 
-/*==================================EXPANDER==================================*/
-
-int		handle_quotes(t_vars *var);
-int		expand_vars(void);
-
-char	*get_var(char *token, char *var, char *value, int x);
-char	get_quote_type(char *token);
-
 /*===================================PARSER===================================*/
 
 int		parse_tokens(t_vars *var);
@@ -151,6 +154,18 @@ int		check_double_pipe(t_tok *toks);
 
 //void	remove_empty_tok(void);
 void	get_files(t_tok *toks);
+
+/*==================================EXPANDER==================================*/
+
+int		handle_quotes(t_vars *var);
+int		expand_vars(void);
+
+char	*get_var(char *token, char *var, char *value, int x);
+char	get_quote_type(char *token);
+
+int		get_cmd_infos(t_vars *var);
+int		get_in_redir(t_vars *var);
+int		get_out_redir(t_vars *var);
 
 /*===================================BUILTINS=================================*/
 
