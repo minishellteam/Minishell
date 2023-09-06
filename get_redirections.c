@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 19:17:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/05 21:46:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:26:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,16 @@ int	get_in_redir(t_vars *var)
 		{
 			if (!ft_strncmp(tmp->prev->type, "LESSER", ft_strlen(tmp->type)))
 			{
-				if (fd && fd != -1)
+				if (fd && fd != -1 && fd != -2)
 					close(fd);
 				fd = get_file_fd(tmp->tok, 0);
 			}
+		}
+		else if (!ft_strncmp(tmp->type, "LIMITER", ft_strlen(tmp->type)))
+		{
+			if (fd && fd != -1 && fd != -2)
+				close(fd);
+			fd = -2;
 		}
 		tmp = tmp->next;
 	}

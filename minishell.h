@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/05 10:54:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:57:23 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ char	get_quote_type(char *token);
 int		get_cmd_infos(t_vars *var);
 int		get_in_redir(t_vars *var);
 int		get_out_redir(t_vars *var);
+void	free_structures(t_cmd *cmd, int stop);
 
 /*===================================BUILTINS=================================*/
 

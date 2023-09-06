@@ -6,13 +6,13 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/05 22:42:34 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:16:41 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_structures(t_cmd *cmd, int stop)
+void	free_structures(t_cmd *cmd, int stop)
 {
 	int	i;
 
@@ -68,10 +68,8 @@ static t_cmd	get_cmd_pipeline(t_vars *var, t_cmd cmd)
 	cmd.fdout = 1;
 	cmd.pid = 0;
 	cmd.args = get_args(var);
-	cmd.fdout = get_out_redir(var);
 	cmd.fdin = get_in_redir(var);
-	printf("fdout = %d\n", cmd.fdout);
-	printf("fdin = %d\n", cmd.fdin);
+	cmd.fdout = get_out_redir(var);
 	while (var->pipeline && ft_strncmp(var->pipeline->type, "PIPE", \
 		ft_strlen(var->pipeline->type)))
 		var->pipeline = var->pipeline->next;
@@ -91,8 +89,10 @@ int	get_cmd_infos(t_vars *var)
 	while (++i < var->pipe_nb + 1)
 	{
 		cmd[i] = get_cmd_pipeline(var, cmd[i]);
-		//printf("args = \n");
-		//print_tab(cmd[i].args);
+		printf("args = \n");
+		print_tab(cmd[i].args);
+		printf("fdin = %d\n", cmd[i].fdin);
+		printf("fdout = %d\n", cmd[i].fdout);
 		if (cmd[i].fdout == -1 || cmd[i].fdin == -1)
 		{
 			free_structures(cmd, i);

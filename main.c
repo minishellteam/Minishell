@@ -6,19 +6,19 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/05 21:52:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:11:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_vars(char *line, t_vars *var)
+static void	free_vars(char *line, t_vars *var, int x)
 {
 	free(line);
+	if (x == 1)
+		free_structures(var->cmd, var->pipe_nb);
 	free_list_input(var->data, 0);
 	free_list(&(var->toks), 0);
-	//free_tab(var->cmd->args);
-	//free(var->cmd);
 	free(var);
 }
 
@@ -52,9 +52,7 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			//free_tab(var->cmd->args);
-			//free(var->cmd);
-			free_vars(line, var);
+			free_vars(line, var, 0);
 			//free(hist->history);
 			//free(hist);
 			printf("exit\n");
@@ -65,15 +63,15 @@ int	main(int ac, char **av, char **env)
 	//	add_line_to_history(line, hist->history, hist->hist_fd);
 		if (tokenize_line(line, var))
 		{
-			free_vars(line, var);
+			free_vars(line, var, 0);
 			return (EXIT_FAILURE);
 		}
 		if (get_cmd_infos(var))
 		{
-			free_vars(line, var);
+			free_vars(line, var, 1);
 			return (EXIT_FAILURE);
 		}
-		free_vars(line, var);
+		free_vars(line, var, 1);
 		//ft_builts(&cmd);
 	}
 	return (EXIT_SUCCESS);
