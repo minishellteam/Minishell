@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 19:17:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/06 22:26:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/07 09:35:44 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ static int	get_file_fd(char *file_name, int x)
 	return (fd);
 }
 
+static int	check_infile(t_tok *tmp, int fd)
+{
+	if (!ft_strncmp(tmp->prev->type, "LESSER", ft_strlen(tmp->type)))
+	{
+		if (fd && fd != -1 && fd != -2)
+			close(fd);
+		fd = get_file_fd(tmp->tok, 0);
+	}
+	return (fd);
+}
+
 int	get_in_redir(t_vars *var)
 {
 	t_tok	*tmp;
@@ -39,14 +50,7 @@ int	get_in_redir(t_vars *var)
 		if (fd == -1)
 			return (-1);
 		if (!ft_strncmp(tmp->type, "FILE", ft_strlen(tmp->type)))
-		{
-			if (!ft_strncmp(tmp->prev->type, "LESSER", ft_strlen(tmp->type)))
-			{
-				if (fd && fd != -1 && fd != -2)
-					close(fd);
-				fd = get_file_fd(tmp->tok, 0);
-			}
-		}
+			fd = check_infile(tmp, fd);
 		else if (!ft_strncmp(tmp->type, "LIMITER", ft_strlen(tmp->type)))
 		{
 			if (fd && fd != -1 && fd != -2)
@@ -54,6 +58,23 @@ int	get_in_redir(t_vars *var)
 			fd = -2;
 		}
 		tmp = tmp->next;
+	}
+	return (fd);
+}
+
+static int	check_outfile(t_tok *tmp, int fd)
+{
+	if (!ft_strncmp(tmp->prev->type, "GREATER", ft_strlen(tmp->type)))
+	{
+		if (fd != 1 && fd != -1)
+			close(fd);
+		fd = get_file_fd(tmp->tok, 1);
+	}
+	else if (!ft_strncmp(tmp->prev->type, "D_GREATER", ft_strlen(tmp->type)))
+	{
+		if (fd != 1 && fd != -1)
+			close(fd);
+		fd = get_file_fd(tmp->tok, 2);
 	}
 	return (fd);
 }
@@ -70,21 +91,7 @@ int	get_out_redir(t_vars *var)
 		if (fd == -1)
 			return (-1);
 		if (!ft_strncmp(tmp->type, "FILE", ft_strlen(tmp->type)))
-		{
-			if (!ft_strncmp(tmp->prev->type, "GREATER", ft_strlen(tmp->type)))
-			{
-				if (fd != 1 && fd != -1)
-					close(fd);
-				fd = get_file_fd(tmp->tok, 1);
-			}
-			else if (!ft_strncmp(tmp->prev->type, \
-			"DOUBLE_GREATER", ft_strlen(tmp->type)))
-			{
-				if (fd != 1 && fd != -1)
-					close(fd);
-				fd = get_file_fd(tmp->tok, 2);
-			}
-		}
+			fd = check_outfile(tmp, fd);
 		tmp = tmp->next;
 	}
 	return (fd);

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:51:03 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/09 23:50:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/07 09:31:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 // 		else if (!ft_strncmp(toks->tok, ">", ft_strlen(toks->tok)))
 // 			token_type = GREATER;
 // 		else if (!ft_strncmp(toks->tok, ">>", ft_strlen(toks->tok)))
-// 			token_type = DOUBLE_GREATER;
+// 			token_type = D_GREATER;
 // 		else if (!ft_strncmp(toks->tok, "<", ft_strlen(toks->tok)))
 // 			token_type = LESSER;
 // 		else if (!ft_strncmp(toks->tok, "<<", ft_strlen(toks->tok)))
-// 			token_type = DOUBLE_LESSER;
+// 			token_type = D_LESSER;
 // 		else
 // 			token_type = STRING;
 // 		toks = toks->next;
@@ -51,11 +51,11 @@ t_tok	*get_token_type(t_tok *toks)
 		else if (!ft_strncmp(tmp->tok, ">", ft_strlen(tmp->tok)))
 			tmp->type = "GREATER";
 		else if (!ft_strncmp(tmp->tok, ">>", ft_strlen(tmp->tok)))
-			tmp->type = "DOUBLE_GREATER";
+			tmp->type = "D_GREATER";
 		else if (!ft_strncmp(tmp->tok, "<", ft_strlen(tmp->tok)))
 			tmp->type = "LESSER";
 		else if (!ft_strncmp(tmp->tok, "<<", ft_strlen(tmp->tok)))
-			tmp->type = "DOUBLE_LESSER";
+			tmp->type = "D_LESSER";
 		else
 			tmp->type = "STRING";
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:32:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/22 13:45:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/07 09:31:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ int	is_chevron(char	*token, int x)
 	if (x == 0)
 	{
 		if (!ft_strncmp(token, "GREATER", ft_strlen(token))
-			|| !ft_strncmp(token, "DOUBLE_GREATER", ft_strlen(token))
+			|| !ft_strncmp(token, "D_GREATER", ft_strlen(token))
 			|| !ft_strncmp(token, "LESSER", ft_strlen(token))
-			|| !ft_strncmp(token, "DOUBLE_LESSER", ft_strlen(token))
+			|| !ft_strncmp(token, "D_LESSER", ft_strlen(token))
 			|| !ft_strncmp(token, "PIPE", ft_strlen(token)))
 			return (1);
 	}
 	else
 	{
 		if (!ft_strncmp(token, "GREATER", ft_strlen(token))
-			|| !ft_strncmp(token, "DOUBLE_GREATER", ft_strlen(token))
+			|| !ft_strncmp(token, "D_GREATER", ft_strlen(token))
 			|| !ft_strncmp(token, "LESSER", ft_strlen(token))
-			|| !ft_strncmp(token, "DOUBLE_LESSER", ft_strlen(token)))
+			|| !ft_strncmp(token, "D_LESSER", ft_strlen(token)))
 			return (1);
 	}
 	return (0);
@@ -51,7 +51,7 @@ static int	check_multiple_chevrons(t_tok *tmp)
 		if (check_next_tok(tmp->next->type, ">"))
 			return (1);
 	}
-	else if (!ft_strncmp(tmp->type, "DOUBLE_GREATER", ft_strlen(tmp->type)))
+	else if (!ft_strncmp(tmp->type, "D_GREATER", ft_strlen(tmp->type)))
 	{
 		if (check_next_tok(tmp->next->type, ">>"))
 			return (1);
@@ -61,7 +61,7 @@ static int	check_multiple_chevrons(t_tok *tmp)
 		if (check_next_tok(tmp->next->type, "<"))
 			return (1);
 	}
-	else if (!ft_strncmp(tmp->type, "DOUBLE_LESSER", ft_strlen(tmp->type)))
+	else if (!ft_strncmp(tmp->type, "D_LESSER", ft_strlen(tmp->type)))
 	{
 		if (check_next_tok(tmp->next->type, "<<"))
 			return (1);

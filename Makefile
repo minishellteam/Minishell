@@ -16,6 +16,7 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			minishell_utils.c \
+			error_message.c \
 			history.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
@@ -31,6 +32,7 @@ SRCS	=	main.c \
 			./parser/pipe_check.c \
 			get_cmd_infos.c \
 			get_redirections.c \
+			./execution/exec_cmds.c \
 			#./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \

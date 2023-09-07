@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/06 21:57:23 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/07 09:12:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_vars {
 	t_input	*data;
 	t_cmd	*cmd;
 }			t_vars;
-
 
 # define BUFF_SIZE 10000
 
