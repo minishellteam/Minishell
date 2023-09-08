@@ -32,7 +32,9 @@ SRCS	=	main.c \
 			./parser/pipe_check.c \
 			get_cmd_infos.c \
 			get_redirections.c \
-			./execution/exec_cmds.c \
+			./execution/processes.c \
+			./execution/execution.c \
+			./execution/exec_builtin.c \
 			#./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \

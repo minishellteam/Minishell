@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/07 09:12:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:45:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_cmd {
 }			t_cmd;
 
 typedef struct s_vars {
+	char	**my_env;
 	t_tok	*toks;
 	t_tok	*tok;
 	t_tok	*pipeline;
@@ -162,10 +163,22 @@ int		expand_vars(void);
 char	*get_var(char *token, char *var, char *value, int x);
 char	get_quote_type(char *token);
 
+/*==============================REDIRECTIONS==================================*/
+
 int		get_cmd_infos(t_vars *var);
 int		get_in_redir(t_vars *var);
 int		get_out_redir(t_vars *var);
 void	free_structures(t_cmd *cmd, int stop);
+
+/*=============================EXECUTION======================================*/
+
+int		create_processes(t_vars *var);
+
+int		exec_cmd(t_vars *var);
+
+void	exec_builtin(char **builtin);
+int		check_env_builtin(char *cmd);
+int		is_builtin(char *cmd);
 
 /*===================================BUILTINS=================================*/
 

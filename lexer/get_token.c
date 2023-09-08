@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/27 00:10:57 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:46:34 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,5 @@ int	tokenize_line(char *line, t_vars *var)
 		return (1);
 	check_limiter(var);
 	handle_quotes(var);
-	print_list(var->toks, 0);
-	print_list(var->toks, 1);
 	return (0);
 }

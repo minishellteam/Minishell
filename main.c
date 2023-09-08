@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/07 14:32:20 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/08 12:55:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ static void	free_vars(char *line, t_vars *var, int x)
 	free(var);
 }
 
-static void	init_var(t_vars *var)
+static void	init_var(t_vars *var, char **env)
 {
 	var->toks = NULL;
 	var->token = NULL;
 	var->data = NULL;
+	var->my_env = env;
 }
 
 static void	free_and_exit(char *line, t_vars *var, int x)
@@ -35,12 +36,12 @@ static void	free_and_exit(char *line, t_vars *var, int x)
 	exit(EXIT_FAILURE);
 }
 
-t_vars	*readline_loop(t_vars *var, char *line)
+t_vars	*readline_loop(t_vars *var, char *line, char **env)
 {
 	while (1)
 	{
 		var = (t_vars *)malloc(sizeof(t_vars));
-		init_var(var);
+		init_var(var, env);
 		line = readline("minishell$ ");
 		if (!line)
 		{
@@ -53,7 +54,8 @@ t_vars	*readline_loop(t_vars *var, char *line)
 			free_and_exit(line, var, 0);
 		if (get_cmd_infos(var))
 			free_and_exit(line, var, 0);
-		exec_cmds(var);
+		if (create_processes(var))
+			free_and_exit(line, var, 1);
 		free_vars(line, var, 1);
 		//ft_builts(&cmd);
 	}
@@ -68,11 +70,10 @@ int	main(int ac, char **av, char **env)
 	// t_data			cmd;
 
 	(void)av;
-	(void)env;
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
-	var = readline_loop(var, line);
+	var = readline_loop(var, line, env);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;
 	// sig.sa_sigaction = signal_handler;
