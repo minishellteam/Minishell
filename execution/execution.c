@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/08 15:43:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/12 10:28:54 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	exec_cmd(t_vars *var)
 	else
 	{
 		cmd_path = get_cmd_path(var, path);
+		printf("cmd_path = %s\n", cmd_path);
 		if (!cmd_path)
 		{
 			get_error_message(cmds[0], 4);

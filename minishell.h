@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/08 15:45:15 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:09:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define BUFF_SIZE 10000
 # ifndef HISTORY_SIZE
 #  define HISTORY_SIZE 100
 # endif
@@ -76,7 +77,6 @@ typedef struct s_vars {
 	t_cmd	*cmd;
 }			t_vars;
 
-# define BUFF_SIZE 10000
 
 typedef struct s_export {
 	char	**env;

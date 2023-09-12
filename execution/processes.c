@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/08 14:22:11 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:04:08 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@
 	free(mid_pids);
 }*/
 
+static void	get_std_stream(int fd, int std_stream)
+{
+	if (dup2(fd, std_stream) == -1)
+	{
+		perror("minishell: ");
+		exit(EXIT_FAILURE);
+	}
+	if (close(fd) == -1)
+	{
+		perror("minishell: ");
+		exit(EXIT_FAILURE);
+	}
+}
+
 static int	create_only_process(t_vars *var)
 {
 	int	pid;
@@ -50,19 +64,9 @@ static int	create_only_process(t_vars *var)
 	else if (pid == 0)
 	{
 		if (var->cmd[0].fdin != 0)
-		{
-			if (dup2(var->cmd[0].fdin, STDIN_FILENO) == -1)
-				perror("minishell: ");
-			if (close(var->cmd[0].fdin) == -1)
-				perror("minishell: ");
-		}
+			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
 		if (var->cmd[0].fdout != 1)
-		{
-			if (dup2(var->cmd[0].fdout, STDOUT_FILENO) == -1)
-				perror("minishell: ");
-			if (close(var->cmd[0].fdout) == -1)
-				perror("minishell: ");
-		}
+			get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
 		if (exec_cmd(var))
 			exit(EXIT_FAILURE);
 	}
