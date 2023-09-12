@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/11 11:36:46 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/12 10:53:52 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 static void	free_exit(void)
 {
-	// if (g_sh.export->env || g_sh.export->exp)
+	// if (sh->export->env || sh->export->exp)
 	// 	free_tab();
 	exit(EXIT_SUCCESS);
 }
 
-static void	arg_error(void)
+static void	arg_error(t_data *sh)
 {
 	char	*new;
 	int		i;
 	int		j;
 
 	i = 4;
-	while (g_sh.line[++i])
+	while (sh->line[++i])
 	{
-		if (!ft_isdigit(g_sh.line[i]))
+		if (!ft_isdigit(sh->line[i]))
 		{
-			new = malloc(sizeof(char) * (ft_strlen(g_sh.line) - 3));
+			new = malloc(sizeof(char) * (ft_strlen(sh->line) - 3));
 			i = 4;
 			j = -1;
-			while (g_sh.line[++i] && g_sh.line[i] != ' ')
-				new[++j] = g_sh.line[i];
+			while (sh->line[++i] && sh->line[i] != ' ')
+				new[++j] = sh->line[i];
 			new[j + 1] = '\0';
 			printf("minishell: exit: %s: numeric argument required\n",
 				new);
@@ -45,35 +45,35 @@ static void	arg_error(void)
 	}
 }
 
-void	built_exit(void)
+void	built_exit(t_data *sh)
 {
 	int	i;
 
 	i = 4;
-	g_sh.line = ft_strtrim(g_sh.line, " ");
-	if (!ft_strncmp(g_sh.line, "exit", 4) && !ft_strchr(g_sh.line, '|'))
+	sh->line = ft_strtrim(sh->line, " ");
+	if (!ft_strncmp(sh->line, "exit", 4) && !ft_strchr(sh->line, '|'))
 	{
-		if (ft_strlen(g_sh.line) > 4 && g_sh.line[4] != ' ')
+		if (ft_strlen(sh->line) > 4 && sh->line[4] != ' ')
 			return ;
 		printf("exit\n");
-		if (ft_strlen(g_sh.line) > 4)
-			arg_error();
-		if (ft_strlen(g_sh.line) > 4 && g_sh.line[5] == '1')
+		if (ft_strlen(sh->line) > 4)
+			arg_error(sh);
+		if (ft_strlen(sh->line) > 4 && sh->line[5] == '1')
 			exit(EXIT_FAILURE);
-		else if (ft_strlen(g_sh.line) > 4 && g_sh.line[5] == '0')
+		else if (ft_strlen(sh->line) > 4 && sh->line[5] == '0')
 			exit(EXIT_SUCCESS);
 		free_exit();
 	}
 }
 
-void	ft_builts()
+void	ft_builts(t_data *sh)
 {
-	g_sh.cmds = ft_split(g_sh.line, '|');
-	built_exit();
+	sh->cmds = ft_split(sh->line, '|');
+	built_exit(sh);
 	//built_echo();
-	built_pwd();
-	built_cd();
-	built_export();
-	built_env();
-	built_unset();
+	built_pwd(sh);
+	built_cd(sh);
+	built_export(sh);
+	built_env(sh);
+	built_unset(sh);
 }

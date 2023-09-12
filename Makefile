@@ -16,7 +16,6 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			minishell_utils.c \
-			history.c \
 			signal.c \
 			./lexer/get_vars.c \
 			./lexer/lst_functions.c \

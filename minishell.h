@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/11 12:01:44 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:05:24 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ typedef struct s_data {
 	char		**echo;
 }				t_data;
 
-t_data	g_sh;
-
 enum e_toktype {
 	STRING,
 	EMPTY,
@@ -136,20 +134,20 @@ void	parse_tokens(void);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
-void	my_env(void);
+void	my_env(t_data *sh);
 int		len_env(char **env);
 
 
 /*===================BUILTINS=========================*/
-void	ft_builts(void);
-void	built_exit(void);
-void	built_echo(void);
-void	built_export(void);
-void	built_pwd(void);
-void	built_cd(void);
-void	built_env(void);
-void	built_unset(void);
-void	free_tab(void);
+void	ft_builts(t_data *sh);
+void	built_exit(t_data *sh);
+void	built_echo(t_data *sh);
+void	built_export(t_data *sh);
+void	built_pwd(t_data *sh);
+void	built_cd(t_data *sh);
+void	built_env(t_data *sh);
+void	built_unset(t_data *sh);
+void	free_tab(t_data *sh);
 void	export_var(char *var);
 
 #endif

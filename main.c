@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/07/05 09:18:37 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:05:30 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	main(int ac, char **av, char **env)
 {
 	struct sigaction	sig;
-	//t_data			cmd;
+	t_data			sh;
 
 	(void)av;
 	(void)env;
-	g_sh.env = env;
-	g_sh.x = 0;
-	//init_history(g_sh.history);
+	sh.env = env;
+	sh.x = 0;
+	//init_history(sh.history);
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	//clear_history_file();
@@ -30,26 +30,26 @@ int	main(int ac, char **av, char **env)
 	sig.sa_flags = SA_RESTART | SA_NODEFER;
 	sig.sa_sigaction = signal_handler;
 	sigaction(SIGINT, &sig, NULL);
-	my_env();
+	my_env(&sh);
 	while (1)
 	{
-		g_sh.line = readline("minishell$ ");
-		if (!g_sh.line)
+		sh.line = readline("minishell$ ");
+		if (!sh.line)
 		{
 			printf("exit\n");
 			exit(1);
 		}
-		if (*g_sh.line)
-			add_history(g_sh.line);
+		if (*sh.line)
+			add_history(sh.line);
 		// add_line_to_history();
 		// tokenize_line();
-		// print_list(g_sh.toks, 1);
+		// print_list(sh.toks, 1);
 		// parse_tokens();
 		// printf("--------------\n");
-		// print_list(g_sh.toks, 1);
-		ft_builts();
-		// free(g_sh.line);
-		// free(g_sh.var_line);
+		// print_list(sh.toks, 1);
+		ft_builts(&sh);
+		// free(sh.line);
+		// free(sh.var_line);
 	}
 	return (EXIT_SUCCESS);
 }
