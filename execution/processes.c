@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/11 14:04:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:29:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	get_std_stream(int fd, int std_stream)
 	}
 }
 
-static int	create_only_process(t_vars *var)
+static int	create_only_process(t_vars *var, t_data *sh)
 {
 	int	pid;
 
@@ -67,7 +67,7 @@ static int	create_only_process(t_vars *var)
 			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
 		if (var->cmd[0].fdout != 1)
 			get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
-		if (exec_cmd(var))
+		if (exec_cmd(var, sh))
 			exit(EXIT_FAILURE);
 	}
 	if (waitpid(pid, NULL, 0) == -1)
@@ -75,11 +75,11 @@ static int	create_only_process(t_vars *var)
 	return (0);
 }
 
-int	create_processes(t_vars *var)
+int	create_processes(t_vars *var, t_data *sh)
 {
 	if (!var->pipe_nb)
 	{
-		if (create_only_process(var))
+		if (create_only_process(var, sh))
 			return (1);
 	}
 	//else

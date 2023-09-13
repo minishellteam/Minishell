@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/12 10:57:53 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:31:22 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_path(t_vars *var)
 	return (path);
 }
 
-int	exec_cmd(t_vars *var)
+int	exec_cmd(t_vars *var, t_data *sh)
 {
 	char	**cmds;
 	char	*path;
@@ -60,11 +60,13 @@ int	exec_cmd(t_vars *var)
 	cmds = var->cmd[0].args;
 	path = get_path(var);
 	if (is_builtin(cmds[0]))
-		exec_builtin(var->cmd[0]);
+	{
+		sh->cmds = cmds;
+		exec_builtin(sh);
+	}
 	else
 	{
 		cmd_path = get_cmd_path(var, path);
-		printf("cmd_path = %s\n", cmd_path);
 		if (!cmd_path)
 		{
 			get_error_message(cmds[0], 4);

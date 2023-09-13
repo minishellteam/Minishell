@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/11 15:09:20 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:38:19 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@
 # include <readline/history.h>
 
 # define BUFF_SIZE 10000
-# ifndef HISTORY_SIZE
-#  define HISTORY_SIZE 100
-# endif
-
-typedef struct s_hist {
-	char		*history[HISTORY_SIZE];
-	int			rows;
-	int			hist_fd;
-}				t_hist;
 
 typedef struct s_input {
 	char			*input;
@@ -86,9 +77,11 @@ typedef struct s_export {
 typedef struct s_data {
 	t_export	*export;
 	char		**env;
+	char		**myenv;
 	char		**cmds;
 	char		*var;
 	char		*final;
+	char		*line;
 	int			i;
 	int			j;
 	int			c;
@@ -98,19 +91,17 @@ typedef struct s_data {
 
 int		main(int ac, char **av, char **env);
 
-void	handle_error(char *message, int x);
 void	get_error_message(char *error, int x);
+
+char	*get_cmd_error(char *error, char *begin, char *err_msg, char *end);
+char	*get_exit_error(char *error, char *begin, char *err_msg, char *end);
+char	*get_mult_arg_err(char *error, char *begin, char *err_msg, char *end);
+
+void	handle_error(char *message, int x);
 void	print_tab(char **tab);
 void	free_tab(char	**tab);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
-
-/*==================================HISTORY===================================*/
-
-void	add_line_to_history(char *line, char **history, int hist_fd);
-void	init_history(char **history);
-void	get_old_history(t_hist *hist);
-void	clear_history_file(t_hist *hist);
 
 /*===================================LEXER====================================*/
 
@@ -172,11 +163,11 @@ void	free_structures(t_cmd *cmd, int stop);
 
 /*=============================EXECUTION======================================*/
 
-int		create_processes(t_vars *var);
+int		create_processes(t_vars *var, t_data *sh);
 
-int		exec_cmd(t_vars *var);
+int		exec_cmd(t_vars *var, t_data *sh);
 
-void	exec_builtin(char **builtin);
+void	exec_builtin(t_data *sh);
 int		check_env_builtin(char *cmd);
 int		is_builtin(char *cmd);
 

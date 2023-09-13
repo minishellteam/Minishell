@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/08 12:55:00 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:27:57 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	free_and_exit(char *line, t_vars *var, int x)
 	exit(EXIT_FAILURE);
 }
 
-t_vars	*readline_loop(t_vars *var, char *line, char **env)
+t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
 {
 	while (1)
 	{
@@ -51,13 +51,15 @@ t_vars	*readline_loop(t_vars *var, char *line, char **env)
 		if (*line)
 			add_history(line);
 		if (tokenize_line(line, var))
+		{
+			print_list(var->toks, 1);
 			free_and_exit(line, var, 0);
+		}
 		if (get_cmd_infos(var))
 			free_and_exit(line, var, 0);
-		if (create_processes(var))
+		if (create_processes(var, sh))
 			free_and_exit(line, var, 1);
 		free_vars(line, var, 1);
-		//ft_builts(&cmd);
 	}
 	return (var);
 }
@@ -66,6 +68,7 @@ int	main(int ac, char **av, char **env)
 {
 	static char	*line;
 	t_vars		*var;
+	t_data		sh;
 	//struct sigaction	sig;
 	// t_data			cmd;
 
@@ -73,7 +76,8 @@ int	main(int ac, char **av, char **env)
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
-	var = readline_loop(var, line, env);
+	my_env(&sh);
+	var = readline_loop(var, line, env, &sh);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;
 	// sig.sa_sigaction = signal_handler;

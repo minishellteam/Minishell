@@ -16,7 +16,8 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			minishell_utils.c \
-			error_message.c \
+			error_msg_parsing.c \
+			error_msg_exec.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
 			./lexer/check_token.c \

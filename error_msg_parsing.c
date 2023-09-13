@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/08 12:12:37 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:18:18 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ static char	*get_file_error(char *error, char *begin, char *err_msg, char *end)
 	return (err_msg);
 }
 
-
-static char	*get_cmd_error(char *error, char *begin, char *err_msg, char *end)
-{
-	end = ": Command not found\n";
-	err_msg = ft_strjoin(begin, error);
-	err_msg = ft_strjoingnl(err_msg, end, 0);
-	return (err_msg);
-}
-
 void	get_error_message(char *error, int x)
 {
 	char	*begin_msg;
@@ -72,5 +63,9 @@ void	get_error_message(char *error, int x)
 		error_msg = get_file_error(error, begin_msg, error_msg, end_msg);
 	else if (x == 4)
 		error_msg = get_cmd_error(error, begin_msg, error_msg, end_msg);
+	else if (x == 5)
+		error_msg = get_exit_error(error, begin_msg, error_msg, end_msg);
+	else if (x == 6)
+		error_msg = get_mult_arg_err("exit: ", begin_msg, error_msg, end_msg);
 	handle_error(error_msg, 0);
 }
