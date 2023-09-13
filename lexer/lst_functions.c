@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/06/22 09:42:59 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:13:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,19 @@ int	ft_lst_size(t_tok *lst)
 		lst = lst->next;
 	}
 	return (i + 1);
+}
+
+void	free_list(t_tok **lst, int x)
+{
+	t_tok	*tmp;
+
+	while (*lst != NULL)
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		if (x == 0 && ft_strncmp(tmp->tok, "", ft_strlen(tmp->tok)))
+			free(tmp->tok);
+		free(tmp);
+	}
+	free(*lst);
 }

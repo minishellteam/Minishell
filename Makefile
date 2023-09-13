@@ -16,27 +16,36 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			minishell_utils.c \
-			signal.c \
-			./lexer/get_vars.c \
+			error_message.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
 			./lexer/check_token.c \
-			./lexer/handle_quotes.c \
 			./lexer/get_token_type.c \
 			./lexer/handle_chevrons.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
+			./expander/here_doc.c \
+			./expander/lst_functions_2.c \
+			./expander/expand_quotes.c \
+			./expander/get_vars.c \
+			./parser/pipe_check.c \
+			get_cmd_infos.c \
+			get_redirections.c \
+			./execution/processes.c \
+			./execution/execution.c \
+			./execution/exec_builtin.c \
 			./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \
+			./builtins/built_unset.c \
 			./builtins/built_utils.c \
-			./builtins/built_unset.c
+			signal.c \
 
 OBJS = $(SRCS:.c=.o)
 
 #------------------COMPILE------------------#
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 ifdef DEBUG
 CFLAGS += -fsanitize=address -g3
 endif

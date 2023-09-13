@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/12 10:56:09 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:37:07 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static void	cpy_export(t_export *export, int j)
 	export->exp[j][k + 2] = '\0';
 }
 
-int	len_env(char **env)
+int	array_size(char **array)
 {
 	int	len;
 
 	len = 0;
-	while (env[len])
+	while (array[len])
 		len++;
 	return (len + 1);
 }
@@ -83,24 +83,23 @@ void	built_export(t_data *sh)
 	char	*prefix;
 	//char	**tmp;
 
-	if (!ft_strncmp(sh->cmds[0], "export", 6) && ft_strlen(sh->cmds[0]) == 6)
+	i = -1;
+	// tmp = ft_split(sh->cmds[0], ' ');
+	// export_var(tmp[1]);
+	// if (array_size(sh->cmds) > 2)
+		// FAIRE FONCTION EXPORT AVEC ARGUMENT
+	prefix = "declare -x ";
+	sh->export = malloc(sizeof(t_export));
+	sh->export->exp = malloc(sizeof(char *) * array_size(sh->myenv));
+	sh->export->env = malloc(sizeof(char *) * array_size(sh->myenv));
+	cpy_env(sh);
+	while (sh->export->env[++i])
 	{
-		i = -1;
-		// tmp = ft_split(sh->cmds[0], ' ');
-		// export_var(tmp[1]);
-		prefix = "declare -x ";
-		sh->export = malloc(sizeof(t_export));
-		sh->export->exp = malloc(sizeof(char *) * len_env(sh->myenv));
-		sh->export->env = malloc(sizeof(char *) * len_env(sh->myenv));
-		cpy_env(sh);
-		while (sh->export->env[++i])
-		{
-			search_min(sh->export, i);
-			cpy_export(sh->export, i);
-			sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 2);
-			sh->export->env[sh->export->j][0] = 126;
-			printf("%s \n", sh->export->exp[i]);
-		}
-		//free_tab();
+		search_min(sh->export, i);
+		cpy_export(sh->export, i);
+		sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 2);
+		sh->export->env[sh->export->j][0] = 126;
+		printf("%s \n", sh->export->exp[i]);
 	}
+	//free_array(sh);
 }

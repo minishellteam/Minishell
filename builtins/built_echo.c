@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/12 10:51:34 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:04:46 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	print_echo(t_data *sh, int bool)
 {
 	sh->j--;
-	while (sh->echo[++sh->j])
+	while (sh->cmds[++sh->j])
 	{
-		printf("%s", sh->echo[sh->j]);
-		if (sh->echo[sh->j + 1])
+		printf("%s", sh->cmds[sh->j]);
+		if (sh->cmds[sh->j + 1])
 			printf(" ");
 	}
 	if (bool == 0)
@@ -31,13 +31,13 @@ static int	check_n(t_data *sh)
 
 	sh->j = 0;
 	bool = 0;
-	while (sh->echo[++sh->j])
+	while (sh->cmds[++sh->j])
 	{
-		if (sh->echo[sh->j][0] == '-' && ft_strlen(sh->echo[sh->j]) > 1)
+		if (sh->cmds[sh->j][0] == '-' && ft_strlen(sh->cmds[sh->j]) > 1)
 		{
 			sh->i = 0;
-			while (sh->echo[sh->j][++sh->i])
-				if (sh->echo[sh->j][sh->i] != 'n')
+			while (sh->cmds[sh->j][++sh->i])
+				if (sh->cmds[sh->j][sh->i] != 'n')
 					return (bool);
 			bool = 1;
 		}
@@ -52,19 +52,12 @@ void	built_echo(t_data *sh)
 	int	bool;
 
 	sh->j = 0;
-	if (!ft_strncmp(sh->cmds[sh->j], "echo", 4) \
-		&& sh->cmds[sh->j][4] != ' ')
-	{
-		printf("pass\n");
-		return ;
-	}
-	sh->echo = ft_split(sh->cmds[sh->j], ' ');
 	if (check_n(sh) == 1)
 		bool = 1;
 	else
 		bool = 0;
 	print_echo(sh, bool);
 	bool = -1;
-	while (sh->echo[++bool])
-		free(sh->echo[bool]);
+	while (sh->cmds[++bool])
+		free(sh->cmds[bool]);
 }

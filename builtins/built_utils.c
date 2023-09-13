@@ -6,13 +6,13 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/12 11:02:45 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:56:56 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_tab(t_data *sh)
+void	free_array(t_data *sh)
 {
 	int	j;
 
@@ -29,29 +29,20 @@ void	free_tab(t_data *sh)
 	free(sh->export->exp);
 }
 
-void	built_pwd(t_data *sh)
+void	built_pwd(void)
 {
 	char	buffer[BUFF_SIZE];
 
-	if (!ft_strncmp(sh->cmds[0], "pwd", 3) && ft_strlen(sh->cmds[0]) == 3)
-	{
-		if (getcwd(buffer, BUFF_SIZE))
-			printf("%s\n", buffer);
-		else
-			handle_error("minishell: ", 1);
-	}
+	if (getcwd(buffer, BUFF_SIZE))
+		printf("%s\n", buffer);
+	else
+		handle_error("minishell: ", 1);
 }
 
 void	built_cd(t_data *sh)
 {
-	char	**tmp;
-
-	if (!ft_strncmp(sh->cmds[0], "cd", 2))
-	{
-		tmp = ft_split(sh->line, ' ');
-		if (chdir(tmp[1]) == -1)
-			handle_error("minishell$ ", 1);
-	}
+	if (chdir(sh->cmds[1]) == -1)
+		handle_error("minishell$ ", 1);
 }
 
 void	built_env(t_data *sh)
@@ -59,17 +50,14 @@ void	built_env(t_data *sh)
 	int	i;
 
 	i = -1;
-	if (!ft_strncmp(sh->cmds[0], "env", 3))
-	{
-		while (sh->myenv[++i])
-			printf("%s\n", sh->myenv[i]);
-	}
+	while (sh->myenv[++i])
+		printf("%s\n", sh->myenv[i]);
 }
 
 void	my_env(t_data *sh)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * len_env(sh->env));
+	sh->myenv = malloc(sizeof(char *) * array_size(sh->env));
 	while (sh->env[++sh->j])
 	{
 		sh->myenv[sh->j] = malloc(sizeof(char) \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 12:08:29 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/05 13:07:00 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:45:48 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 	while (n < len && s1[n])
 	{
 		if (!(ft_strncmp((char *)&s1[n], s2, ft_strlen(s2))))
-		{	
+		{
 			if (n + ft_strlen(s2) > len)
 				return (0);
 			return ((char *)&s1[n]);

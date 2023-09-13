@@ -6,50 +6,78 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/12 11:05:30 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:56:45 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+static void	free_vars(char *line, t_vars *var, int x)
 {
-	struct sigaction	sig;
-	t_data			sh;
+	free(line);
+	if (x == 1)
+		free_structures(var->cmd, var->pipe_nb);
+	free_list_input(var->data, 0);
+	free_list(&(var->toks), 0);
+	free(var);
+}
 
-	(void)av;
-	(void)env;
-	sh.env = env;
-	sh.x = 0;
-	//init_history(sh.history);
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n", 1);
-	//clear_history_file();
-	//get_old_history();
-	ft_bzero(&sig, sizeof(sig));
-	sig.sa_flags = SA_RESTART | SA_NODEFER;
-	sig.sa_sigaction = signal_handler;
-	sigaction(SIGINT, &sig, NULL);
-	my_env(&sh);
+static void	init_var(t_vars *var, char **env)
+{
+	var->toks = NULL;
+	var->token = NULL;
+	var->data = NULL;
+	var->my_env = env;
+}
+
+static void	free_and_exit(char *line, t_vars *var, int x)
+{
+	free_vars(line, var, x);
+	exit(EXIT_FAILURE);
+}
+
+t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
+{
 	while (1)
 	{
-		sh.line = readline("minishell$ ");
-		if (!sh.line)
+		var = (t_vars *)malloc(sizeof(t_vars));
+		init_var(var, env);
+		line = readline("minishell$ ");
+		if (!line)
 		{
 			printf("exit\n");
-			exit(1);
+			free_and_exit(line, var, 0);
 		}
-		if (*sh.line)
-			add_history(sh.line);
-		// add_line_to_history();
-		// tokenize_line();
-		// print_list(sh.toks, 1);
-		// parse_tokens();
-		// printf("--------------\n");
-		// print_list(sh.toks, 1);
-		ft_builts(&sh);
-		// free(sh.line);
-		// free(sh.var_line);
+		if (*line)
+			add_history(line);
+		if (tokenize_line(line, var))
+			free_and_exit(line, var, 0);
+		if (get_cmd_infos(var))
+			free_and_exit(line, var, 0);
+		if (create_processes(var, sh))
+			free_and_exit(line, var, 1);
+		free_vars(line, var, 1);
 	}
+	return (var);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	static char	*line;
+	t_vars		*var;
+	t_data		sh;
+	//struct sigaction	sig;
+	// t_data			cmd;
+
+	(void)av;
+	var = NULL;
+	if (ac != 1)
+		handle_error("ERROR: Wrong number of arguments\n", 1);
+	my_env(&sh);
+	var = readline_loop(var, line, env, &sh);
+	// ft_bzero(&sig, sizeof(sig));
+	// sig.sa_flags = SA_RESTART | SA_NODEFER;
+	// sig.sa_sigaction = signal_handler;
+	// sigaction(SIGINT, &sig, NULL);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/12 11:05:24 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:44:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# ifndef HISTORY_SIZE
-#  define HISTORY_SIZE 100
-# endif
+# define BUFF_SIZE 10000
+
+typedef struct s_input {
+	char			*input;
+	struct s_input	*next;
+}					t_input;
 
 typedef struct s_tok {
 	char			*tok;
@@ -39,7 +42,32 @@ typedef struct s_tok {
 	struct s_tok	*prev;
 }					t_tok;
 
-# define BUFF_SIZE 10000
+typedef struct s_cmd {
+	char	**args;
+	int		pid;
+	int		fdin;
+	int		fdout;
+}			t_cmd;
+
+typedef struct s_vars {
+	char	**my_env;
+	t_tok	*toks;
+	t_tok	*tok;
+	t_tok	*pipeline;
+	t_tok	*pipeline_end;
+	char	*token;
+	char	*start;
+	char	*end;
+	char	*var;
+	char	*value;
+	int		len;
+	char	*line;
+	int		x;
+	int		pipe_nb;
+	t_input	*data;
+	t_cmd	*cmd;
+}			t_vars;
+
 
 typedef struct s_export {
 	char	**env;
@@ -49,23 +77,12 @@ typedef struct s_export {
 
 typedef struct s_data {
 	t_export	*export;
-	int			ac;
-	char		**av;
 	char		**env;
 	char		**myenv;
 	char		**cmds;
-	char		*path;
 	char		*var;
-	char		*line;
-	char		*var_line;
-	char		*history[HISTORY_SIZE];
-	int			hist_fd;
-	int			rows;
-	t_tok		*toks;
-	int			empty;
-	t_tok		*rest;
-	int			x;
 	char		*final;
+	char		*line;
 	int			i;
 	int			j;
 	int			c;
@@ -73,81 +90,96 @@ typedef struct s_data {
 	char		**echo;
 }				t_data;
 
-enum e_toktype {
-	STRING,
-	EMPTY,
-	PIPE,
-	GREATER,
-	LESSER,
-	DOUBLE_GREATER,
-	DOUBLE_LESSER,
-} ;
-
 int		main(int ac, char **av, char **env);
 
-void	add_line_to_history(void);
-void	init_history(char **history);
-void	get_old_history(void);
-void	clear_history_file(void);
-
-void	tokenize_line(void);
-
-t_tok	*get_token_type(t_tok *toks);
-
-void	parse_tokens(void);
-
-void	remove_empty_tok(void);
-void	get_options(void);
-void	get_files(void);
-void	get_commands(void);
-void	get_arguments(void);
-
-char	*get_value_vars(char *str);
-char	*replace_var_by_value(char *line, char *value, int start, int end);
-char	*handle_var(char *new_line, char *var, char *value);
-char	*search_and_replace_var(char *token, char *var, char *value);
-
 void	handle_error(char *message, int x);
-void	print_str_of_str(char **str, int row);
 void	get_error_message(char *error, int x);
+void	print_tab(char **tab);
+void	free_tab(char	**tab);
+
+void	signal_handler(int signal, siginfo_t *sa, void *content);
+
+/*===================================LEXER====================================*/
+
+int		tokenize_line(char *line, t_vars *var);
 
 int		is_special_char(char token);
 int		ft_isspace(char token);
 int		is_forbidden_char(char token);
-int		check_question_mark(char *token);
+int		check_question_mark(char *line, char *token);
+int		check_quote_in_str(t_vars *var, char *start, char *end);
 
-char	*get_non_quoted_tok(char *token_start, char *token_end, int token_len);
-char	*get_quoted_token(char *start, char *end, int token_len, char q_type);
-int		check_quote_in_str(char *token_start, char *token_end);
-
-char	*get_double_chevrons_token(int token_len);
-int		check_chevrons(t_tok *pipeline);
+char	*get_double_chevrons_token(t_vars *var);
+int		check_chevrons(t_vars *var);
 int		is_chevron(char	*token, int x);
+
+char	*get_ex_code_token(t_vars *var);
+t_tok	*get_token_type(t_tok *toks);
 
 t_tok	*ft_lst_new(char *token);
 void	ft_lst_add_back(t_tok **lst, t_tok *new);
 void	print_list(t_tok *token, int x);
 t_tok	*ft_lst_last(t_tok *lst);
 int		ft_lst_size(t_tok *lst);
+void	free_list(t_tok **lst, int x);
 
-void	parse_tokens(void);
+t_input	*ft_lstnew_input(void *content);
+t_input	*ft_lstlast_input(t_input *lst);
+void	ft_lstadd_back_input(t_input **lst, t_input *new);
+void	print_list_input(t_input *input);
+void	free_list_input(t_input *lst, int x);
 
-void	signal_handler(int signal, siginfo_t *sa, void *content);
+int		check_limiter(t_vars *var);
+
+/*===================================PARSER===================================*/
+
+int		parse_tokens(t_vars *var);
+
+int		check_before_pipe(t_vars *var);
+int		get_nb_of_pipes(t_tok *toks);
+int		check_double_pipe(t_tok *toks);
+
+//void	remove_empty_tok(void);
+void	get_files(t_tok *toks);
+
+/*==================================EXPANDER==================================*/
+
+int		handle_quotes(t_vars *var);
+int		expand_vars(void);
+
+char	*get_var(char *token, char *var, char *value, int x);
+char	get_quote_type(char *token);
+
+/*==============================REDIRECTIONS==================================*/
+
+int		get_cmd_infos(t_vars *var);
+int		get_in_redir(t_vars *var);
+int		get_out_redir(t_vars *var);
+void	free_structures(t_cmd *cmd, int stop);
+
+/*=============================EXECUTION======================================*/
+
+int		create_processes(t_vars *var, t_data *sh);
+
+int		exec_cmd(t_vars *var, t_data *sh);
+
+void	exec_builtin(t_data *sh);
+int		check_env_builtin(char *cmd);
+int		is_builtin(char *cmd);
+
+/*===================================BUILTINS=================================*/
 
 void	my_env(t_data *sh);
-int		len_env(char **env);
+int		array_size(char **array);
 
-
-/*===================BUILTINS=========================*/
-void	ft_builts(t_data *sh);
 void	built_exit(t_data *sh);
 void	built_echo(t_data *sh);
 void	built_export(t_data *sh);
-void	built_pwd(t_data *sh);
+void	built_pwd(void);
 void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
-void	free_tab(t_data *sh);
+void	free_array(t_data *sh);
 void	export_var(char *var);
 
 #endif
