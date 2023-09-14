@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:21:18 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:55:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 {
-	g_exit_code = 1;
+	//g_exit_code = 1;
 	end = ": undefined token\n";
 	err_msg = ft_strjoin(begin, error, 0);
 	err_msg = ft_strjoin(err_msg, end, 1);
@@ -23,7 +23,7 @@ static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 
 static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 {
-	g_exit_code = 2;
+	//g_exit_code = 2;
 	end = "syntax error near unexpected token `";
 	err_msg = ft_strjoin(begin, end, 0);
 	err_msg = ft_strjoin(err_msg, error, 1);
@@ -33,7 +33,7 @@ static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 
 static char	*get_quote_error(char *begin, char *err_msg, char *end)
 {
-	g_exit_code = 1;
+	//g_exit_code = 1;
 	end = "syntax error: expecting closing quote\n";
 	err_msg = ft_strjoin(begin, end, 0);
 	return (err_msg);

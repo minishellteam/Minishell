@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 15:33:51 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:39:36 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,32 @@ long long	ft_atol(const char *str)
 	return (res * sign);
 }
 
-static void	arg_error(t_data *sh)
+static int	check_long(t_data *sh)
 {
 	int	i;
-	int	new_nb;
+	int	sign;
 
 	i = -1;
+	sign = 1;
 	while (sh->cmds[1][++i])
+		if (!ft_isdigit(sh->cmds[1][i]) && sh->cmds[1][0] != '-')
+			return (1);
+	if (ft_strlen(sh->cmds[1]) == 20 && ft_atol(sh->cmds[1]) < 0)
+		sign = -1;
+	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19))\
+			|| (sign < 0 && (sh->cmds[1][19] > '8' || ft_strlen(sh->cmds[1]) > 20)))
+			return (1);
+	return (0);
+}
+
+static void	arg_error(t_data *sh)
+{
+	long long	new_nb;
+
+	if (check_long(sh) == 1)
 	{
-		if ((!ft_isdigit(sh->cmds[1][i]) || ft_atol(sh->cmds[1]) < LONG_MIN \
-			|| ft_atol(sh->cmds[1]) > LONG_MAX))
-		{
-			if (sh->cmds[1][i] == '-')
-				continue;
-			get_error_message(sh->cmds[1], 5);
-			return ;
-		}
+		get_error_message(sh->cmds[1], 5);
+		return ;
 	}
 	if (ft_atol(sh->cmds[1]) >= 0)
 		g_exit_code = ft_atol(sh->cmds[1]) % 256;

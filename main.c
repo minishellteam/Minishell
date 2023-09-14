@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 15:12:35 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:40:25 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	free_vars(char *line, t_vars *var, int x)
 	free(var);
 }
 
-static void	init_var(t_vars *var, char **env)
+static void	init_var(t_vars *var, t_data *sh)
 {
 	var->toks = NULL;
 	var->token = NULL;
 	var->data = NULL;
-	var->my_env = env;
+	var->my_env = sh->myenv;
 }
 
 static void	free_and_exit(char *line, t_vars *var, int x)
@@ -36,12 +36,12 @@ static void	free_and_exit(char *line, t_vars *var, int x)
 	exit(EXIT_FAILURE);
 }
 
-static t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
+static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 {
 	while (1)
 	{
 		var = (t_vars *)malloc(sizeof(t_vars));
-		init_var(var, env);
+		init_var(var, sh);
 		line = readline("minishell$ ");
 		if (!line)
 		{
@@ -73,13 +73,12 @@ int	main(int ac, char **av, char **env)
 	// t_data			cmd;
 
 	(void)av;
-	g_exit_code = 0;
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	sh.env = env;
 	my_env(&sh);
-	var = readline_loop(var, line, env, &sh);
+	var = readline_loop(var, line, &sh);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;
 	// sig.sa_sigaction = signal_handler;

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:51:43 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:59:48 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	free_structures(t_cmd *cmd, int stop);
 
 int		create_processes(t_vars *var, t_data *sh);
 
-int		exec_cmd(t_vars *var, t_data *sh);
+int		exec_cmd(t_vars *var);
 
 void	exec_builtin(t_data *sh);
 int		check_env_builtin(char *cmd);

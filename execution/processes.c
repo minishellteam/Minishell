@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:21:43 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:33:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	get_std_stream(int fd, int std_stream)
 	}
 }
 
-static int	create_only_process(t_vars *var, t_data *sh)
+static int	create_only_process(t_vars *var)
 {
 	int	pid;
 
@@ -67,7 +67,7 @@ static int	create_only_process(t_vars *var, t_data *sh)
 			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
 		if (var->cmd[0].fdout != 1)
 			get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
-		if (exec_cmd(var, sh))
+		if (exec_cmd(var))
 			exit(EXIT_FAILURE);
 	}
 	if (waitpid(pid, NULL, 0) == -1)
@@ -79,7 +79,12 @@ int	create_processes(t_vars *var, t_data *sh)
 {
 	if (!var->pipe_nb)
 	{
-		if (create_only_process(var, sh))
+		if (is_builtin(var->cmd[0].args[0]))
+		{
+			sh->cmds = var->cmd[0].args;
+			exec_builtin(sh);
+		}
+		else if (create_only_process(var))
 			return (1);
 	}
 	//else

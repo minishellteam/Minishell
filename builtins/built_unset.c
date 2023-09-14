@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/13 11:44:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:37:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,21 @@ void	built_unset(t_data *sh)
 	update_env(sh, tmp);
 }
 
-// void	export_var(char *var)
-// {
-// 	char	**tmp;
+/*void	export_var(char *var)
+{
+char	**tmp;
 
-// 	sh->j = -1;
-// 	tmp = malloc(sizeof(char *) * (array_size(sh->myenv) + 2));
-// 	while (sh->myenv[++sh->j])
-// 	{
-// 		tmp[sh->j] = malloc(sizeof(char) \
-// 			* (ft_strlen(sh->myenv[sh->j]) + 1));
-// 		ft_strlcpy(tmp[sh->j], sh->myenv[sh->j], \
-// 			(ft_strlen(sh->myenv[sh->j]) + 1));
-// 		free(sh->myenv[sh->j]);
-// 	}
-// 	ft_strlcpy(tmp[sh->j + 1], var, ft_strlen(var));
-// 	tmp[sh->j + 2] = NULL;
-// 	update_env(tmp);
-// }
+sh->j = -1;
+tmp = malloc(sizeof(char *) * (array_size(sh->myenv) + 2));
+while (sh->myenv[++sh->j])
+{
+ 		tmp[sh->j] = malloc(sizeof(char) \
+ 			* (ft_strlen(sh->myenv[sh->j]) + 1));
+ 		ft_strlcpy(tmp[sh->j], sh->myenv[sh->j], \
+ 			(ft_strlen(sh->myenv[sh->j]) + 1));
+ 		free(sh->myenv[sh->j]);
+ 	}
+ 	ft_strlcpy(tmp[sh->j + 1], var, ft_strlen(var));
+ 	tmp[sh->j + 2] = NULL;
+ 	update_env(tmp);
+ }*/
