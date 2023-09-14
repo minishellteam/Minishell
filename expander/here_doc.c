@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 11:57:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:18:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	get_input(t_vars *var, char *limiter)
 	char	*line;
 	t_input	*data;
 
-	limiter = ft_strjoin(limiter, "\n");
+	limiter = ft_strjoin(limiter, "\n", 0);
 	line = get_next_line(0);
 	if (!line || is_limiter(line, limiter))
 	{

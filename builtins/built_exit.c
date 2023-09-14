@@ -6,74 +6,84 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/11 11:36:46 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:58:30 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	free_exit(void)
+// static void	free_exit(void)
+// {
+// 	// if (sh->export->env || sh->export->exp)
+// 	// 	free_tab();
+// 	exit(EXIT_SUCCESS);
+// }
+
+long long	ft_atol(const char *str)
 {
-	// if (g_sh.export->env || g_sh.export->exp)
-	// 	free_tab();
-	exit(EXIT_SUCCESS);
+	int			i;
+	long long	res;
+	int			sign;
+
+	sign = 1;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + str[i] - '0';
+		i++;
+	}
+	return (res * sign);
 }
 
-static void	arg_error(void)
+static void	arg_error(t_data *sh)
 {
-	char	*new;
-	int		i;
-	int		j;
+	int	i;
+	int	new_nb;
 
-	i = 4;
-	while (g_sh.line[++i])
+	i = -1;
+	while (sh->cmds[1][++i])
 	{
-		if (!ft_isdigit(g_sh.line[i]))
+		if ((!ft_isdigit(sh->cmds[1][i]) || ft_atol(sh->cmds[1]) < LONG_MIN \
+			|| ft_atol(sh->cmds[1]) > LONG_MAX) && sh->cmds[1][0] != '-')
 		{
-			new = malloc(sizeof(char) * (ft_strlen(g_sh.line) - 3));
-			i = 4;
-			j = -1;
-			while (g_sh.line[++i] && g_sh.line[i] != ' ')
-				new[++j] = g_sh.line[i];
-			new[j + 1] = '\0';
-			printf("minishell: exit: %s: numeric argument required\n",
-				new);
-			free(new);
-			new = NULL;
+			get_error_message(sh->cmds[1], 5);
 			return ;
 		}
 	}
-}
-
-void	built_exit(void)
-{
-	int	i;
-
-	i = 4;
-	g_sh.line = ft_strtrim(g_sh.line, " ");
-	if (!ft_strncmp(g_sh.line, "exit", 4) && !ft_strchr(g_sh.line, '|'))
+	printf("pass\n");
+	if (ft_atol(sh->cmds[1]) >= 0)
+		g_exit_code = ft_atol(sh->cmds[1]) % 256;
+	else
 	{
-		if (ft_strlen(g_sh.line) > 4 && g_sh.line[4] != ' ')
-			return ;
-		printf("exit\n");
-		if (ft_strlen(g_sh.line) > 4)
-			arg_error();
-		if (ft_strlen(g_sh.line) > 4 && g_sh.line[5] == '1')
-			exit(EXIT_FAILURE);
-		else if (ft_strlen(g_sh.line) > 4 && g_sh.line[5] == '0')
-			exit(EXIT_SUCCESS);
-		free_exit();
+		new_nb = ft_atol(sh->cmds[1]) * -1;
+		new_nb %= 256;
+		g_exit_code = 256 - new_nb;
 	}
 }
 
-void	ft_builts()
+void	built_exit(t_data *sh)
 {
-	g_sh.cmds = ft_split(g_sh.line, '|');
-	built_exit();
-	//built_echo();
-	built_pwd();
-	built_cd();
-	built_export();
-	built_env();
-	built_unset();
+	printf("exit\n");
+	// if (array_size(sh->cmds) <= 3)
+	// 	free_exit();
+	if (array_size(sh->cmds) == 2)
+		exit(EXIT_SUCCESS);
+	if (array_size(sh->cmds) == 3)
+		arg_error(sh);
+	else if (array_size(sh->cmds) > 3)
+	{
+		get_error_message(NULL, 6);
+		return ;
+	}
+	printf("code error = %d\n", g_exit_code);
+	exit(g_exit_code);
 }

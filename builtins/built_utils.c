@@ -6,76 +6,64 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/11 09:36:45 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:56:56 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_tab(void)
+void	free_array(t_data *sh)
 {
 	int	j;
 
 	j = 0;
-	while (g_sh.export->env[j] || g_sh.export->exp[j])
+	while (sh->export->env[j] || sh->export->exp[j])
 	{
-		if (g_sh.export->env[j])
-			free(g_sh.export->env[j]);
-		if (g_sh.export->exp[j])
-			free(g_sh.export->exp[j]);
+		if (sh->export->env[j])
+			free(sh->export->env[j]);
+		if (sh->export->exp[j])
+			free(sh->export->exp[j]);
 		j++;
 	}
-	free(g_sh.export->env);
-	free(g_sh.export->exp);
+	free(sh->export->env);
+	free(sh->export->exp);
 }
 
 void	built_pwd(void)
 {
 	char	buffer[BUFF_SIZE];
 
-	if (!ft_strncmp(g_sh.cmds[0], "pwd", 3) && ft_strlen(g_sh.cmds[0]) == 3)
-	{
-		if (getcwd(buffer, BUFF_SIZE))
-			printf("%s\n", buffer);
-		else
-			handle_error("minishell: ", 1);
-	}
+	if (getcwd(buffer, BUFF_SIZE))
+		printf("%s\n", buffer);
+	else
+		handle_error("minishell: ", 1);
 }
 
-void	built_cd(void)
+void	built_cd(t_data *sh)
 {
-	char	**tmp;
-
-	if (!ft_strncmp(g_sh.cmds[0], "cd", 2))
-	{
-		tmp = ft_split(g_sh.line, ' ');
-		if (chdir(tmp[1]) == -1)
-			handle_error("minishell$ ", 1);
-	}
+	if (chdir(sh->cmds[1]) == -1)
+		handle_error("minishell$ ", 1);
 }
 
-void	built_env(void)
+void	built_env(t_data *sh)
 {
 	int	i;
 
 	i = -1;
-	if (!ft_strncmp(g_sh.cmds[0], "env", 3))
-	{
-		while (g_sh.myenv[++i])
-			printf("%s\n", g_sh.myenv[i]);
-	}
+	while (sh->myenv[++i])
+		printf("%s\n", sh->myenv[i]);
 }
 
-void	my_env(void)
+void	my_env(t_data *sh)
 {
-	g_sh.j = -1;
-	g_sh.myenv = malloc(sizeof(char *) * len_env(g_sh.env));
-	while (g_sh.env[++g_sh.j])
+	sh->j = -1;
+	sh->myenv = malloc(sizeof(char *) * array_size(sh->env));
+	while (sh->env[++sh->j])
 	{
-		g_sh.myenv[g_sh.j] = malloc(sizeof(char) \
-			* (ft_strlen(g_sh.env[g_sh.j]) + 1));
-		ft_strlcpy(g_sh.myenv[g_sh.j], g_sh.env[g_sh.j], \
-			(ft_strlen(g_sh.env[g_sh.j]) + 1));
+		sh->myenv[sh->j] = malloc(sizeof(char) \
+			* (ft_strlen(sh->env[sh->j]) + 1));
+		ft_strlcpy(sh->myenv[sh->j], sh->env[sh->j], \
+			(ft_strlen(sh->env[sh->j]) + 1));
 	}
-	g_sh.myenv[g_sh.j + 1] = NULL;
+	sh->myenv[sh->j + 1] = NULL;
 }
