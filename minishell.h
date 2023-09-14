@@ -6,16 +6,16 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:26:52 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:34:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/inc/libft.h"
-# include "libft/inc/get_next_line.h"
-# include "libft/inc/ft_printf.h"
+# include "Libft/inc/libft.h"
+# include "Libft/inc/get_next_line.h"
+# include "Libft/inc/ft_printf.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -25,13 +25,14 @@
 # include <string.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
 
 # define BUFF_SIZE 10000
 
-int	g_exit_code;
+//extern int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -168,7 +169,7 @@ void	free_structures(t_cmd *cmd, int stop);
 
 int		create_processes(t_vars *var, t_data *sh);
 
-int		exec_cmd(t_vars *var, t_data *sh);
+int		exec_cmd(t_vars *var);
 
 void	exec_builtin(t_data *sh);
 int		check_env_builtin(char *cmd);
@@ -187,6 +188,6 @@ void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	free_array(t_data *sh);
-void	export_var(char *var);
+//void	export_var(char *var);
 
 #endif

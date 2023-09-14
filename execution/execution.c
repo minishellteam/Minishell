@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 11:50:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:33:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_path(t_vars *var)
 	return (path);
 }
 
-int	exec_cmd(t_vars *var, t_data *sh)
+int	exec_cmd(t_vars *var)
 {
 	char	**cmds;
 	char	*path;
@@ -59,25 +59,18 @@ int	exec_cmd(t_vars *var, t_data *sh)
 
 	cmds = var->cmd[0].args;
 	path = get_path(var);
-	if (is_builtin(cmds[0]))
+	
+	cmd_path = get_cmd_path(var, path);
+	if (!cmd_path)
 	{
-		sh->cmds = cmds;
-		exec_builtin(sh);
+		get_error_message(cmds[0], 4);
+		return (1);
 	}
-	else
+	cmds[0] = cmd_path;
+	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		cmd_path = get_cmd_path(var, path);
-		if (!cmd_path)
-		{
-			get_error_message(cmds[0], 4);
-			return (1);
-		}
-		cmds[0] = cmd_path;
-		if (execve(cmds[0], cmds, var->my_env) == -1)
-		{
-			perror("minishell: ");
-			return (1);
-		}
+		perror("minishell: ");
+		return (1);
 	}
 	return (0);
 }

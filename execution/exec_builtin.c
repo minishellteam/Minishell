@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 22:33:57 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:29:06 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	exec_builtin(t_data *sh)
 {
-	if (!ft_strncmp(sh->cmds[0], "echo", ft_strlen(builtin)))
+	if (!ft_strncmp(sh->cmds[0], "echo", ft_strlen(sh->cmds[0])))
 		built_echo(sh);
-	else if (!ft_strncmp(sh->cmds[0], "exit", ft_strlen(builtin)))
+	else if (!ft_strncmp(sh->cmds[0], "exit", ft_strlen(sh->cmds[0])))
 		built_exit(sh);
-	else if (!ft_strncmp(sh->cmds[0], "cd", ft_strlen(builtin)))
+	else if (!ft_strncmp(sh->cmds[0], "cd", ft_strlen(sh->cmds[0])))
 		built_cd(sh);
-	else if (!ft_strncmp(sh->cmds[0], "pwd", ft_strlen(builtin)))
-		built_pwd(sh);
-	else if (!ft_strncmp(sh->cmds[0], "export", ft_strlen(builtin)))
+	else if (!ft_strncmp(sh->cmds[0], "pwd", ft_strlen(sh->cmds[0])))
+		built_pwd();
+	else if (!ft_strncmp(sh->cmds[0], "export", ft_strlen(sh->cmds[0])))
 		built_export(sh);
-	else if (!ft_strncmp(sh->cmds[0], "unset", ft_strlen(builtin)))
+	else if (!ft_strncmp(sh->cmds[0], "unset", ft_strlen(sh->cmds[0])))
 		built_unset(sh);
-	else if (!ft_strncmp(sh->cmds[0], "env", ft_strlen(builtin)))
+	else if (!ft_strncmp(sh->cmds[0], "env", ft_strlen(sh->cmds[0])))
 		built_env(sh);
 }
 
