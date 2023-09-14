@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/13 11:56:56 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:19:12 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ void	my_env(t_data *sh)
 		ft_strlcpy(sh->myenv[sh->j], sh->env[sh->j], \
 			(ft_strlen(sh->env[sh->j]) + 1));
 	}
-	sh->myenv[sh->j + 1] = NULL;
+	sh->myenv[sh->j] = NULL;
 }

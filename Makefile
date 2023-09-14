@@ -62,8 +62,8 @@ all : $(NAME)
 $(NAME): $(OBJS)
 	@echo ""
 	@echo "	$(BOLD)$(PINK)$(UNDERLINE)Compiling...$(DEF)  $(PURPLE)$(BOLD)Minishell$(DEF) ⏳"
-	@$(MAKE) -C ./libft/
-	@$(CC) $(CFLAGS) $(OBJS) -lreadline ./libft/libft.a -o $(NAME)
+	@$(MAKE) -C ./Libft/
+	@$(CC) $(CFLAGS) $(OBJS) -lreadline ./Libft/libft.a -o $(NAME)
 	@clear
 	@echo "	$(YELLOW)$(BOLD)Compiled ! ✨$(DEF)"
 
@@ -71,12 +71,12 @@ debug: fclean
 	@$(MAKE) DEBUG=1
 
 clean:
-	@$(MAKE) clean -C ./libft/
+	@$(MAKE) clean -C ./Libft/
 	@rm -rf $(OBJS)
 	@echo "	❌ $(BOLD)$(RED)Deleted file .o$(DEF)"
 
 fclean: clean
-	@rm -rf ./libft/libft.a
+	@rm -rf ./Libft/libft.a
 	@rm -rf $(NAME)
 	@echo "	❌ $(BOLD)$(RED)Deleted file .a$(DEF)"
 

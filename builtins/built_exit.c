@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 11:58:30 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:33:51 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,14 @@ static void	arg_error(t_data *sh)
 	while (sh->cmds[1][++i])
 	{
 		if ((!ft_isdigit(sh->cmds[1][i]) || ft_atol(sh->cmds[1]) < LONG_MIN \
-			|| ft_atol(sh->cmds[1]) > LONG_MAX) && sh->cmds[1][0] != '-')
+			|| ft_atol(sh->cmds[1]) > LONG_MAX))
 		{
+			if (sh->cmds[1][i] == '-')
+				continue;
 			get_error_message(sh->cmds[1], 5);
 			return ;
 		}
 	}
-	printf("pass\n");
 	if (ft_atol(sh->cmds[1]) >= 0)
 		g_exit_code = ft_atol(sh->cmds[1]) % 256;
 	else
@@ -77,7 +78,7 @@ void	built_exit(t_data *sh)
 	// 	free_exit();
 	if (array_size(sh->cmds) == 2)
 		exit(EXIT_SUCCESS);
-	if (array_size(sh->cmds) == 3)
+	else if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
 	{

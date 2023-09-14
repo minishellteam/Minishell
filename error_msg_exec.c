@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msg_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 22:17:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 11:47:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:27:13 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_exit_error(char *error, char *begin, char *err_msg, char *end)
 	g_exit_code = 255;
 	exit_msg = "exit: ";
 	end = ": numeric argument required\n";
-	err_msg = ft_strjoin(begin, exit_msg, 1);
+	err_msg = ft_strjoin(begin, exit_msg, 0);
 	err_msg = ft_strjoin(err_msg, error, 1);
 	err_msg = ft_strjoin(err_msg, end, 1);
 	return (err_msg);

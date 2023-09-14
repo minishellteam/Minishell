@@ -6,16 +6,16 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:19:56 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:51:43 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/inc/libft.h"
-# include "libft/inc/get_next_line.h"
-# include "libft/inc/ft_printf.h"
+# include "Libft/inc/libft.h"
+# include "Libft/inc/get_next_line.h"
+# include "Libft/inc/ft_printf.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -32,7 +32,7 @@
 
 # define BUFF_SIZE 10000
 
-int g_exit_code;
+int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -92,8 +92,6 @@ typedef struct s_data {
 	int			n;
 	char		**echo;
 }				t_data;
-
-int g_exit_code;
 
 int		main(int ac, char **av, char **env);
 

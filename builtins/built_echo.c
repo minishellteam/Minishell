@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/12 16:04:46 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:08:51 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,4 @@ void	built_echo(t_data *sh)
 		bool = 0;
 	print_echo(sh, bool);
 	bool = -1;
-	while (sh->cmds[++bool])
-		free(sh->cmds[bool]);
 }
