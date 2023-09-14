@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 11:45:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:25:06 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exec_builtin(t_data *sh)
 {
-
 	if (!ft_strncmp(sh->cmds[0], "echo", ft_strlen(sh->cmds[0])))
 		built_echo(sh);
 	else if (!ft_strncmp(sh->cmds[0], "exit", ft_strlen(sh->cmds[0])))
