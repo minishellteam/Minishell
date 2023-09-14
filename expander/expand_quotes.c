@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/27 00:17:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:51:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static char	*expand_token(char *token, t_vars *var)
 			return (NULL);
 		quoted_tok = get_quoted_token(var, quote_type);
 		if (tmp_tok)
-			tmp_tok = ft_strjoingnl(tmp_tok, quoted_tok, 1);
+			tmp_tok = ft_strjoin(tmp_tok, quoted_tok, 2);
 		else
 			tmp_tok = quoted_tok;
 		str_tok = get_non_quoted_tok(var);
 		if (str_tok)
-			tmp_tok = ft_strjoingnl(tmp_tok, str_tok, 1);
+			tmp_tok = ft_strjoin(tmp_tok, str_tok, 2);
 	}
 	free(token);
 	token = ft_strdup(tmp_tok);

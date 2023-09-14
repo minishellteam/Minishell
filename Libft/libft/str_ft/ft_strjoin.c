@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 09:05:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/21 10:00:04 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:54:18 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ char	*ft_strjoin(char const *s1, char const *s2, int bool)
 	str[ft_strlen(s1) + j] = '\0';
 	if (bool == 1)
 		free((char *)s1);
-	if (bool == 2)
+	else if (bool == 2)
+	{
+		free((char *)s1);
+		free((char *)s2);
+	}
+	else if (bool == 3)
 		free((char *)s2);
 	return (str);
 }

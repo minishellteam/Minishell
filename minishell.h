@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 11:15:01 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:19:56 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 
 # define BUFF_SIZE 10000
+
+int g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -69,7 +72,6 @@ typedef struct s_vars {
 	t_cmd	*cmd;
 }			t_vars;
 
-
 typedef struct s_export {
 	char	**env;
 	char	**exp;
@@ -95,8 +97,13 @@ int g_exit_code;
 
 int		main(int ac, char **av, char **env);
 
-void	handle_error(char *message, int x);
 void	get_error_message(char *error, int x);
+
+char	*get_cmd_error(char *error, char *begin, char *err_msg, char *end);
+char	*get_exit_error(char *error, char *begin, char *err_msg, char *end);
+char	*get_mult_arg_err(char *error, char *begin, char *err_msg, char *end);
+
+void	handle_error(char *message, int x);
 void	print_tab(char **tab);
 void	free_tab(char	**tab);
 

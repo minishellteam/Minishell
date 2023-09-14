@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 16:36:28 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:18:31 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static char	*get_cmd_path(t_vars *var, char *path)
 	splitted_paths = ft_split(path, ':');
 	while (splitted_paths[++i])
 	{
-		test_cmd_path = ft_strjoingnl(splitted_paths[i], "/", 0);
-		cmd_path = ft_strjoingnl(test_cmd_path, var->cmd->args[0], 0);
+		test_cmd_path = ft_strjoin(splitted_paths[i], "/", 1);
+		cmd_path = ft_strjoin(test_cmd_path, var->cmd->args[0], 1);
 		if (access(cmd_path, X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);

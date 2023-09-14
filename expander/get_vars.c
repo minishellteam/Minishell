@@ -36,17 +36,17 @@ static char	*replace_var_by_value(char *line, char *value, int start, int end)
 	before_dollar = ft_substr(line, 0, start - 1);
 	after_var = ft_substr(line, end, ft_strlen(line) - end);
 	if (!value)
-		line = ft_strjoingnl(before_dollar, after_var, 1);
+		line = ft_strjoin(before_dollar, after_var, 2);
 	else
 	{
 		if (!before_dollar)
 			tmp = value;
 		else
-			tmp = ft_strjoingnl(before_dollar, value, 0);
+			tmp = ft_strjoin(before_dollar, value, 1);
 		if (!after_var)
 			line = tmp;
 		else
-			line = ft_strjoingnl(tmp, after_var, 1);
+			line = ft_strjoin(tmp, after_var, 2);
 	}
 	return (line);
 }

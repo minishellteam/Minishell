@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 10:33:35 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:20:37 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	free_and_exit(char *line, t_vars *var, int x)
 	exit(EXIT_FAILURE);
 }
 
-t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
+static t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
 {
 	while (1)
 	{
@@ -51,7 +51,10 @@ t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
 		if (*line)
 			add_history(line);
 		if (tokenize_line(line, var))
+		{
+			print_list(var->toks, 1);
 			free_and_exit(line, var, 0);
+		}
 		if (get_cmd_infos(var))
 			free_and_exit(line, var, 0);
 		if (create_processes(var, sh))
