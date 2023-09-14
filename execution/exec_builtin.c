@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:18:13 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:27:57 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 void	exec_builtin(t_data *sh)
 {
-	if (!ft_strncmp(builtin, "echo", ft_strlen(builtin)))
-		built_echo(builtin);
-	else if (!ft_strncmp(builtin, "exit", ft_strlen(builtin)))
-		built_exit(builtin);
-	else if (!ft_strncmp(builtin, "cd", ft_strlen(builtin)))
-		built_cd(builtin);
-	else if (!ft_strncmp(builtin, "pwd", ft_strlen(builtin)))
-		built_pwd(builtin);
-	else if (!ft_strncmp(builtin, "export", ft_strlen(builtin)))
-		built_export(builtin);
-	else if (!ft_strncmp(builtin, "unset", ft_strlen(builtin)))
-		built_unset(builtin);
-	else if (!ft_strncmp(builtin, "env", ft_strlen(builtin)))
-		built_env(builtin);
+	if (!ft_strncmp(sh->cmds[0], "echo", ft_strlen(sh->cmds[0])))
+		built_echo(sh);
+	else if (!ft_strncmp(sh->cmds[0], "exit", ft_strlen(sh->cmds[0])))
+		built_exit(sh);
+	else if (!ft_strncmp(sh->cmds[0], "cd", ft_strlen(sh->cmds[0])))
+		built_cd(sh);
+	else if (!ft_strncmp(sh->cmds[0], "pwd", ft_strlen(sh->cmds[0])))
+		built_pwd();
+	else if (!ft_strncmp(sh->cmds[0], "export", ft_strlen(sh->cmds[0])))
+		built_export(sh);
+	else if (!ft_strncmp(sh->cmds[0], "unset", ft_strlen(sh->cmds[0])))
+		built_unset(sh);
+	else if (!ft_strncmp(sh->cmds[0], "env", ft_strlen(sh->cmds[0])))
+		built_env(sh);
 }
 
 int	check_env_builtin(char *cmd)
