@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 22:38:19 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 09:50:34 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <readline/history.h>
 
 # define BUFF_SIZE 10000
+
+int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -67,7 +69,6 @@ typedef struct s_vars {
 	t_input	*data;
 	t_cmd	*cmd;
 }			t_vars;
-
 
 typedef struct s_export {
 	char	**env;
