@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/13 16:36:43 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:58:30 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,55 @@
 // 	exit(EXIT_SUCCESS);
 // }
 
+long long	ft_atol(const char *str)
+{
+	int			i;
+	long long	res;
+	int			sign;
+
+	sign = 1;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + str[i] - '0';
+		i++;
+	}
+	return (res * sign);
+}
+
 static void	arg_error(t_data *sh)
 {
-	int		i;
+	int	i;
+	int	new_nb;
 
 	i = -1;
 	while (sh->cmds[1][++i])
 	{
-		if (!ft_isdigit(sh->cmds[1][i]))
+		if ((!ft_isdigit(sh->cmds[1][i]) || ft_atol(sh->cmds[1]) < LONG_MIN \
+			|| ft_atol(sh->cmds[1]) > LONG_MAX) && sh->cmds[1][0] != '-')
 		{
 			get_error_message(sh->cmds[1], 5);
-			// METTRE LA GLOBALE A 255
 			return ;
 		}
 	}
-	// FAIRE MODULO DE CMD[1] de 256
+	printf("pass\n");
+	if (ft_atol(sh->cmds[1]) >= 0)
+		g_exit_code = ft_atol(sh->cmds[1]) % 256;
+	else
+	{
+		new_nb = ft_atol(sh->cmds[1]) * -1;
+		new_nb %= 256;
+		g_exit_code = 256 - new_nb;
+	}
 }
 
 void	built_exit(t_data *sh)
@@ -46,6 +80,10 @@ void	built_exit(t_data *sh)
 	if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
+	{
 		get_error_message(NULL, 6);
-		// METTRE LA GLOBALE A 1
+		return ;
+	}
+	printf("code error = %d\n", g_exit_code);
+	exit(g_exit_code);
 }

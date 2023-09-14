@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 11:56:45 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:33:35 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int ac, char **av, char **env)
 	// t_data			cmd;
 
 	(void)av;
+	g_exit_code = 0;
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);

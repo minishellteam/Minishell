@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/12 14:37:07 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:54:04 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	built_export(t_data *sh)
 	{
 		search_min(sh->export, i);
 		cpy_export(sh->export, i);
-		sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 2);
+		sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 3);
 		sh->export->env[sh->export->j][0] = 126;
 		printf("%s \n", sh->export->exp[i]);
 	}

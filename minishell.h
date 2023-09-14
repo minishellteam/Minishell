@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/13 11:44:49 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:15:01 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -89,6 +90,8 @@ typedef struct s_data {
 	int			n;
 	char		**echo;
 }				t_data;
+
+int g_exit_code;
 
 int		main(int ac, char **av, char **env);
 
@@ -180,6 +183,6 @@ void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	free_array(t_data *sh);
-void	export_var(char *var);
+//void	export_var(char *var);
 
 #endif
