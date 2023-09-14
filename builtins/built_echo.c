@@ -6,38 +6,38 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/06/15 15:12:33 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/06/29 08:33:17 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_echo(t_data *cmd, int bool)
+static void	print_echo(int bool)
 {
-	cmd->j--;
-	while (cmd->echo[++cmd->j])
+	g_sh.j--;
+	while (g_sh.echo[++g_sh.j])
 	{
-		printf("%s", cmd->echo[cmd->j]);
-		if (cmd->echo[cmd->j + 1])
+		printf("%s", g_sh.echo[g_sh.j]);
+		if (g_sh.echo[g_sh.j + 1])
 			printf(" ");
 	}
 	if (bool == 0)
 		printf("\n");
 }
 
-static int	check_n(t_data *cmd)
+static int	check_n(void)
 {
 	int	bool;
 
-	cmd->j = 0;
+	g_sh.j = 0;
 	bool = 0;
-	while (cmd->echo[++cmd->j])
+	while (g_sh.echo[++g_sh.j])
 	{
-		if (cmd->echo[cmd->j][0] == '-')
+		if (g_sh.echo[g_sh.j][0] == '-' && ft_strlen(g_sh.echo[g_sh.j]) > 1)
 		{
-			cmd->i = 0;
-			while (cmd->echo[cmd->j][++cmd->i])
-				if (cmd->echo[cmd->j][cmd->i] != 'n')
+			g_sh.i = 0;
+			while (g_sh.echo[g_sh.j][++g_sh.i])
+				if (g_sh.echo[g_sh.j][g_sh.i] != 'n')
 					return (bool);
 			bool = 1;
 		}
@@ -47,21 +47,24 @@ static int	check_n(t_data *cmd)
 	return (bool);
 }
 
-void	built_echo(t_data *cmd)
+void	built_echo()
 {
 	int	bool;
 
-	cmd->j = 0;
-	if (!ft_strncmp(cmd->cmds[cmd->j], "echo", 4) \
-		&& cmd->cmds[cmd->j][4] != ' ')
+	g_sh.j = 0;
+	if (!ft_strncmp(g_sh.cmds[g_sh.j], "echo", 4) \
+		&& g_sh.cmds[g_sh.j][4] != ' ')
 	{
-		printf("\n");
+		printf("pass\n");
 		return ;
 	}
-	cmd->echo = ft_split(cmd->cmds[cmd->j], ' ');
-	if (check_n(cmd) == 1)
+	g_sh.echo = ft_split(g_sh.cmds[g_sh.j], ' ');
+	if (check_n() == 1)
 		bool = 1;
 	else
 		bool = 0;
-	print_echo(cmd, bool);
+	print_echo(bool);
+	bool = -1;
+	while (g_sh.echo[++bool])
+		free(g_sh.echo[bool]);
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/07/31 14:50:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:20:18 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	signal_handler(int signal, siginfo_t *sa, void *content)
 {
-	int		i;
-	char	*line;
-
 	(void)content;
-	i = sa->si_pid;
+	(void)sa;
 	if (signal == SIGINT)
 	{
-		line = readline("minishell$ ");
+		printf("\n");
+		rl_on_new_line();
+		//rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	if (signal == SIGQUIT)
 		printf("pass\n");

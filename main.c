@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 09:51:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:14:46 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	free_and_exit(char *line, t_vars *var, int x)
 	exit(EXIT_FAILURE);
 }
 
-t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
+static t_vars	*readline_loop(t_vars *var, char *line, char **env, t_data *sh)
 {
 	while (1)
 	{

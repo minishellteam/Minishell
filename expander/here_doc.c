@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/27 22:49:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:57:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ static t_tok	*remove_quotes_limiter(t_tok *tmp)
 			before_quote = ft_substr(new_tok, 0, i);
 			after_quote = ft_substr(new_tok, i + 1, ft_strlen(new_tok) - i);
 			free(new_tok);
-			new_tok = ft_strjoingnl(before_quote, after_quote, 1);
+			new_tok = ft_strjoin(before_quote, after_quote, 2);
 			i = 0;
 		}
 		else
 			i++;
 	}
-	strcpy(tmp->tok, new_tok);
+	ft_strcpy(tmp->tok, new_tok);
 	free(new_tok);
 	return (tmp);
 }

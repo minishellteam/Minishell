@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 09:50:34 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:19:51 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 
 # define BUFF_SIZE 10000
 
-int	g_exit_code;
+int g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -73,6 +74,7 @@ typedef struct s_vars {
 typedef struct s_export {
 	char	**env;
 	char	**exp;
+	int		j;
 }	t_export;
 
 typedef struct s_data {
@@ -174,9 +176,17 @@ int		is_builtin(char *cmd);
 
 /*===================================BUILTINS=================================*/
 
-void	ft_builts(t_data *cmd);
-void	built_exit(t_data *cmd);
-void	built_echo(t_data *cmd);
-//void	built_export(t_data *cmd);
+void	my_env(t_data *sh);
+int		array_size(char **array);
+
+void	built_exit(t_data *sh);
+void	built_echo(t_data *sh);
+void	built_export(t_data *sh);
+void	built_pwd(void);
+void	built_cd(t_data *sh);
+void	built_env(t_data *sh);
+void	built_unset(t_data *sh);
+void	free_array(t_data *sh);
+void	export_var(char *var);
 
 #endif

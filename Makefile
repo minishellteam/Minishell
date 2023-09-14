@@ -35,9 +35,11 @@ SRCS	=	main.c \
 			./execution/processes.c \
 			./execution/execution.c \
 			./execution/exec_builtin.c \
-			#./builtins/built_exit.c \
+			./builtins/built_exit.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \
+			./builtins/built_unset.c \
+			./builtins/built_utils.c \
 			signal.c \
 
 OBJS = $(SRCS:.c=.o)

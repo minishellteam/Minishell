@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 10:03:16 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:49:49 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 {
 	g_exit_code = 1;
 	end = ": undefined token\n";
-	err_msg = ft_strjoin(begin, error);
-	err_msg = ft_strjoingnl(err_msg, end, 0);
+	err_msg = ft_strjoin(begin, error, 0);
+	err_msg = ft_strjoin(err_msg, end, 1);
 	return (err_msg);
 }
 
@@ -25,9 +25,9 @@ static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 {
 	g_exit_code = 2;
 	end = "syntax error near unexpected token `";
-	err_msg = ft_strjoin (begin, end);
-	err_msg = ft_strjoingnl(err_msg, error, 0);
-	err_msg = ft_strjoingnl(err_msg, "\'\n", 0);
+	err_msg = ft_strjoin(begin, end, 0);
+	err_msg = ft_strjoin(err_msg, error, 1);
+	err_msg = ft_strjoin(err_msg, "\'\n", 1);
 	return (err_msg);
 }
 
@@ -35,15 +35,15 @@ static char	*get_quote_error(char *begin, char *err_msg, char *end)
 {
 	g_exit_code = 1;
 	end = "syntax error: expecting closing quote\n";
-	err_msg = ft_strjoin(begin, end);
+	err_msg = ft_strjoin(begin, end, 0);
 	return (err_msg);
 }
 
 static char	*get_file_error(char *error, char *begin, char *err_msg, char *end)
 {
 	end = ": No such file of directory\n";
-	err_msg = ft_strjoin(begin, error);
-	err_msg = ft_strjoingnl(err_msg, end, 0);
+	err_msg = ft_strjoin(begin, error, 0);
+	err_msg = ft_strjoin(err_msg, end, 1);
 	return (err_msg);
 }
 
