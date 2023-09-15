@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/15 12:22:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:26:55 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,32 @@ long long	ft_atol(const char *str)
 	return (res * sign);
 }
 
-static void	arg_error(t_data *sh)
+static int	check_long(t_data *sh)
 {
 	int	i;
-	//int	new_nb;
+	int	sign;
 
 	i = -1;
+	sign = 1;
 	while (sh->cmds[1][++i])
+		if (!ft_isdigit(sh->cmds[1][i]) && sh->cmds[1][0] != '-')
+			return (1);
+	if (ft_strlen(sh->cmds[1]) == 20 && ft_atol(sh->cmds[1]) < 0)
+		sign = -1;
+	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19))\
+			|| (sign < 0 && (sh->cmds[1][19] > '8' || ft_strlen(sh->cmds[1]) > 20)))
+			return (1);
+	return (0);
+}
+
+static void	arg_error(t_data *sh)
+{
+	long long	new_nb;
+
+	if (check_long(sh) == 1)
 	{
-		if ((!ft_isdigit(sh->cmds[1][i]) || ft_atol(sh->cmds[1]) < LONG_MIN \
-			|| ft_atol(sh->cmds[1]) > LONG_MAX) && sh->cmds[1][0] != '-')
-		{
-			get_error_message(sh->cmds[1], 5);
-			return ;
-		}
+		get_error_message(sh->cmds[1], 5);
+		return ;
 	}
 	/*if (ft_atol(sh->cmds[1]) >= 0)
 		g_exit_code = ft_atol(sh->cmds[1]) % 256;
@@ -76,13 +88,13 @@ void	built_exit(t_data *sh)
 	// 	free_exit();
 	if (array_size(sh->cmds) == 2)
 		exit(EXIT_SUCCESS);
-	if (array_size(sh->cmds) == 3)
+	else if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
 	{
 		get_error_message(NULL, 6);
 		return ;
 	}
-	//printf("code error = %d\n", g_exit_code);
-	//exit(g_exit_code);
+	printf("code error = %d\n", g_exit_code);
+	exit(g_exit_code);
 }

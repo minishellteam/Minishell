@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 11:51:42 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:25:48 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define BUFF_SIZE 10000
 
-//extern int	g_exit_code;
+int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
