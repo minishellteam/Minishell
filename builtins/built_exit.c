@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 15:00:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:22:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	arg_error(t_data *sh)
 			return ;
 		}
 	}
-	printf("pass\n");
 	/*if (ft_atol(sh->cmds[1]) >= 0)
 		g_exit_code = ft_atol(sh->cmds[1]) % 256;
 	else

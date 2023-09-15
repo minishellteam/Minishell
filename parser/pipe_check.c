@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 13:49:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/26 00:50:12 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:04:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_before_pipe(t_vars *var)
 	tmp = var->pipeline;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "PIPE"))
 		{
 			if (!tmp->prev)
 				return (1);
@@ -38,7 +38,7 @@ int	get_nb_of_pipes(t_tok *toks)
 	pipe_nb = 0;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "PIPE"))
 			pipe_nb++;
 		tmp = tmp->next;
 	}
@@ -52,9 +52,9 @@ int	check_double_pipe(t_tok *toks)
 	tmp = toks;
 	while (tmp && tmp->next)
 	{
-		if (!ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "PIPE"))
 		{
-			if (!ft_strncmp(tmp->next->type, "PIPE", ft_strlen(tmp->type)))
+			if (!ft_strcmp(tmp->next->type, "PIPE"))
 			{
 				get_error_message("|", 1);
 				return (1);

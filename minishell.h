@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 15:34:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:51:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_vars {
 	int		pipe_nb;
 	t_input	*data;
 	t_cmd	*cmd;
+	int		orig_stdin;
+	int		orig_stdout;
 }			t_vars;
 
 typedef struct s_export {
@@ -168,12 +170,13 @@ void	free_structures(t_cmd *cmd, int stop);
 /*=============================EXECUTION======================================*/
 
 int		create_processes(t_vars *var, t_data *sh);
+void	get_std_stream(int fd, int std_stream);
 
 int		exec_cmd(t_vars *var);
 
-void	exec_builtin(t_data *sh);
-int		check_env_builtin(char *cmd);
 int		is_builtin(char *cmd);
+void	handle_builtin(t_vars *var, t_data *sh);
+void	exec_builtin(t_data *sh);
 
 /*===================================BUILTINS=================================*/
 

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/28 22:25:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:03:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int	parse_pipeline(t_vars *var)
 static void	get_pipeline(t_vars *var)
 {
 	while (var->pipeline_end && var->pipeline_end->next
-		&& ft_strncmp(var->pipeline_end->type, "PIPE", \
-			ft_strlen(var->pipeline_end->type)))
+		&& ft_strcmp(var->pipeline_end->type, "PIPE"))
 		var->pipeline_end = var->pipeline_end->next;
 }
 

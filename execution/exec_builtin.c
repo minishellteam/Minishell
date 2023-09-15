@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:29:06 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:26:22 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,51 @@
 
 void	exec_builtin(t_data *sh)
 {
-	if (!ft_strncmp(sh->cmds[0], "echo", ft_strlen(sh->cmds[0])))
+	if (!ft_strcmp(sh->cmds[0], "echo"))
 		built_echo(sh);
-	else if (!ft_strncmp(sh->cmds[0], "exit", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "exit"))
 		built_exit(sh);
-	else if (!ft_strncmp(sh->cmds[0], "cd", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "cd"))
 		built_cd(sh);
-	else if (!ft_strncmp(sh->cmds[0], "pwd", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "pwd"))
 		built_pwd();
-	else if (!ft_strncmp(sh->cmds[0], "export", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "export"))
 		built_export(sh);
-	else if (!ft_strncmp(sh->cmds[0], "unset", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "unset"))
 		built_unset(sh);
-	else if (!ft_strncmp(sh->cmds[0], "env", ft_strlen(sh->cmds[0])))
+	else if (!ft_strcmp(sh->cmds[0], "env"))
 		built_env(sh);
 }
 
-int	check_env_builtin(char *cmd)
+void	handle_builtin(t_vars *var, t_data *sh)
 {
-	if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "export", ft_strlen("export")))
-			return (1);
-	}
-	else if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
-			return (1);
-	}
-	else if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "env", ft_strlen("env")))
-			return (1);
-	}
-	return (0);
+	sh->cmds = var->cmd[0].args;
+	if (var->cmd[0].fdin != 0)
+		get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
+	if (var->cmd[0].fdout != 1)
+		get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
+	exec_builtin(sh);
+	if (var->cmd[0].fdin != 0)
+		dup2(var->orig_stdin, STDIN_FILENO);
+	if (var->cmd[0].fdout != 1)
+		dup2(var->orig_stdout, STDOUT_FILENO);
 }
 
 int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-			return (1);
-	}
-	else if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
-			return (1);
-	}
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
-			return (1);
-	}
-	else if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
-	{
-		if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
-			return (1);
-	}
-	else if (check_env_builtin(cmd))
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	else if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	else if (!ft_strcmp(cmd, "export"))
+		return (1);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd, "env"))
 		return (1);
 	return (0);
 }

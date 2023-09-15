@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/07 14:29:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:37:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static int	get_args_nb(t_tok *tokens)
 
 	args_nb = 0;
 	tmp = tokens;
-	while (tmp && ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
+	while (tmp && ft_strcmp(tmp->type, "PIPE"))
 	{
-		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "STRING") || !ft_strcmp(tmp->type, "EMPTY"))
 			args_nb++;
 		tmp = tmp->next;
 	}
@@ -49,9 +49,9 @@ static char	**get_args(t_vars *var)
 	args_nb = get_args_nb(tmp);
 	args = malloc(sizeof(char *) * (args_nb + 1));
 	i = 0;
-	while (tmp && ft_strncmp(tmp->type, "PIPE", ft_strlen(tmp->type)))
+	while (tmp && ft_strcmp(tmp->type, "PIPE"))
 	{
-		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "STRING") || !ft_strcmp(tmp->type, "EMPTY"))
 		{
 			args[i] = ft_strdup(tmp->tok);
 			i++;
@@ -70,8 +70,7 @@ static t_cmd	get_cmd_pipeline(t_vars *var, t_cmd cmd)
 	cmd.args = get_args(var);
 	cmd.fdin = get_in_redir(var);
 	cmd.fdout = get_out_redir(var);
-	while (var->pipeline && ft_strncmp(var->pipeline->type, "PIPE", \
-		ft_strlen(var->pipeline->type)))
+	while (var->pipeline && ft_strcmp(var->pipeline->type, "PIPE"))
 		var->pipeline = var->pipeline->next;
 	return (cmd);
 }

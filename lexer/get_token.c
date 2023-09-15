@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:19:01 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:29:47 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	tokenize_line(char *line, t_vars *var)
 	if (*(var->line) == '?')
 	{
 		get_error_message("?", 0);
-		free(var);
 		return (1);
 	}
 	while (*(var->line))
@@ -122,5 +121,8 @@ int	tokenize_line(char *line, t_vars *var)
 		return (1);
 	check_limiter(var);
 	handle_quotes(var);
+	printf("tokens = \n");
+	print_list(var->toks, 0);
+	print_list(var->toks, 1);
 	return (0);
 }
