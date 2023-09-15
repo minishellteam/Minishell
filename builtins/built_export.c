@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 15:39:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 10:44:27 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,8 @@ void	built_export(t_data *sh)
 	//char	**tmp;
 
 	i = -1;
-	// tmp = ft_split(sh->cmds[0], ' ');
-	// export_var(tmp[1]);
-	// if (array_size(sh->cmds) > 2)
-		// FAIRE FONCTION EXPORT AVEC ARGUMENT
+	if (array_size(sh->cmds) > 2)
+		export_arg(sh);
 	prefix = "declare -x ";
 	sh->export = malloc(sizeof(t_export));
 	sh->export->exp = malloc(sizeof(char *) * array_size(sh->myenv));

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:19:01 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 10:18:19 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	tokenize_line(char *line, t_vars *var)
 	if (*(var->line) == '?')
 	{
 		get_error_message("?", 0);
-		free(var);
 		return (1);
 	}
 	while (*(var->line))

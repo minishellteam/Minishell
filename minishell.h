@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 15:59:48 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 10:44:12 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,5 @@ void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	free_array(t_data *sh);
-//void	export_var(char *var);
 
 #endif

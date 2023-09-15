@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 15:40:25 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 10:40:48 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 		if (*line)
 			add_history(line);
 		if (tokenize_line(line, var))
-		{
-			print_list(var->toks, 1);
 			free_and_exit(line, var, 0);
-		}
 		if (get_cmd_infos(var))
 			free_and_exit(line, var, 0);
 		if (create_processes(var, sh))
@@ -73,6 +70,7 @@ int	main(int ac, char **av, char **env)
 	// t_data			cmd;
 
 	(void)av;
+	g_exit_code = 0;
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
