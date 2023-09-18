@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/18 12:33:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:40:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,60 +41,64 @@ void	get_std_stream(int fd, int std_stream)
 {
 	if (dup2(fd, std_stream) == -1)
 	{
-		perror("minishell: ");
+		perror("minishell");
 		exit(EXIT_FAILURE);
 	}
 	if (close(fd) == -1)
 	{
-		perror("minishell: ");
+		perror("minishell");
 		exit(EXIT_FAILURE);
 	}
+}
+
+static void	get_streams(t_vars *var, int *pfd)
+{
+	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
+			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
+	if (var->cmd[0].fdin == -2)
+		get_std_stream(pfd[0], STDIN_FILENO);
+	if (var->cmd[0].fdout != 1 && var->cmd[0].fdout != -2)
+		get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
+}
+
+static void	get_input(t_vars *var, int *pfd)
+{
+	t_input	*tmp;
+	
+	tmp = var->data;
+	while (tmp)
+	{
+		ft_putstr_fd(tmp->input, pfd[1]);
+		tmp = tmp->next;
+	}
+	if (close(pfd[1]) == -1)
+		perror("minishell");
 }
 
 static int	create_only_process(t_vars *var)
 {
 	int		pid;
 	int		pfd[2];
-	t_input	*tmp;
 
-	tmp = var->data;
-	pid = fork();
-	printf("PID = %d\n", pid);
-	if (pid == -1)
-		perror("minishell: ");
-	else if (pid)
-		var->cmd->pid = pid;
 	if (var->cmd[0].fdin == -2)
 	{
 		if (pipe(pfd) == -1)
-			perror("minishell: ");
-		if (close(pfd[0]) == -1)
-			perror("minishell: ");
-		while (tmp)
-		{
-			ft_putstr_fd(tmp->input, pfd[1]);
-			tmp = tmp->next;
-		}
-		if (close(pfd[1]) == -1)
-			perror("minishell: ");
+			perror("minishell");
+		get_input(var, pfd);
 	}
+	pid = fork();
+	if (pid == -1)
+		perror("minishell");
+	else if (pid)
+		var->cmd->pid = pid;
 	if (pid == 0)
 	{
-		if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
-			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
-		if (var->cmd[0].fdin == -2)
-		{
-			if (close(pfd[1]) == -1)
-				perror("minishell : ");
-			get_std_stream(pfd[0], STDIN_FILENO);
-		}
-		if (var->cmd[0].fdout != 1)
-			get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
+		get_streams(var, pfd);
 		if (exec_cmd(var))
 			exit(EXIT_FAILURE);
 	}
 	if (waitpid(pid, NULL, 0) == -1)
-		perror("minishell: ");
+		perror("minishell");
 	return (0);
 }
 
@@ -108,7 +112,6 @@ int	create_processes(t_vars *var, t_data *sh)
 			handle_builtin(var, sh);
 		else if (var->cmd[0].args[0] && !ft_strcmp(var->cmd[0].args[0], ""))
 			get_error_message("", 4);
-		//else if (var->cmd[0].args[0] && !ft_strcmp(var->cmd[0].args[0], ""))
 		else
 			if (create_only_process(var))
 				return (1);
