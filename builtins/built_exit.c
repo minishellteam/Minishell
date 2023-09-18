@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/15 14:26:55 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:39:31 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	check_long(t_data *sh)
 
 static void	arg_error(t_data *sh)
 {
-	long long	new_nb;
+	//long long	new_nb;
 
 	if (check_long(sh) == 1)
 	{
@@ -95,6 +95,6 @@ void	built_exit(t_data *sh)
 		get_error_message(NULL, 6);
 		return ;
 	}
-	printf("code error = %d\n", g_exit_code);
-	exit(g_exit_code);
+	//printf("code error = %d\n", g_exit_code);
+	//exit(g_exit_code);
 }

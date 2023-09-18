@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 14:25:48 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:31:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define BUFF_SIZE 10000
 
-int	g_exit_code;
+//int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -139,6 +139,7 @@ void	ft_lstadd_back_input(t_input **lst, t_input *new);
 void	print_list_input(t_input *input);
 void	free_list_input(t_input *lst, int x);
 
+void	get_limiter(t_tok *toks);
 int		check_limiter(t_vars *var);
 
 /*===================================PARSER===================================*/

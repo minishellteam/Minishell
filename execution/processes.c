@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 14:14:50 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:33:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,41 @@ void	get_std_stream(int fd, int std_stream)
 
 static int	create_only_process(t_vars *var)
 {
-	int	pid;
+	int		pid;
+	int		pfd[2];
+	t_input	*tmp;
 
+	tmp = var->data;
 	pid = fork();
 	printf("PID = %d\n", pid);
 	if (pid == -1)
 		perror("minishell: ");
 	else if (pid)
 		var->cmd->pid = pid;
-	else if (pid == 0)
+	if (var->cmd[0].fdin == -2)
 	{
-		if (var->cmd[0].fdin != 0)
+		if (pipe(pfd) == -1)
+			perror("minishell: ");
+		if (close(pfd[0]) == -1)
+			perror("minishell: ");
+		while (tmp)
+		{
+			ft_putstr_fd(tmp->input, pfd[1]);
+			tmp = tmp->next;
+		}
+		if (close(pfd[1]) == -1)
+			perror("minishell: ");
+	}
+	if (pid == 0)
+	{
+		if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
 			get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
+		if (var->cmd[0].fdin == -2)
+		{
+			if (close(pfd[1]) == -1)
+				perror("minishell : ");
+			get_std_stream(pfd[0], STDIN_FILENO);
+		}
 		if (var->cmd[0].fdout != 1)
 			get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
 		if (exec_cmd(var))

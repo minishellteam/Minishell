@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:03:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:22:17 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,5 @@ int	parse_tokens(t_vars *var)
 		var->pipeline_end = var->pipeline_end->next;
 		var->pipeline = var->pipeline_end;
 	}
-	get_files(var->toks);
 	return (0);
 }
