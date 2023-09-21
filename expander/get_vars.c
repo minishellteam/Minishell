@@ -67,7 +67,7 @@ static char	*replace_var(char *tok, char *var, int i)
 			while (ft_isalnum(tok[i]) || tok[i] == '_' || tok[i] == '?')
 				i++;
 			var = ft_substr(tok, j, i - j);
-			if (!ft_strncmp(var, "?", ft_strlen(var)))
+			if (!ft_strcmp(var, "?"))
 				value = ft_itoa(g_exit_code);
 			else
 				value = getenv(var);
@@ -95,7 +95,7 @@ static char	*replace_unquoted_var(char *new_tok, char *var, char *value)
 		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_' || new_tok[i] == '?'))
 		i++;
 	var = ft_substr(new_tok, j, i - j);
-	if (!ft_strncmp(var, "?", ft_strlen(var)))
+	if (!ft_strcmp(var, "?"))
 		value = ft_itoa(g_exit_code);
 	else
 		value = getenv(var);
@@ -128,7 +128,7 @@ char	*get_var(char *token, char *var, char *value, int x)
 	{
 		new_tok = replace_unquoted_var(new_tok, var, value);
 		free(token);
-		if (!ft_strncmp(new_tok, "", ft_strlen(new_tok)))
+		if (!ft_strcmp(new_tok, ""))
 			token = "";
 		else
 			token = ft_strdup(new_tok);

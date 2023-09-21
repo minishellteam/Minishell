@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 15:39:39 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:08:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	built_pwd(void)
 void	built_cd(t_data *sh)
 {
 	if (chdir(sh->cmds[1]) == -1)
-		handle_error("minishell$ ", 1);
+		handle_error("minishell: ", 1);
 }
 
 void	built_env(t_data *sh)

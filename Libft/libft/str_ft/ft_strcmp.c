@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_export_arg.c                                 :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/15 10:19:39 by ykifadji         ###   ########.fr       */
+/*   Created: 2023/09/15 11:38:11 by mkerkeni          #+#    #+#             */
+/*   Updated: 2023/09/15 11:44:16 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../inc/libft.h"
 
-void	export_arg(t_data *sh)
+int	ft_strcmp(const char *first, const char *second)
 {
-	
+	while (*first && *second)
+	{
+		if (*first != *second)
+			break ;
+		first++;
+		second++;
+	}
+	return ((unsigned char) *first - *second);
 }

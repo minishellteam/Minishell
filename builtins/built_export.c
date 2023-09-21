@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/15 10:44:27 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:21:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static void	cpy_env(t_data *sh)
 {
 	sh->j = -1;
-	while (sh->myenv[++sh->j])
+	while (sh->expenv[++sh->j])
 	{
 		sh->export->env[sh->j] = malloc(sizeof(char) \
-			* (ft_strlen(sh->myenv[sh->j]) + 1));
-		ft_strlcpy(sh->export->env[sh->j], sh->myenv[sh->j], \
-			(ft_strlen(sh->myenv[sh->j]) + 1));
+			* (ft_strlen(sh->expenv[sh->j]) + 1));
+		ft_strlcpy(sh->export->env[sh->j], sh->expenv[sh->j], \
+			(ft_strlen(sh->expenv[sh->j]) + 1));
 	}
-	sh->export->env[sh->j + 1] = NULL;
+	sh->export->env[sh->j] = NULL;
 }
 
 static void	search_min(t_export *export, int i)
@@ -42,29 +42,34 @@ static void	search_min(t_export *export, int i)
 		}
 	}
 	export->j = index;
-	export->exp[i] = malloc(sizeof(char) * (ft_strlen(export->env[export->j]) + 3));
+	export->exp[i] = malloc(sizeof(char) \
+		* (ft_strlen(export->env[export->j]) + 3));
 }
 
 static void	cpy_export(t_export *export, int j)
 {
 	int	i;
 	int	k;
+	int	bool;
 
 	i = -1;
 	k = -1;
+	bool = 1;
 	while (export->env[export->j][++i])
 	{
-		if (export->env[export->j][i] == '=')
+		if (export->env[export->j][i] == '=' && bool == 1)
 		{
-			export->exp[j][k] = '=';
-			export->exp[j][k + 1] = '"';
-			k += 1;
-			i++;
+			bool--;
+			export->exp[j][++k] = export->env[export->j][i];
+			export->exp[j][++k] = '"';
+			//i++;
 		}
-		export->exp[j][++k] = export->env[export->j][i];
+		else
+			export->exp[j][++k] = export->env[export->j][i];
 	}
-	export->exp[j][k + 1] = '"';
-	export->exp[j][k + 2] = '\0';
+	if (ft_strchr(export->env[export->j], '='))
+		export->exp[j][++k] = '"';
+	export->exp[j][++k] = '\0';
 }
 
 int	array_size(char **array)
@@ -81,15 +86,17 @@ void	built_export(t_data *sh)
 {
 	int		i;
 	char	*prefix;
-	//char	**tmp;
 
 	i = -1;
-	if (array_size(sh->cmds) > 2)
-		export_arg(sh);
+	sh->v = 0;
+	while (sh->cmds[++sh->v])
+		export_var(sh);
+	if (sh->v > 1)
+		return ;
 	prefix = "declare -x ";
 	sh->export = malloc(sizeof(t_export));
-	sh->export->exp = malloc(sizeof(char *) * array_size(sh->myenv));
-	sh->export->env = malloc(sizeof(char *) * array_size(sh->myenv));
+	sh->export->exp = malloc(sizeof(char *) * array_size(sh->expenv));
+	sh->export->env = malloc(sizeof(char *) * array_size(sh->expenv));
 	cpy_env(sh);
 	while (sh->export->env[++i])
 	{

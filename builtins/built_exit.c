@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/15 10:08:22 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/18 10:57:09 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ static int	check_long(t_data *sh)
 			return (1);
 	if (ft_strlen(sh->cmds[1]) == 20 && ft_atol(sh->cmds[1]) < 0)
 		sign = -1;
-	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19))\
-			|| (sign < 0 && (sh->cmds[1][19] > '8' || ft_strlen(sh->cmds[1]) > 20)))
-			return (1);
+	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19)) \
+		|| (sign < 0 && (sh->cmds[1][19] > '8' \
+		|| ft_strlen(sh->cmds[1]) > 20)))
+		return (1);
 	return (0);
 }
 
@@ -95,6 +96,5 @@ void	built_exit(t_data *sh)
 		get_error_message(NULL, 6);
 		return ;
 	}
-	printf("code error = %d\n", g_exit_code);
 	exit(g_exit_code);
 }

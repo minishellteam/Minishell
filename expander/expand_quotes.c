@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 11:51:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:59:17 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	check_if_empty_tok(t_tok *tmp, t_vars *var)
 		if (*(var->end) == '\"' && !*(var->end + 1))
 		{
 			tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
-			if (!ft_strncmp(tmp->tok, "\"\"", ft_strlen(tmp->tok)))
+			if (!ft_strcmp(tmp->tok, "\"\""))
 			{
 				tmp->type = "EMPTY";
 				tmp = tmp->next;
@@ -105,7 +105,7 @@ static int	check_if_empty_tok(t_tok *tmp, t_vars *var)
 			}
 		}
 	}
-	else if (!ft_strncmp(tmp->tok, "$", ft_strlen(tmp->tok)))
+	else if (!ft_strcmp(tmp->tok, "$"))
 	{
 		tmp->type = "EMPTY";
 		return (1);
@@ -120,7 +120,7 @@ int	handle_quotes(t_vars *var)
 	tmp = var->toks;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->type, "STRING", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "STRING"))
 		{
 			if (check_if_empty_tok(tmp, var) == 1)
 				continue ;
@@ -133,7 +133,7 @@ int	handle_quotes(t_vars *var)
 					tmp->tok = get_var(tmp->tok, var->var, var->value, 1);
 				else
 					tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
-				if (!ft_strncmp(tmp->tok, "", ft_strlen(tmp->tok)))
+				if (!ft_strcmp(tmp->tok, ""))
 					tmp->type = "SKIP";
 			}
 		}

@@ -20,6 +20,7 @@ SRCS_LIBFT = $(addprefix $(LIBFT_PATH), /check_value/ft_isalnum.c \
 									/str_ft/ft_strrchr.c \
 									/str_ft/ft_strdup.c \
 									/str_ft/ft_strncmp.c \
+									/str_ft/ft_strcmp.c \
 									/str_ft/ft_strnstr.c \
 									/str_ft/ft_substr.c \
 									/str_ft/ft_strjoin.c \

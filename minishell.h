@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 10:44:12 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:08:16 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <readline/history.h>
 # include <limits.h>
 
-# define BUFF_SIZE 10000
+# define BUFF_SIZE 1000
 
 int	g_exit_code;
 
@@ -70,6 +70,8 @@ typedef struct s_vars {
 	int		pipe_nb;
 	t_input	*data;
 	t_cmd	*cmd;
+	int		orig_stdin;
+	int		orig_stdout;
 }			t_vars;
 
 typedef struct s_export {
@@ -82,6 +84,7 @@ typedef struct s_data {
 	t_export	*export;
 	char		**env;
 	char		**myenv;
+	char		**expenv;
 	char		**cmds;
 	char		*var;
 	char		*final;
@@ -90,6 +93,7 @@ typedef struct s_data {
 	int			j;
 	int			c;
 	int			n;
+	int			v;
 	char		**echo;
 }				t_data;
 
@@ -168,25 +172,29 @@ void	free_structures(t_cmd *cmd, int stop);
 /*=============================EXECUTION======================================*/
 
 int		create_processes(t_vars *var, t_data *sh);
+void	get_std_stream(int fd, int std_stream);
 
 int		exec_cmd(t_vars *var);
 
-void	exec_builtin(t_data *sh);
-int		check_env_builtin(char *cmd);
 int		is_builtin(char *cmd);
+void	handle_builtin(t_vars *var, t_data *sh);
+void	exec_builtin(t_data *sh);
 
 /*===================================BUILTINS=================================*/
 
 void	my_env(t_data *sh);
+void	exp_env(t_data *sh);
 int		array_size(char **array);
+void	free_array(t_data *sh);
+void	update_env(t_data *sh, char **tmp);
 
+void	built_pwd(void);
 void	built_exit(t_data *sh);
 void	built_echo(t_data *sh);
-void	built_export(t_data *sh);
-void	built_pwd(void);
 void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
-void	free_array(t_data *sh);
+void	built_export(t_data *sh);
+void	export_var(t_data *sh);
 
 #endif

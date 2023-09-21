@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 10:40:48 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:08:39 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int ac, char **av, char **env)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	sh.env = env;
 	my_env(&sh);
+	exp_env(&sh);
 	var = readline_loop(var, line, &sh);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;

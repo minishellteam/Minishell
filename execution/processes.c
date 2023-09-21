@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 15:33:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:14:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 	free(mid_pids);
 }*/
 
-static void	get_std_stream(int fd, int std_stream)
+void	get_std_stream(int fd, int std_stream)
 {
 	if (dup2(fd, std_stream) == -1)
 	{
@@ -77,15 +77,18 @@ static int	create_only_process(t_vars *var)
 
 int	create_processes(t_vars *var, t_data *sh)
 {
+	var->orig_stdin = dup(STDIN_FILENO);
+	var->orig_stdout = dup(STDOUT_FILENO);
 	if (!var->pipe_nb)
 	{
-		if (is_builtin(var->cmd[0].args[0]))
-		{
-			sh->cmds = var->cmd[0].args;
-			exec_builtin(sh);
-		}
-		else if (create_only_process(var))
-			return (1);
+		if (var->cmd[0].args[0] && is_builtin(var->cmd[0].args[0]))
+			handle_builtin(var, sh);
+		else if (var->cmd[0].args[0] && !ft_strcmp(var->cmd[0].args[0], ""))
+			get_error_message("", 4);
+		//else if (var->cmd[0].args[0] && !ft_strcmp(var->cmd[0].args[0], ""))
+		else
+			if (create_only_process(var))
+				return (1);
 	}
 	//else
 	//	create_multiple_processes(var);

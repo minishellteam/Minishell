@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:18:49 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:00:34 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ static void	expand_input(t_vars *var)
 
 static int	is_limiter(char *line, char *limiter)
 {
-	if (!ft_strncmp(line, limiter, ft_strlen(line)))
-		if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
-			return (1);
+	if (!ft_strcmp(line, limiter))
+		return (1);
 	return (0);
 }
 
@@ -101,7 +100,7 @@ int	check_limiter(t_vars *var)
 	tmp = var->toks;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->type, "LIMITER", ft_strlen(tmp->type)))
+		if (!ft_strcmp(tmp->type, "LIMITER"))
 		{
 			if (ft_strchr(tmp->tok, '\"') || ft_strchr(tmp->tok, '\''))
 			{
