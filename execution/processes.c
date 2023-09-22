@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/19 10:17:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:18:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	get_std_stream(int fd, int std_stream)
 {
 	if (dup2(fd, std_stream) == -1)
 	{
-		perror("minishell");
+		perror("minishell20");
 		exit(EXIT_FAILURE);
 	}
 	if (close(fd) == -1)
 	{
-		perror("minishell");
+		perror("minishell21");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -69,7 +69,7 @@ static void	create_only_process(t_vars *var)
 	if (pid == 0)
 	{
 		get_streams(var, pfd);
-		if (exec_cmd(var))
+		if (exec_cmd(var, 0))
 			exit(EXIT_FAILURE);
 	}
 	if (waitpid(pid, NULL, 0) == -1)
@@ -89,7 +89,7 @@ int	create_processes(t_vars *var, t_data *sh)
 		else
 			create_only_process(var);
 	}
-	//else
-	//	create_multiple_processes(var);
+	else
+		create_multiple_processes(var);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 14:39:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:46:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->my_env = sh->myenv;
 }
 
-static void	free_and_exit(char *line, t_vars *var, int x)
-{
-	free_vars(line, var, x);
-	exit(EXIT_FAILURE);
-}
-
 static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 {
 	while (1)
@@ -46,17 +40,19 @@ static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 		if (!line)
 		{
 			printf("exit\n");
-			free_and_exit(line, var, 0);
+			free_vars(line, var, 0);
+			exit(EXIT_SUCCESS);
 		}
 		if (*line)
 			add_history(line);
 		if (tokenize_line(line, var))
-			free_and_exit(line, var, 0);
-		if (get_cmd_infos(var))
-			free_and_exit(line, var, 0);
-		if (create_processes(var, sh))
-			free_and_exit(line, var, 1);
-		free_vars(line, var, 1);
+			free_vars(line, var, 0);
+		else if (get_cmd_infos(var))
+			free_vars(line, var, 0);
+		else if (create_processes(var, sh))
+			free_vars(line, var, 1);
+		else
+			free_vars(line, var, 1);
 	}
 	return (var);
 }
@@ -76,6 +72,7 @@ int	main(int ac, char **av, char **env)
 		handle_error("ERROR: Wrong number of arguments\n", 1);
 	sh.env = env;
 	my_env(&sh);
+	exp_env(&sh);
 	var = readline_loop(var, line, &sh);
 	// ft_bzero(&sig, sizeof(sig));
 	// sig.sa_flags = SA_RESTART | SA_NODEFER;
