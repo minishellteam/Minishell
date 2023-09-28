@@ -6,13 +6,13 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:00:34 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:39:14 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	expand_input(t_vars *var)
+static void	expand_input(t_vars *var, int i)
 {
 	t_input	*tmp;
 	char	*exp_input;
@@ -20,7 +20,7 @@ static void	expand_input(t_vars *var)
 	var->var = NULL;
 	var->value = NULL;
 	exp_input = NULL;
-	tmp = var->data;
+	tmp = var->data[i];
 	while (tmp)
 	{
 		exp_input = get_var(tmp->input, var->var, var->value, 0);
@@ -37,7 +37,7 @@ static int	is_limiter(char *line, char *limiter)
 	return (0);
 }
 
-static int	get_input(t_vars *var, char *limiter)
+static int	get_input(t_vars *var, char *limiter, int i)
 {
 	char	*line;
 	t_input	*data;
@@ -56,7 +56,7 @@ static int	get_input(t_vars *var, char *limiter)
 		line = get_next_line(0);
 		if (is_limiter(line, limiter))
 		{
-			var->data = data;
+			var->data[i] = data;
 			break ;
 		}
 		ft_lstadd_back_input(&data, ft_lstnew_input(line));
@@ -96,22 +96,26 @@ static t_tok	*remove_quotes_limiter(t_tok *tmp)
 int	check_limiter(t_vars *var)
 {
 	t_tok	*tmp;
+	int		i;
 
 	tmp = var->toks;
+	var->data = malloc(sizeof(t_input *) * (var->pipe_nb + 2));
+	init_data(var);
+	i = 0;
 	while (tmp)
 	{
+		if (!ft_strcmp(tmp->type, "PIPE"))
+			i++;
 		if (!ft_strcmp(tmp->type, "LIMITER"))
 		{
 			if (ft_strchr(tmp->tok, '\"') || ft_strchr(tmp->tok, '\''))
 			{
 				tmp = remove_quotes_limiter(tmp);
-				get_input(var, tmp->tok);
+				get_input(var, tmp->tok, i);
 			}
 			else
-			{
-				if (!get_input(var, tmp->tok))
-					expand_input(var);
-			}
+				if (!get_input(var, tmp->tok, i))
+					expand_input(var, i);
 		}
 		tmp = tmp->next;
 	}

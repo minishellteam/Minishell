@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:24:25 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/08/24 17:40:41 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:35:14 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,30 @@ void	print_list_input(t_input *input)
 	tmp = input;
 	while (tmp != NULL)
 	{
-		printf("%s\n", tmp->input);
+		printf("%s", tmp->input);
 		tmp = tmp->next;
 	}
 }
 
-void	free_list_input(t_input *lst, int x)
+void	free_list_input(t_input **lst, int nb, int x)
 {
+	t_input	**list;
 	t_input	*tmp;
+	int		i;
 
-	while (lst != NULL)
+	i = -1;
+	list = lst;
+	while (++i < nb + 1)
 	{
-		tmp = lst;
-		lst = lst->next;
-		if (x == 0)
-			free(tmp->input);
-		free(tmp);
+		while (lst[i] != NULL)
+		{
+			tmp = lst[i];
+			lst[i] = lst[i]->next;
+			if (x == 0)
+				free(tmp->input);
+			free(tmp);
+		}
+		free(lst[i]);
 	}
-	free(lst);
+	free (list);
 }

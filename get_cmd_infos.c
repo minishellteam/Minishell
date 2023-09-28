@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/22 13:58:57 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:02:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ int	get_cmd_infos(t_vars *var)
 	while (++i < var->pipe_nb + 1)
 	{
 		cmd[i] = get_cmd_pipeline(var, cmd[i]);
-		//printf("args = \n");
-		//print_tab(cmd[i].args);
-		//printf("fdin = %d\n", cmd[i].fdin);
-		//printf("fdout = %d\n", cmd[i].fdout);
+		printf("args = \n");
+		print_tab(cmd[i].args);
+		printf("fdin = %d\n", cmd[i].fdin);
+		printf("fdout = %d\n", cmd[i].fdout);
 		if (cmd[i].fdout == -1 || cmd[i].fdin == -1)
 		{
 			free_structures(cmd, i);

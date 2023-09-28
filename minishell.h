@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/22 11:19:01 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:48:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ typedef struct s_vars {
 	char	*line;
 	int		x;
 	int		pipe_nb;
-	t_input	*data;
+	t_input	**data;
 	t_cmd	*cmd;
 	int		orig_stdin;
 	int		orig_stdout;
+	int		tmp_fd;
+	int		here_doc[2];
 }			t_vars;
 
 typedef struct s_export {
@@ -104,10 +106,12 @@ void	get_error_message(char *error, int x);
 char	*get_cmd_error(char *error, char *begin, char *err_msg, char *end);
 char	*get_exit_error(char *error, char *begin, char *err_msg, char *end);
 char	*get_mult_arg_err(char *error, char *begin, char *err_msg, char *end);
+char	*get_file_error(char *error, char *begin, char *err_msg, char *end);
 
 void	handle_error(char *message, int x);
 void	print_tab(char **tab);
 void	free_tab(char	**tab);
+void	init_data(t_vars *var);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
@@ -139,7 +143,7 @@ t_input	*ft_lstnew_input(void *content);
 t_input	*ft_lstlast_input(t_input *lst);
 void	ft_lstadd_back_input(t_input **lst, t_input *new);
 void	print_list_input(t_input *input);
-void	free_list_input(t_input *lst, int x);
+void	free_list_input(t_input **lst, int nb, int x);
 
 void	get_limiter(t_tok *toks);
 int		check_limiter(t_vars *var);
@@ -173,9 +177,11 @@ void	free_structures(t_cmd *cmd, int stop);
 /*=============================EXECUTION======================================*/
 
 int		create_processes(t_vars *var, t_data *sh);
+void	get_here_doc_input(t_vars *var, int *pfd, int i);
 void	create_multiple_processes(t_vars *var);
 void	get_std_stream(int fd, int std_stream);
 
+int		wait_for_processes(t_vars *var);
 int		exec_cmd(t_vars *var, int i);
 
 int		is_builtin(char *cmd);

@@ -48,7 +48,7 @@ OBJS = $(SRCS:.c=.o)
 
 #------------------COMPILE------------------#
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -o pipefall
 ifdef DEBUG
 CFLAGS += -fsanitize=address -g3
 endif

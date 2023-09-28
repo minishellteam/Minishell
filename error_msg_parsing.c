@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/18 09:19:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:43:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,7 @@ static char	*get_quote_error(char *begin, char *err_msg, char *end)
 	return (err_msg);
 }
 
-static char	*get_file_error(char *error, char *begin, char *err_msg, char *end)
-{
-	//g_exit_code = 1;
-	end = ": No such file of directory\n";
-	err_msg = ft_strjoin(begin, error, 0);
-	err_msg = ft_strjoin(err_msg, end, 1);
-	return (err_msg);
-}
-
-static char	*get_ambigous_err(char *error, char *begin, char *err_msg, char *end)
+static char	*get_ambig_err(char *error, char *begin, char *err_msg, char *end)
 {
 	//g_exit_code = 1
 	end = ": Ambigous redirection\n";
@@ -81,6 +72,6 @@ void	get_error_message(char *error, int x)
 	else if (x == 6)
 		error_msg = get_mult_arg_err("exit: ", begin_msg, error_msg, end_msg);
 	else if (x == 7)
-		error_msg = get_ambigous_err(error, begin_msg, error_msg, end_msg);
+		error_msg = get_ambig_err(error, begin_msg, error_msg, end_msg);
 	handle_error(error_msg, 0);
 }

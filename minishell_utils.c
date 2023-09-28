@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/14 12:20:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:44:41 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ void	free_tab(char	**tab)
 	while (tab && tab[++i])
 		free(tab[i]);
 	free(tab);
+}
+
+void	init_data(t_vars *var)
+{
+	int	i;
+
+	i = -1;
+	while (++i < var->pipe_nb + 1)
+		var->data[i] = NULL;
 }

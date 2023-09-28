@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/21 14:46:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 10:54:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	free_vars(char *line, t_vars *var, int x)
 	free(line);
 	if (x == 1)
 		free_structures(var->cmd, var->pipe_nb);
-	free_list_input(var->data, 0);
+	free_list_input(var->data, var->pipe_nb, 0);
 	free_list(&(var->toks), 0);
 	free(var);
 }

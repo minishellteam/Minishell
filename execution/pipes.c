@@ -6,66 +6,87 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/22 15:00:21 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:53:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	wait_for_processes(t_vars *var)
+static void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i)
 {
-	int	i;
-
-	i = -1;
-	while (++i < var->pipe_nb + 1)
-	{
-		printf("pid[%d] = %d\n", i, var->cmd[i].pid);
-		if (waitpid(var->cmd[i].pid, NULL, 0) == -1)
-			return (-1);
-	}
-	return (0);
-}
-
-static void	set_stdin_pipeline(t_vars *var, int *pfd, int i)
-{
-	/*if (var->cmd[0].fdin == -2)
-	{
-		//if (close(pfd[0]) == -1)
-		//	perror("minishell6");
-		get_std_stream(fd de la pipe qui contient l'input here doc, STDIN_FILENO);
-	}*/
-	if (var->cmd[i].fdin != 0 && var->cmd[i].fdin != -2) // when there is an infile no matter if there is a pipe before
+	if (var->cmd[i].fdin == -2)
 	{
 		if (close(pfd[0]) == -1)
-			perror("minishell7");
+			perror("minishell6");
+		get_std_stream(var->here_doc[0], STDIN_FILENO);
+	}
+	else if (var->cmd[i].fdin != 0)
+	{
+		if (close(pfd[0]) == -1)
+			perror("minishell");
 		get_std_stream(var->cmd[i].fdin, STDIN_FILENO);
 	}
-	else if (i && var->cmd[i].fdin == 0)// when there is no infile but a pipe before
-		get_std_stream(pfd[0], STDIN_FILENO); 
-	else // when there is no infile and no pipe before
+	else if (i && var->cmd[i].fdin == 0)
+		get_std_stream(tmp_fd, STDIN_FILENO); 
+	else
 		if (close(pfd[0]) == -1)
-			perror("minishell12");
+			perror("minishell");
 }
 
 static void	set_stdout_pipeline(t_vars *var, int *pfd, int i)
 {
-	if (i < var->pipe_nb && var->cmd[i].fdout == 1) // when there is a pipe before
+	if (i < var->pipe_nb && var->cmd[i].fdout == 1)
 		get_std_stream(pfd[1], STDOUT_FILENO);
-	else if (var->cmd[i].fdout != 1) // when there is an outfile
+	else if (var->cmd[i].fdout != 1)
 	{
 		if (close(pfd[1]) == -1)
-			perror("minishell14");
+			perror("minishell");
 		get_std_stream(var->cmd[i].fdout, STDOUT_FILENO);
 	}
-	else // when there is no pipe after and no outfile
+	else
 		if (close(pfd[1]) == -1)
-			perror("minishell15");
+			perror("minishell");
 }
 
-static void	get_streams_pipeline(t_vars *var, int *pfd, int i)
+static void	close_pipes(t_vars *var, int *pfd, int i)
 {
-	set_stdin_pipeline(var, pfd, i);
-	set_stdout_pipeline(var, pfd, i);
+	if (i)
+		if (close(var->tmp_fd) == -1)
+			perror("minishell");
+	if (var->cmd[i].fdin == -2)
+		if (close(var->here_doc[0]) == -1)
+			perror("minishell");
+	if (close(pfd[1]) == -1)
+		perror("minishell");
+}
+
+static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
+{
+	while (++i < var->pipe_nb + 1)
+	{
+		if (var->cmd[i].fdin == -2)
+		{
+			if (pipe(var->here_doc) == -1)
+				perror("minishell");
+			get_here_doc_input(var, var->here_doc, i);
+		}
+		if (pipe(pfd) == -1)
+			perror("minishell");
+		pids[i] = fork();
+		if (pids[i] == -1)
+			perror("minishell");
+		else if (pids[i])
+			var->cmd[i].pid = pids[i];
+		if (pids[i] == 0)
+		{
+			set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+			set_stdout_pipeline(var, pfd, i);
+			if (exec_cmd(var, i))
+				exit(EXIT_FAILURE);
+		}
+		close_pipes(var, pfd, i);
+		var->tmp_fd = dup(pfd[0]);
+	}
 }
 
 void	create_multiple_processes(t_vars *var)
@@ -76,29 +97,10 @@ void	create_multiple_processes(t_vars *var)
 
 	i = -1;
 	pids = malloc(sizeof(int) * (var->pipe_nb + 1));
-	if (pipe(pfd) == -1)
-		perror("minishell1");
-	while (++i < var->pipe_nb + 1)
-	{
-		pids[i] = fork();
-		if (pids[i] == -1)
-			perror("minishell2");
-		else if (pids[i])
-			var->cmd[i].pid = pids[i];
-		if (pids[i] == 0)
-		{
-			get_streams_pipeline(var, pfd, i);
-			if (exec_cmd(var, i))
-				exit(EXIT_FAILURE);
-		}
-		//dup2(var->orig_stdin, STDIN_FILENO);
-		//dup2(var->orig_stdout, STDOUT_FILENO);
-	}
+	handle_pipes(var, pfd, pids, i);
 	if (wait_for_processes(var) == -1)
-		perror("minishell3");
-	if (close(pfd[0]) == -1)
-		perror("minishell4");
-	if (close(pfd[1]) == -1)
-		perror("minishell5");
+		perror("minishell");
+	if (close(var->tmp_fd) == -1)
+		perror("minishell");
 	free(pids);
 }
