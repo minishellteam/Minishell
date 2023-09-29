@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:53:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:38:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	create_multiple_processes(t_vars *var)
 	int	i;
 
 	i = -1;
-	pids = malloc(sizeof(int) * (var->pipe_nb + 1));
+	pids = (int *)ft_malloc(sizeof(int) * (var->pipe_nb + 1));
 	handle_pipes(var, pfd, pids, i);
 	if (wait_for_processes(var) == -1)
 		perror("minishell");

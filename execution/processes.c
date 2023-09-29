@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 15:36:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:32:43 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ static int	create_only_process(t_vars *var)
 	{
 		get_streams(var, pfd);
 		if (exec_cmd(var, 0))
-		{
-			// envoyer signal au parent pour qu'il return 1;
-			exit(EXIT_FAILURE);
-		}
+			exit(*get_exit_status());
 	}
 	if (waitpid(pid, NULL, 0) == -1)
 		perror("minishell");

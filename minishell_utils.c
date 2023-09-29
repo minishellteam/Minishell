@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:44:41 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:02:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ void	init_data(t_vars *var)
 	i = -1;
 	while (++i < var->pipe_nb + 1)
 		var->data[i] = NULL;
+}
+
+void	*ft_malloc(size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc(size);
+	if (!ptr)
+	{
+		perror("minishell");
+		exit(EXIT_FAILURE);
+	}
+	return (ptr);
 }

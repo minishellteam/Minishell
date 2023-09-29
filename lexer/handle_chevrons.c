@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 14:32:56 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:09:56 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:42:21 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_double_chevrons_token(t_vars *var)
 	if ((*(var->line) == '>' && *(var->line + 1) == '>')
 		|| (*(var->line) == '<' && *(var->line + 1) == '<'))
 	{
-		token = malloc(sizeof(char) * var->len + 1);
+		token = (char *)ft_malloc(sizeof(char) * var->len + 1);
 		ft_strlcpy(token, var->line, var->len + 1);
 		var->line += 2;
 	}

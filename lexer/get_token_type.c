@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:51:03 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:02:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:41:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_ex_code_token(t_vars *var)
 
 	var->len = 2;
 	var->start = var->line;
-	token = malloc(sizeof(char) * var->len + 1);
+	token = (char *)ft_malloc(sizeof(char) * var->len + 1);
 	ft_strlcpy(token, var->start, var->len + 1);
 	var->line += 2;
 	return (token);

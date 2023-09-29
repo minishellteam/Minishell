@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:39:14 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:36:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	expand_input(t_vars *var, int i)
 	tmp = var->data[i];
 	while (tmp)
 	{
-		exp_input = get_var(tmp->input, var->var, var->value, 0);
+		exp_input = get_var(tmp->input, var, 0);
 		tmp->input = ft_strdup(exp_input);
 		free(exp_input);
 		tmp = tmp->next;
@@ -99,7 +99,7 @@ int	check_limiter(t_vars *var)
 	int		i;
 
 	tmp = var->toks;
-	var->data = malloc(sizeof(t_input *) * (var->pipe_nb + 2));
+	var->data = (t_input **)ft_malloc(sizeof(t_input *) * (var->pipe_nb + 2));
 	init_data(var);
 	i = 0;
 	while (tmp)

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:48:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:23:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 # include <limits.h>
 
 # define BUFF_SIZE 1000
-
-//int	g_exit_code;
 
 typedef struct s_input {
 	char			*input;
@@ -67,6 +65,7 @@ typedef struct s_vars {
 	int		len;
 	char	*line;
 	int		x;
+	int		bool;
 	int		pipe_nb;
 	t_input	**data;
 	t_cmd	*cmd;
@@ -112,6 +111,9 @@ void	handle_error(char *message, int x);
 void	print_tab(char **tab);
 void	free_tab(char	**tab);
 void	init_data(t_vars *var);
+void	*ft_malloc(size_t size);
+int		*get_exit_status(void);
+void	set_exit_status(int status);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
@@ -164,7 +166,8 @@ void	get_files(t_tok *toks);
 int		handle_quotes(t_vars *var);
 int		expand_vars(void);
 
-char	*get_var(char *token, char *var, char *value, int x);
+char	*get_var(char *token, t_vars *var, int x);
+void 	get_value(t_vars *var);
 char	get_quote_type(char *token);
 
 /*==============================REDIRECTIONS==================================*/

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 10:54:15 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:22:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->toks = NULL;
 	var->token = NULL;
 	var->data = NULL;
+	var->bool = 0;
 	var->my_env = sh->myenv;
 }
 
@@ -34,7 +35,7 @@ static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 {
 	while (1)
 	{
-		var = (t_vars *)malloc(sizeof(t_vars));
+		var = (t_vars *)ft_malloc(sizeof(t_vars));
 		init_var(var, sh);
 		line = readline("minishell$ ");
 		if (!line)
@@ -66,7 +67,7 @@ int	main(int ac, char **av, char **env)
 	// t_data			cmd;
 
 	(void)av;
-	//g_exit_code = 0;
+	set_exit_status(EXIT_SUCCESS);
 	var = NULL;
 	if (ac != 1)
 		handle_error("ERROR: Wrong number of arguments\n", 1);

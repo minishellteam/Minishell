@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 15:02:42 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:36:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	**get_args(t_vars *var)
 
 	tmp = var->pipeline;
 	args_nb = get_args_nb(tmp);
-	args = malloc(sizeof(char *) * (args_nb + 1));
+	args = (char **)ft_malloc(sizeof(char *) * (args_nb + 1));
 	i = 0;
 	while (tmp && ft_strcmp(tmp->type, "PIPE"))
 	{
@@ -84,14 +84,14 @@ int	get_cmd_infos(t_vars *var)
 	i = -1;
 	tmp = var->toks;
 	var->pipeline = tmp;
-	cmd = (t_cmd *)malloc(sizeof(t_cmd) * (var->pipe_nb + 1));
+	cmd = (t_cmd *)ft_malloc(sizeof(t_cmd) * (var->pipe_nb + 1));
 	while (++i < var->pipe_nb + 1)
 	{
 		cmd[i] = get_cmd_pipeline(var, cmd[i]);
-		printf("args = \n");
-		print_tab(cmd[i].args);
-		printf("fdin = %d\n", cmd[i].fdin);
-		printf("fdout = %d\n", cmd[i].fdout);
+		//printf("args = \n");
+		//print_tab(cmd[i].args);
+		//printf("fdin = %d\n", cmd[i].fdin);
+		//printf("fdout = %d\n", cmd[i].fdout);
 		if (cmd[i].fdout == -1 || cmd[i].fdin == -1)
 		{
 			free_structures(cmd, i);

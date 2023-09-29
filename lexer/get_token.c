@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 15:02:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:42:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_special_tok(t_vars *var)
 	}
 	if (check_question_mark(var->line, special_tok))
 		return (NULL);
-	token = malloc(sizeof(char) * (var->len + 1));
+	token = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(token, special_tok, var->len + 1);
 	var->line++;
 	return (token);
@@ -73,7 +73,7 @@ static char	*get_string_tok(t_vars *var)
 	}
 	var->end = var->line - 1;
 	var->len = var->end - var->start + 1;
-	token = malloc(sizeof(char) * (var->len + 1));
+	token = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(token, var->start, var->len + 1);
 	return (token);
 }
@@ -123,8 +123,8 @@ int	tokenize_line(char *line, t_vars *var)
 	check_limiter(var);
 	handle_quotes(var);
 	get_files(var->toks);
-	printf("tokens= \n");
-	print_list(var->toks, 0);
-	print_list(var->toks, 1);
+	//printf("tokens= \n");
+	//print_list(var->toks, 0);
+	//print_list(var->toks, 1);
 	return (0);
 }

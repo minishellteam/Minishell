@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:43:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:23:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 {
-	//g_exit_code = 1;
+	set_exit_status(1);
 	end = ": undefined token\n";
 	err_msg = ft_strjoin(begin, error, 0);
 	err_msg = ft_strjoin(err_msg, end, 1);
@@ -23,7 +23,7 @@ static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 
 static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 {
-	//g_exit_code = 2;
+	set_exit_status(2);
 	end = "syntax error near unexpected token `";
 	err_msg = ft_strjoin(begin, end, 0);
 	err_msg = ft_strjoin(err_msg, error, 1);
@@ -33,7 +33,7 @@ static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 
 static char	*get_quote_error(char *begin, char *err_msg, char *end)
 {
-	//g_exit_code = 1;
+	set_exit_status(1);
 	end = "syntax error: expecting closing quote\n";
 	err_msg = ft_strjoin(begin, end, 0);
 	return (err_msg);
@@ -41,7 +41,7 @@ static char	*get_quote_error(char *begin, char *err_msg, char *end)
 
 static char	*get_ambig_err(char *error, char *begin, char *err_msg, char *end)
 {
-	//g_exit_code = 1
+	set_exit_status(1);
 	end = ": Ambigous redirection\n";
 	err_msg = ft_strjoin(begin, error, 0);
 	err_msg = ft_strjoin(err_msg, end, 1);

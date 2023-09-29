@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:03:06 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:42:51 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_tok	*ft_lst_new(char *token)
 {
 	t_tok	*new_lst;
 
-	new_lst = malloc(sizeof(t_tok));
+	new_lst = (t_tok *)ft_malloc(sizeof(t_tok));
 	if (!new_lst)
 		return (NULL);
 	new_lst->tok = token;

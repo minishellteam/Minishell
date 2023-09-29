@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 18:31:37 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:58:51 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ void	get_files(t_tok *toks)
 		if (is_chevron(tmp->type, 1))
 		{
 			if (!ft_strcmp(tmp->type, "GREATER")
-				|| !ft_strcmp(tmp->type, "D_GREATER"))
+				|| !ft_strcmp(tmp->type, "D_GREATER")
+				|| !ft_strcmp(tmp->type, "LESSER"))
 			{
 				if (ft_strcmp(tmp->next->type, "SKIP"))
 					tmp->next->type = "FILE";
 			}
-			else if (!ft_strcmp(tmp->type, "LESSER"))
-				tmp->next->type = "FILE";
 		}
 		tmp = tmp->next;
 	}

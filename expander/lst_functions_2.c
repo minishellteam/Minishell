@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:24:25 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/28 14:35:14 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:08:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_input	*ft_lstnew_input(void *content)
 {
 	t_input	*lstnew;
 
-	lstnew = malloc(sizeof(t_input));
+	lstnew = (t_input *)ft_malloc(sizeof(t_input));
 	if (!lstnew)
 		return (0);
 	lstnew->input = content;
@@ -68,15 +68,15 @@ void	free_list_input(t_input **lst, int nb, int x)
 	list = lst;
 	while (++i < nb + 1)
 	{
-		while (lst[i] != NULL)
+		while (lst && lst[i] != NULL)
 		{
 			tmp = lst[i];
 			lst[i] = lst[i]->next;
 			if (x == 0)
 				free(tmp->input);
 			free(tmp);
+			free(lst[i]);
 		}
-		free(lst[i]);
 	}
 	free (list);
 }
