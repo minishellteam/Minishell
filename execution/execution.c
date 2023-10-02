@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 14:18:52 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:16:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_path(t_vars *var)
 	path = NULL;
 	while (var->my_env[++i])
 	{
-		if (ft_strnstr(var->my_env[i], "PATH=/home", ft_strlen(var->my_env[i])))
+		if (!ft_strncmp(var->my_env[i], "PATH=", 5))
 		{
 			path = var->my_env[i] + 5;
 			break ;
@@ -68,7 +68,7 @@ int	exec_cmd(t_vars *var)
 		return (1);
 	}
 	cmds[0] = cmd_path;
-	print_tab(cmds);
+	//print_tab(cmds);
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
 		perror("minishell: ");

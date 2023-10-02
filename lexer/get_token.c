@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 14:39:47 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:40:13 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,12 @@ int	tokenize_line(char *line, t_vars *var)
 	var->toks = get_token_type(var->toks);
 	if (parse_tokens(var))
 		return (1);
+	get_limiter(var->toks);
 	check_limiter(var);
 	handle_quotes(var);
-	printf("tokens = \n");
-	print_list(var->toks, 0);
-	print_list(var->toks, 1);
+	get_files(var->toks);
+	//printf("tokens= \n");
+	//print_list(var->toks, 0);
+	//print_list(var->toks, 1);
 	return (0);
 }

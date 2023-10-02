@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/20 15:08:16 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:21:12 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	ft_lstadd_back_input(t_input **lst, t_input *new);
 void	print_list_input(t_input *input);
 void	free_list_input(t_input *lst, int x);
 
+void	get_limiter(t_tok *toks);
 int		check_limiter(t_vars *var);
 
 /*===================================PARSER===================================*/
@@ -187,6 +188,7 @@ void	exp_env(t_data *sh);
 int		array_size(char **array);
 void	free_array(t_data *sh);
 void	update_env(t_data *sh, char **tmp);
+char	*check_var(char *var);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);

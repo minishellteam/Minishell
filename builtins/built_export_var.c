@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/21 12:31:18 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:20:59 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	exp_env(t_data *sh)
 {
 	sh->j = -1;
+	sh->expenv = malloc(sizeof(char *) * array_size(sh->myenv));
 	while (sh->myenv[++sh->j])
 	{
 		sh->expenv[sh->j] = malloc(sizeof(char) \
@@ -25,7 +26,7 @@ void	exp_env(t_data *sh)
 	sh->expenv[sh->j] = NULL;
 }
 
-static	char	*check_var(char *var)
+char	*check_var(char *var)
 {
 	int		i;
 	char	*final;
@@ -117,3 +118,4 @@ void	export_var(t_data *sh)
 	bool = check_free(sh);
 	update_envs(sh, tmp, bool);
 }
+// SEPARER LA FONCTION ET FAIRE UNE FONCTION POUR COMPTER LE NOMBRE DE VARIABLE SANS '=' À ENLEVER AU MALLOC

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/19 15:37:44 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:11:36 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ void	search_var(t_data *sh, char **tmp)
 	sh->c = 0;
 	while (sh->myenv[++sh->j])
 	{
-		if (!ft_strncmp(sh->cmds[sh->i], sh->myenv[sh->j], \
-			ft_strlen(sh->cmds[sh->i])) \
-				&& sh->myenv[sh->j][ft_strlen(sh->cmds[sh->i]) + 1] == '=')
+		if (!ft_strcmp(check_var(sh->cmds[sh->i]), check_var(sh->myenv[sh->j])))
 		{
 			free(sh->myenv[sh->j]);
 			sh->j++;
+			printf("pass\n");
 		}
 		tmp[sh->c] = malloc(sizeof(char) \
 			* (ft_strlen(sh->myenv[sh->j]) + 1));
@@ -66,3 +65,4 @@ void	built_unset(t_data *sh)
 		search_var(sh, tmp);
 	}
 }
+// REFAIRE UNSET EN SE BASANT SUR L'ENV EXPORT

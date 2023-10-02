@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 12:26:22 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:50:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	exec_builtin(t_data *sh)
 void	handle_builtin(t_vars *var, t_data *sh)
 {
 	sh->cmds = var->cmd[0].args;
-	if (var->cmd[0].fdin != 0)
+	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
 		get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
 	if (var->cmd[0].fdout != 1)
 		get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
 	exec_builtin(sh);
-	if (var->cmd[0].fdin != 0)
+	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
 		dup2(var->orig_stdin, STDIN_FILENO);
 	if (var->cmd[0].fdout != 1)
 		dup2(var->orig_stdout, STDOUT_FILENO);
