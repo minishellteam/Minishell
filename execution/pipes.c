@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 13:38:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:44:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,13 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 		{
 			set_stdin_pipeline(var, pfd, var->tmp_fd, i);
 			set_stdout_pipeline(var, pfd, i);
-			if (exec_cmd(var, i))
+			if (is_builtin(var->cmd[i].args[0]))
+			{
+				var->sh->cmds = var->cmd[i].args;
+				exec_builtin(var->sh);
+				exit(*get_exit_status());
+			}
+			else if (exec_cmd(var, i))
 				exit(EXIT_FAILURE);
 		}
 		close_pipes(var, pfd, i);

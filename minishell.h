@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 15:23:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:43:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,6 @@ typedef struct s_cmd {
 	int		fdout;
 }			t_cmd;
 
-typedef struct s_vars {
-	char	**my_env;
-	t_tok	*toks;
-	t_tok	*tok;
-	t_tok	*pipeline;
-	t_tok	*pipeline_end;
-	char	*token;
-	char	*start;
-	char	*end;
-	char	*var;
-	char	*value;
-	int		len;
-	char	*line;
-	int		x;
-	int		bool;
-	int		pipe_nb;
-	t_input	**data;
-	t_cmd	*cmd;
-	int		orig_stdin;
-	int		orig_stdout;
-	int		tmp_fd;
-	int		here_doc[2];
-}			t_vars;
-
 typedef struct s_export {
 	char	**env;
 	char	**exp;
@@ -97,6 +73,31 @@ typedef struct s_data {
 	int			v;
 	char		**echo;
 }				t_data;
+
+typedef struct s_vars {
+	char	**my_env;
+	t_tok	*toks;
+	t_tok	*tok;
+	t_tok	*pipeline;
+	t_tok	*pipeline_end;
+	char	*token;
+	char	*start;
+	char	*end;
+	char	*var;
+	char	*value;
+	int		len;
+	char	*line;
+	int		x;
+	int		bool;
+	int		pipe_nb;
+	t_input	**data;
+	t_cmd	*cmd;
+	int		orig_stdin;
+	int		orig_stdout;
+	int		tmp_fd;
+	t_data	*sh;
+	int		here_doc[2];
+}			t_vars;
 
 int		main(int ac, char **av, char **env);
 
