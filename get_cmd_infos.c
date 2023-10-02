@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 13:36:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 22:48:04 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_structures(t_cmd *cmd, int stop)
 
 	i = -1;
 	while (++i <= stop)
-		free_tab(cmd[i].args);
+		free_tab(cmd[i].args, 0);
 	free(cmd);
 }
 

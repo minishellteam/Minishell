@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 14:02:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 22:17:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	print_tab(char **tab)
 	printf("\n");
 }
 
-void	free_tab(char	**tab)
+void	free_tab(char	**tab, int i)
 {
-	int	i;
-
-	i = -1;
-	while (tab && tab[++i])
+	while (tab && tab[i])
+	{
 		free(tab[i]);
+		i++;
+	}
 	free(tab);
 }
 

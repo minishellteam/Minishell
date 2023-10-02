@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 15:41:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 22:32:51 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int	create_processes(t_vars *var, t_data *sh)
 	
 	i = -1;
 	pids = NULL;
-	var->orig_stdin = dup(STDIN_FILENO);
-	var->orig_stdout = dup(STDOUT_FILENO);
 	var->sh = sh;
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
 		handle_builtin(var, sh);

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 15:43:44 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 22:17:13 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*get_file_error(char *error, char *begin, char *err_msg, char *end);
 
 void	handle_error(char *message, int x);
 void	print_tab(char **tab);
-void	free_tab(char	**tab);
+void	free_tab(char	**tab, int i);
 void	init_data(t_vars *var);
 void	*ft_malloc(size_t size);
 int		*get_exit_status(void);

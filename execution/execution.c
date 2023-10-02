@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 15:38:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 22:44:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ static char	*get_cmd_path(char *cmd, char *path)
 		test_cmd_path = ft_strjoin(splitted_paths[i], "/", 1);
 		cmd_path = ft_strjoin(test_cmd_path, cmd, 1);
 		if (access(cmd_path, X_OK) == 0)
+		{
+			free_tab(splitted_paths, i + 1);
 			return (cmd_path);
+		}
 		free(cmd_path);
 	}
 	free(splitted_paths);
