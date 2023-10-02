@@ -6,18 +6,18 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/29 15:46:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:58:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	free_exit(void)
+/*static void	free_exit(void)
 {
 	//if (sh->export->env || sh->export->exp)
 	//	free_tab();
 	exit(*get_exit_status());
-}
+}*/
 
 long long	ft_atol(const char *str)
 {
@@ -54,12 +54,15 @@ static int	check_long(t_data *sh)
 	while (sh->cmds[1][++i])
 		if (!ft_isdigit(sh->cmds[1][i]) && sh->cmds[1][0] != '-')
 			return (1);
-	if (ft_strlen(sh->cmds[1]) == 20 && ft_atol(sh->cmds[1]) < 0)
+	if (ft_strlen(sh->cmds[1]) == 20 && sh->cmds[1][0] == '-')
 		sign = -1;
-	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19)) \
-		|| (sign < 0 && (sh->cmds[1][19] > '8' \
-		|| ft_strlen(sh->cmds[1]) > 20)))
+	if (ft_strlen(sh->cmds[1]) >= 19)
+	{
+		if ((sign > 0 && ft_strlen(sh->cmds[1]) == 19 && sh->cmds[1][18] < '8') \
+		|| (sign < 0 && ft_strlen(sh->cmds[1]) == 20 && sh->cmds[1][19] < '9'))
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 
@@ -85,10 +88,10 @@ static void	arg_error(t_data *sh)
 void	built_exit(t_data *sh)
 {
 	printf("exit\n");
-	if (array_size(sh->cmds) <= 3)
-		free_exit();
+	//if (array_size(sh->cmds) <= 3)
+	//	free_exit();
 	if (array_size(sh->cmds) == 2)
-		exit(EXIT_SUCCESS);
+		exit(*get_exit_status());
 	else if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)

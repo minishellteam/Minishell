@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 15:22:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:34:08 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	main(int ac, char **av, char **env)
 	t_vars		*var;
 	t_data		sh;
 	//struct sigaction	sig;
-	// t_data			cmd;
 
 	(void)av;
 	set_exit_status(EXIT_SUCCESS);

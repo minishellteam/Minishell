@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 09:43:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:43:44 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ void	get_files(t_tok *toks);
 /*==================================EXPANDER==================================*/
 
 int		handle_quotes(t_vars *var);
-int		expand_vars(void);
 
 char	*get_var(char *token, t_vars *var, int x);
 void 	get_value(t_vars *var);
@@ -184,6 +183,8 @@ int		create_processes(t_vars *var, t_data *sh);
 void	get_here_doc_input(t_vars *var, int *pfd, int i);
 void	create_multiple_processes(t_vars *var);
 void	get_std_stream(int fd, int std_stream);
+void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
+void	set_stdout_pipeline(t_vars *var, int *pfd, int i);
 
 int		wait_for_processes(t_vars *var);
 int		exec_cmd(t_vars *var, int i);

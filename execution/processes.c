@@ -6,35 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 09:38:06 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:41:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	get_std_stream(int fd, int std_stream)
-{
-	if (dup2(fd, std_stream) == -1)
-	{
-		perror("minishell20");
-		exit(EXIT_FAILURE);
-	}
-	if (close(fd) == -1)
-	{
-		perror("minishell21");
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void	get_streams(t_vars *var, int *pfd)
-{
-	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
-		get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
-	else if (var->cmd[0].fdin == -2)
-		get_std_stream(pfd[0], STDIN_FILENO);
-	if (var->cmd[0].fdout != 1)
-		get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
-}
 
 void	get_here_doc_input(t_vars *var, int *pfd, int i)
 {
@@ -50,49 +26,78 @@ void	get_here_doc_input(t_vars *var, int *pfd, int i)
 		perror("minishell");
 }
 
-static int	create_only_process(t_vars *var)
+static void	close_pipes(t_vars *var, int *pfd, int i)
 {
-	int		pid;
-	int		pfd[2];
+	if (i)
+		if (close(var->tmp_fd) == -1)
+			perror("minishell");
+	if (var->cmd[i].fdin == -2)
+		if (close(var->here_doc[0]) == -1)
+			perror("minishell");
+	if (close(pfd[1]) == -1)
+		perror("minishell");
+}
 
-	if (var->cmd[0].fdin == -2)
+static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
+{
+	while (++i < var->pipe_nb + 1)
 	{
+		if (var->cmd[i].fdin == -2)
+		{
+			if (pipe(var->here_doc) == -1)
+				perror("minishell");
+			get_here_doc_input(var, var->here_doc, i);
+		}
 		if (pipe(pfd) == -1)
 			perror("minishell");
-		get_here_doc_input(var, pfd, 0);
+		pids[i] = fork();
+		if (pids[i] == -1)
+			perror("minishell");
+		else if (pids[i])
+			var->cmd[i].pid = pids[i];
+		if (pids[i] == 0)
+		{
+			set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+			set_stdout_pipeline(var, pfd, i);
+			if (is_builtin(var->cmd[i].args[0]))
+			{
+				var->sh->cmds = var->cmd[i].args;
+				exec_builtin(var->sh);
+				exit(*get_exit_status());
+			}
+			else if (exec_cmd(var, i))
+				exit(*get_exit_status());
+		}
+		close_pipes(var, pfd, i);
+		var->tmp_fd = dup(pfd[0]);
 	}
-	pid = fork();
-	if (pid == -1)
-		perror("minishell");
-	else if (pid)
-		var->cmd[0].pid = pid;
-	if (pid == 0)
-	{
-		get_streams(var, pfd);
-		if (exec_cmd(var, 0))
-			exit(*get_exit_status());
-	}
-	if (waitpid(pid, NULL, 0) == -1)
-		perror("minishell");
-	return (0);
 }
 
 int	create_processes(t_vars *var, t_data *sh)
 {
+	int	pfd[2];
+	int	*pids;
+	int	i;
+	
+	i = -1;
+	pids = NULL;
 	var->orig_stdin = dup(STDIN_FILENO);
 	var->orig_stdout = dup(STDOUT_FILENO);
 	var->sh = sh;
-	if (!var->pipe_nb)
-	{
-		if (var->cmd[0].args[0] && is_builtin(var->cmd[0].args[0]))
-			handle_builtin(var, sh);
-		else if (var->cmd[0].args[0] && !ft_strcmp(var->cmd[0].args[0], ""))
-			get_error_message("", 4);
-		else
-			if (create_only_process(var))
-				return (1);
-	}
+	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
+		handle_builtin(var, sh);
+	else if (!var->pipe_nb && var->cmd[0].args[0]
+		&& !ft_strcmp(var->cmd[0].args[0], ""))
+		get_error_message("", 4);
 	else
-		create_multiple_processes(var);
+	{
+		pids = (int *)ft_malloc(sizeof(int) * (var->pipe_nb + 1));
+		handle_pipes(var, pfd, pids, i);
+		if (wait_for_processes(var) == -1)
+			perror("minishell");
+		if (close(var->tmp_fd) == -1)
+			perror("minishell");
+		free(pids);	
+	}
 	return (0);
 }

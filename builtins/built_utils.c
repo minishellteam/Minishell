@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/29 09:31:46 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:02:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	built_pwd(void)
 void	built_cd(t_data *sh)
 {
 	if (chdir(sh->cmds[1]) == -1)
+	{
 		perror("minishell");
+		set_exit_status(EXIT_FAILURE);
+	}
 }
 
 void	built_env(t_data *sh)

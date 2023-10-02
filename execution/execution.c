@@ -6,24 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 15:29:19 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:38:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	wait_for_processes(t_vars *var)
-{
-	int	i;
-
-	i = -1;
-	while (++i < var->pipe_nb + 1)
-	{
-		if (waitpid(var->cmd[i].pid, NULL, 0) == -1)
-			return (-1);
-	}
-	return (0);
-}
 
 static char	*get_cmd_path(char *cmd, char *path)
 {
@@ -77,14 +64,12 @@ int	exec_cmd(t_vars *var, int i)
 	cmd_path = get_cmd_path(cmds[0], path);
 	if (!cmd_path)
 	{
-		printf("errno = %d\n", errno);
 		get_error_message(cmds[0], 4);
 		return (1);
 	}
 	cmds[0] = cmd_path;
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		set_exit_status(errno);
 		perror("minishell");
 		return (1);
 	}
