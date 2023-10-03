@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 13:42:51 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:35:01 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,6 @@ void	ft_lst_add_back(t_tok **lst, t_tok *new)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
-}
-
-void	print_list(t_tok *token, int x)
-{
-	t_tok	*tmp;
-
-	tmp = token;
-	if (x == 0)
-	{
-		while (tmp != NULL)
-		{
-			printf("%s\n", tmp->tok);
-			tmp = tmp->next;
-		}
-	}
-	else if (x == 1)
-	{
-		while (tmp != NULL)
-		{
-			printf("%s\n", tmp->type);
-			tmp = tmp->next;
-		}
-	}
-	else
-	{
-		while (tmp != NULL)
-		{
-			printf("%s\n", tmp->prev->type);
-			tmp = tmp->next;
-		}
-	}
 }
 
 t_tok	*ft_lst_last(t_tok *lst)
@@ -112,3 +81,34 @@ void	free_list(t_tok **lst, int x)
 	}
 	free(*lst);
 }
+
+/*void	print_list(t_tok *token, int x)
+{
+	t_tok	*tmp;
+
+	tmp = token;
+	if (x == 0)
+	{
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->tok);
+			tmp = tmp->next;
+		}
+	}
+	else if (x == 1)
+	{
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->type);
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		while (tmp != NULL)
+		{
+			printf("%s\n", tmp->prev->type);
+			tmp = tmp->next;
+		}
+	}
+}*/

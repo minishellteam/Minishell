@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:02:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 22:41:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:31:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	wait_for_processes(t_vars *var)
 	int	status;
 
 	i = -1;
-	
 	while (++i < var->pipe_nb + 1)
 	{
 		if (waitpid(var->cmd[i].pid, &status, 0) == -1)

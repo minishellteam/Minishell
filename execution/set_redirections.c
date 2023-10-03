@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirections.c                                            :+:      :+:    :+:   */
+/*   set_redirections.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 15:45:50 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:37:40 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,15 @@ void	set_stdout_pipeline(t_vars *var, int *pfd, int i)
 	}
 	else
 		if (close(pfd[1]) == -1)
+			perror("minishell");
+}
+
+void	close_files(t_vars *var, int i)
+{
+	if (var->cmd[i].fdin != 0 && var->cmd[i].fdin != -2)
+		if (close(var->cmd[i].fdin) == -1)
+			perror("minishell");
+	if (var->cmd[i].fdout != 1)
+		if (close(var->cmd[i].fdout) == -1)
 			perror("minishell");
 }

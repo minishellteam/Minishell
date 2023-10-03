@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 22:17:13 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:27:50 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,10 @@ void	print_tab(char **tab);
 void	free_tab(char	**tab, int i);
 void	init_data(t_vars *var);
 void	*ft_malloc(size_t size);
+
 int		*get_exit_status(void);
 void	set_exit_status(int status);
+int		wait_for_processes(t_vars *var);
 
 void	signal_handler(int signal, siginfo_t *sa, void *content);
 
@@ -159,7 +161,6 @@ int		check_before_pipe(t_vars *var);
 int		get_nb_of_pipes(t_tok *toks);
 int		check_double_pipe(t_tok *toks);
 
-//void	remove_empty_tok(void);
 void	get_files(t_tok *toks);
 
 /*==================================EXPANDER==================================*/
@@ -167,8 +168,10 @@ void	get_files(t_tok *toks);
 int		handle_quotes(t_vars *var);
 
 char	*get_var(char *token, t_vars *var, int x);
-void 	get_value(t_vars *var);
 char	get_quote_type(char *token);
+
+void	get_value(t_vars *var);
+char	*replace_var_by_value(char *line, char *value, int start, int end);
 
 /*==============================REDIRECTIONS==================================*/
 
@@ -181,12 +184,12 @@ void	free_structures(t_cmd *cmd, int stop);
 
 int		create_processes(t_vars *var, t_data *sh);
 void	get_here_doc_input(t_vars *var, int *pfd, int i);
-void	create_multiple_processes(t_vars *var);
+
 void	get_std_stream(int fd, int std_stream);
 void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
 void	set_stdout_pipeline(t_vars *var, int *pfd, int i);
+void	close_files(t_vars *var, int i);
 
-int		wait_for_processes(t_vars *var);
 int		exec_cmd(t_vars *var, int i);
 
 int		is_builtin(char *cmd);

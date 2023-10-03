@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 19:17:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 13:09:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:33:04 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,10 @@ int	get_out_redir(t_vars *var)
 			return (-1);
 		if (!ft_strcmp(tmp->type, "FILE"))
 			fd = check_outfile(tmp, fd);
-		else if (!ft_strcmp(tmp->type, "SKIP")
-			&& tmp->prev
+		else if (!ft_strcmp(tmp->type, "SKIP") && tmp->prev
 			&& (!ft_strcmp(tmp->prev->type, "GREATER")
-			|| !ft_strcmp(tmp->prev->type, "D_GREATER")
-			|| !ft_strcmp(tmp->prev->type, "LESSER")))
+				|| !ft_strcmp(tmp->prev->type, "D_GREATER")
+				|| !ft_strcmp(tmp->prev->type, "LESSER")))
 			get_error_message(tmp->tok, 7);
 		tmp = tmp->next;
 	}

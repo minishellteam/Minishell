@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 22:32:51 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:41:04 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 		perror("minishell");
 }
 
+static void	access_child_process(t_vars *var, int *pfd, int i)
+{
+	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+	set_stdout_pipeline(var, pfd, i);
+	if (is_builtin(var->cmd[i].args[0]))
+	{
+		var->sh->cmds = var->cmd[i].args;
+		exec_builtin(var->sh);
+		exit(*get_exit_status());
+	}
+	else if (exec_cmd(var, i))
+		exit(*get_exit_status());
+}
+
 static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 {
 	while (++i < var->pipe_nb + 1)
@@ -56,19 +70,9 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 		else if (pids[i])
 			var->cmd[i].pid = pids[i];
 		if (pids[i] == 0)
-		{
-			set_stdin_pipeline(var, pfd, var->tmp_fd, i);
-			set_stdout_pipeline(var, pfd, i);
-			if (is_builtin(var->cmd[i].args[0]))
-			{
-				var->sh->cmds = var->cmd[i].args;
-				exec_builtin(var->sh);
-				exit(*get_exit_status());
-			}
-			else if (exec_cmd(var, i))
-				exit(*get_exit_status());
-		}
+			access_child_process(var, pfd, i);
 		close_pipes(var, pfd, i);
+		close_files(var, i);
 		var->tmp_fd = dup(pfd[0]);
 	}
 }
@@ -78,7 +82,7 @@ int	create_processes(t_vars *var, t_data *sh)
 	int	pfd[2];
 	int	*pids;
 	int	i;
-	
+
 	i = -1;
 	pids = NULL;
 	var->sh = sh;
@@ -95,7 +99,7 @@ int	create_processes(t_vars *var, t_data *sh)
 			perror("minishell");
 		if (close(var->tmp_fd) == -1)
 			perror("minishell");
-		free(pids);	
+		free(pids);
 	}
 	return (0);
 }
