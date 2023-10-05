@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/21 12:41:27 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:00:42 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // static void	free_exit(void)
 // {
-// 	// if (sh->export->env || sh->export->exp)
-// 	// 	free_tab();
-// 	exit(EXIT_SUCCESS);
+// 	//if (sh->export->env || sh->export->exp)
+// 	//	free_tab();
+// 	exit(*get_exit_status());
 // }
 
 long long	ft_atol(const char *str)
@@ -54,12 +54,16 @@ static int	check_long(t_data *sh)
 	while (sh->cmds[1][++i])
 		if (!ft_isdigit(sh->cmds[1][i]) && sh->cmds[1][0] != '-')
 			return (1);
-	if (ft_strlen(sh->cmds[1]) == 20 && ft_atol(sh->cmds[1]) < 0)
+	if (sh->cmds[1][0] == '-')
 		sign = -1;
-	if ((sign > 0 && (sh->cmds[1][18] > '7' || ft_strlen(sh->cmds[1]) > 19)) \
-		|| (sign < 0 && (sh->cmds[1][19] > '8' \
-		|| ft_strlen(sh->cmds[1]) > 20)))
+	if (ft_strlen(sh->cmds[1]) >= 19)
+	{
+		if ((sign > 0 && ft_strlen(sh->cmds[1]) == 19 && sh->cmds[1][18] < '8') \
+			|| (sign < 0 && ft_strlen(sh->cmds[1]) == 20 \
+			&& sh->cmds[1][19] < '9'))
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 
@@ -67,18 +71,19 @@ static void	arg_error(t_data *sh)
 {
 	long long	new_nb;
 
+	printf("res = %d\n", check_long(sh));
 	if (check_long(sh) == 1)
 	{
 		get_error_message(sh->cmds[1], 5);
 		return ;
 	}
 	if (ft_atol(sh->cmds[1]) >= 0)
-		g_exit_code = ft_atol(sh->cmds[1]) % 256;
+		set_exit_status(ft_atol(sh->cmds[1]) % 256);
 	else
 	{
 		new_nb = ft_atol(sh->cmds[1]) * -1;
 		new_nb %= 256;
-		g_exit_code = 256 - new_nb;
+		set_exit_status(256 - new_nb);
 	}
 }
 
@@ -96,5 +101,5 @@ void	built_exit(t_data *sh)
 		get_error_message(NULL, 6);
 		return ;
 	}
-	exit(g_exit_code);
+	exit(*get_exit_status());
 }

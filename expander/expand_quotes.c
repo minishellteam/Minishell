@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 11:59:17 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:36:06 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static char	*get_quoted_token(t_vars *var, char q_type)
 	var->end = var->start - 1;
 	var->len = var->end - start + 1;
 	var->start++;
-	quoted_tok = malloc(sizeof(char) * (var->len + 1));
+	quoted_tok = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(quoted_tok, start, var->len + 1);
 	if (q_type == '\"')
-		quoted_tok = get_var(quoted_tok, var->var, var->value, 0);
+		quoted_tok = get_var(quoted_tok, var, 0);
 	return (quoted_tok);
 }
 
@@ -49,9 +49,9 @@ static char	*get_non_quoted_tok(t_vars *var)
 			var->start++;
 		var->end = var->start - 1;
 		var->len = var->end - start + 1;
-		str_tok = malloc(sizeof(char) * (var->len + 1));
+		str_tok = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 		ft_strlcpy(str_tok, start, var->len + 1);
-		str_tok = get_var(str_tok, var->var, var->value, 0);
+		str_tok = get_var(str_tok, var, 0);
 	}
 	return (str_tok);
 }
@@ -96,7 +96,7 @@ static int	check_if_empty_tok(t_tok *tmp, t_vars *var)
 			var->end++;
 		if (*(var->end) == '\"' && !*(var->end + 1))
 		{
-			tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
+			tmp->tok = get_var(tmp->tok, var, 0);
 			if (!ft_strcmp(tmp->tok, "\"\""))
 			{
 				tmp->type = "EMPTY";
@@ -130,9 +130,9 @@ int	handle_quotes(t_vars *var)
 			else if (ft_strchr(tmp->tok, '$'))
 			{
 				if (tmp->tok[0] == '$')
-					tmp->tok = get_var(tmp->tok, var->var, var->value, 1);
+					tmp->tok = get_var(tmp->tok, var, 1);
 				else
-					tmp->tok = get_var(tmp->tok, var->var, var->value, 0);
+					tmp->tok = get_var(tmp->tok, var, 0);
 				if (!ft_strcmp(tmp->tok, ""))
 					tmp->type = "SKIP";
 			}

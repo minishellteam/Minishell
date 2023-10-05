@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/21 12:40:13 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:02:07 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_special_tok(t_vars *var)
 	}
 	if (check_question_mark(var->line, special_tok))
 		return (NULL);
-	token = malloc(sizeof(char) * (var->len + 1));
+	token = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(token, special_tok, var->len + 1);
 	var->line++;
 	return (token);
@@ -73,7 +73,7 @@ static char	*get_string_tok(t_vars *var)
 	}
 	var->end = var->line - 1;
 	var->len = var->end - var->start + 1;
-	token = malloc(sizeof(char) * (var->len + 1));
+	token = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(token, var->start, var->len + 1);
 	return (token);
 }

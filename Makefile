@@ -18,6 +18,7 @@ SRCS	=	main.c \
 			minishell_utils.c \
 			error_msg_parsing.c \
 			error_msg_exec.c \
+			exit_status.c \
 			./lexer/lst_functions.c \
 			./lexer/get_token.c \
 			./lexer/check_token.c \
@@ -48,7 +49,7 @@ OBJS = $(SRCS:.c=.o)
 
 #------------------COMPILE------------------#
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -o pipefall
 ifdef DEBUG
 CFLAGS += -fsanitize=address -g3
 endif

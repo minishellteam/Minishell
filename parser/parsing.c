@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:06:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 18:22:17 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:30:34 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	parse_tokens(t_vars *var)
 	int				pipe_nb;
 	int				i;
 
+	if (!var->toks)
+		return (1);
 	var->pipeline = var->toks;
 	var->pipeline_end = var->toks;
 	if (check_double_pipe(var->toks))

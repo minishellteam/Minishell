@@ -6,13 +6,26 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/18 14:16:25 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:29:19 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_cmd_path(t_vars *var, char *path)
+int	wait_for_processes(t_vars *var)
+{
+	int	i;
+
+	i = -1;
+	while (++i < var->pipe_nb + 1)
+	{
+		if (waitpid(var->cmd[i].pid, NULL, 0) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+static char	*get_cmd_path(char *cmd, char *path)
 {
 	char	**splitted_paths;
 	char	*cmd_path;
@@ -20,13 +33,13 @@ static char	*get_cmd_path(t_vars *var, char *path)
 	int		i;
 
 	i = -1;
-	if (!var->cmd->args[0])
+	if (!cmd)
 		return (NULL);
 	splitted_paths = ft_split(path, ':');
 	while (splitted_paths[++i])
 	{
 		test_cmd_path = ft_strjoin(splitted_paths[i], "/", 1);
-		cmd_path = ft_strjoin(test_cmd_path, var->cmd->args[0], 1);
+		cmd_path = ft_strjoin(test_cmd_path, cmd, 1);
 		if (access(cmd_path, X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);
@@ -53,25 +66,26 @@ char	*get_path(t_vars *var)
 	return (path);
 }
 
-int	exec_cmd(t_vars *var)
+int	exec_cmd(t_vars *var, int i)
 {
 	char	**cmds;
 	char	*path;
 	char	*cmd_path;
 
-	cmds = var->cmd[0].args;
+	cmds = var->cmd[i].args;
 	path = get_path(var);
-	cmd_path = get_cmd_path(var, path);
+	cmd_path = get_cmd_path(cmds[0], path);
 	if (!cmd_path)
 	{
+		printf("errno = %d\n", errno);
 		get_error_message(cmds[0], 4);
 		return (1);
 	}
 	cmds[0] = cmd_path;
-	//print_tab(cmds);
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		perror("minishell: ");
+		set_exit_status(errno);
+		perror("minishell");
 		return (1);
 	}
 	return (0);
