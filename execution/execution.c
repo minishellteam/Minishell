@@ -6,11 +6,30 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/03 14:25:57 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:22:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	handle_dot_cmd(t_vars *var, int i)
+{
+	if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], "./minishell"))
+		//update_lvsl_var(var->sh);
+		return (0);
+	else if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".."))
+	{
+		get_error_message(var->cmd[i].args[0], 4);
+		return (1);
+	}
+	else if ((var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".")))
+	{
+		ft_putstr_fd("minishell: .: filename argument required\n", 2);
+		set_exit_status(2);
+		return (1);
+	}
+	return (0);
+}
 
 static char	*get_cmd_path(char *cmd, char *path)
 {
@@ -60,27 +79,26 @@ int	exec_cmd(t_vars *var, int i)
 {
 	char	**cmds;
 	char	*path;
-	char	*cmd_path;
 
 	cmds = var->cmd[i].args;
 	path = get_path(var);
-	if (cmds[0] && !ft_strcmp(cmds[0], ".."))
-	{
-		get_error_message(cmds[0], 4);
-		return (1);
-	}
-	cmd_path = get_cmd_path(cmds[0], path);
-	if (!cmd_path)
-	{
-		get_error_message(cmds[0], 4);
-		return (1);
-	}
-	cmds[0] = cmd_path;
+	if (cmds[0] && cmds[0][0] == '.')
+		if (handle_dot_cmd(var, i))
+			return (1);
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		set_exit_status(errno);
-		perror("minishell");
-		return (1);
+		if (!get_cmd_path(cmds[0], path))
+		{
+			get_error_message(cmds[0], 4);
+			return (1);
+		}
+		cmds[0] = get_cmd_path(cmds[0], path);
+		if (execve(cmds[0], cmds, var->my_env) == -1)
+		{
+			set_exit_status(errno);
+			perror("minishell");
+			return (1);
+		}
 	}
 	return (0);
 }
