@@ -26,37 +26,11 @@ char	get_quote_type(char *token)
 	return (token_type);
 }
 
-static char	*replace_var_by_value(char *line, char *value, int start, int end)
-{
-	char	*before_dollar;
-	char	*after_var;
-	char	*tmp;
-
-	tmp = NULL;
-	before_dollar = ft_substr(line, 0, start - 1);
-	after_var = ft_substr(line, end, ft_strlen(line) - end);
-	if (!value)
-		line = ft_strjoin(before_dollar, after_var, 2);
-	else
-	{
-		if (!before_dollar)
-			tmp = value;
-		else
-			tmp = ft_strjoin(before_dollar, value, 1);
-		if (!after_var)
-			line = tmp;
-		else
-			line = ft_strjoin(tmp, after_var, 2);
-	}
-	return (line);
-}
-
 static char	*replace_var(char *tok, t_vars *var, int i)
 {
 	int		j;
 	char	*exp_tok;
 
-	var->value = NULL;
 	while (tok[i])
 	{
 		if (tok[i] == '$')
@@ -68,8 +42,6 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 			var->var = ft_substr(tok, j, i - j);
 			get_value(var);
 			exp_tok = replace_var_by_value(tok, var->value, j, i);
-			if (var->bool == 1)
-				free(var->value);
 			free(tok);
 			tok = ft_strdup(exp_tok);
 			free(exp_tok);
@@ -93,13 +65,7 @@ static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_' || new_tok[i] == '?'))
 		i++;
 	var->var = ft_substr(new_tok, j, i - j);
-	if (!ft_strcmp(var->var, "?"))
-	{
-		var->value = ft_itoa(*get_exit_status());
-		var->bool = 1;
-	}
-	else
-		var->value = getenv(var->var);
+	get_value(var);
 	free(var->var);
 	free(new_tok);
 	if (!var->value)
@@ -107,6 +73,19 @@ static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 	else
 		new_tok = var->value;
 	return (new_tok);
+}
+
+static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token)
+{
+	new_tok = replace_unquoted_var(new_tok, var);
+	free(token);
+	if (!ft_strcmp(new_tok, ""))
+		token = "";
+	else
+		token = ft_strdup(new_tok);
+	if (var->bool == 1)
+		free(new_tok);
+	return (token);
 }
 
 char	*get_var(char *token, t_vars *var, int x)
@@ -121,33 +100,15 @@ char	*get_var(char *token, t_vars *var, int x)
 	i = 0;
 	if (x == 0)
 	{
+		var->value = NULL;
 		new_tok = replace_var(new_tok, var, i);
+		if (var->bool == 1)
+			free(var->value);
 		free(token);
 		token = ft_strdup(new_tok);
 		free(new_tok);
 	}
 	else
-	{
-		new_tok = replace_unquoted_var(new_tok, var);
-		free(token);
-		if (!ft_strcmp(new_tok, ""))
-			token = "";
-		else
-			token = ft_strdup(new_tok);
-		if (var->bool == 1)
-			free(new_tok);
-	}
+		token = handle_unquoted_var(var, new_tok, token);
 	return (token);
-}
-
-void get_value(t_vars *var)
-{
-	if (!ft_strcmp(var->var, "?"))
-	{
-		var->value = ft_itoa(*get_exit_status());
-		printf("value = %s\n", var->value);
-		var->bool = 1;
-	}
-	else
-		var->value = getenv(var->var);
 }

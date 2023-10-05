@@ -6,21 +6,27 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 15:29:19 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:22:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	wait_for_processes(t_vars *var)
+static int	handle_dot_cmd(t_vars *var, int i)
 {
-	int	i;
-
-	i = -1;
-	while (++i < var->pipe_nb + 1)
+	if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], "./minishell"))
+		//update_lvsl_var(var->sh);
+		return (0);
+	else if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".."))
 	{
-		if (waitpid(var->cmd[i].pid, NULL, 0) == -1)
-			return (-1);
+		get_error_message(var->cmd[i].args[0], 4);
+		return (1);
+	}
+	else if ((var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".")))
+	{
+		ft_putstr_fd("minishell: .: filename argument required\n", 2);
+		set_exit_status(2);
+		return (1);
 	}
 	return (0);
 }
@@ -41,14 +47,17 @@ static char	*get_cmd_path(char *cmd, char *path)
 		test_cmd_path = ft_strjoin(splitted_paths[i], "/", 1);
 		cmd_path = ft_strjoin(test_cmd_path, cmd, 1);
 		if (access(cmd_path, X_OK) == 0)
+		{
+			free_tab(splitted_paths, i + 1);
 			return (cmd_path);
+		}
 		free(cmd_path);
 	}
 	free(splitted_paths);
 	return (NULL);
 }
 
-char	*get_path(t_vars *var)
+static char	*get_path(t_vars *var)
 {
 	char	*path;
 	int		i;
@@ -70,23 +79,26 @@ int	exec_cmd(t_vars *var, int i)
 {
 	char	**cmds;
 	char	*path;
-	char	*cmd_path;
 
 	cmds = var->cmd[i].args;
 	path = get_path(var);
-	cmd_path = get_cmd_path(cmds[0], path);
-	if (!cmd_path)
-	{
-		printf("errno = %d\n", errno);
-		get_error_message(cmds[0], 4);
-		return (1);
-	}
-	cmds[0] = cmd_path;
+	if (cmds[0] && cmds[0][0] == '.')
+		if (handle_dot_cmd(var, i))
+			return (1);
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		set_exit_status(errno);
-		perror("minishell");
-		return (1);
+		if (!get_cmd_path(cmds[0], path))
+		{
+			get_error_message(cmds[0], 4);
+			return (1);
+		}
+		cmds[0] = get_cmd_path(cmds[0], path);
+		if (execve(cmds[0], cmds, var->my_env) == -1)
+		{
+			set_exit_status(errno);
+			perror("minishell");
+			return (1);
+		}
 	}
 	return (0);
 }

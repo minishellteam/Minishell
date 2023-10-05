@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 11:27:08 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 12:58:51 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:29:24 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,41 +45,3 @@ void	get_limiter(t_tok *toks)
 		tmp = tmp->next;
 	}
 }
-
-// void	remove_token(t_tok *toks, t_tok *tmp)
-// {
-// 	t_tok	*current;
-// 	t_tok	*new_next;
-
-// 	current = toks;
-// 	new_next = NULL;
-// 	if (current == tmp)
-// 		toks = toks->next;
-// 	while (current && current->next)
-// 	{
-// 		if (current->next == tmp)
-// 		{
-// 			if (current->next->next)
-// 			{
-// 				new_next = current->next->next;
-// 				current->next = new_next;
-// 			}
-// 			else
-// 				current->next = NULL;
-// 		}
-// 		current = current->next;
-// 	}
-// }
-
-// void	remove_empty_tok(void)
-// {
-// 	t_tok	*tmp;
-
-// 	tmp = toks;
-// 	while (tmp)
-// 	{
-// 		if (!ft_strncmp(tmp->type, "EMPTY", ft_strlen(tmp->type)))
-// 			remove_token(tmp);
-// 		tmp = tmp->next;
-// 	}
-// }

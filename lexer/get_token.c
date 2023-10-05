@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 10:02:07 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:33:20 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,5 @@ int	tokenize_line(char *line, t_vars *var)
 	check_limiter(var);
 	handle_quotes(var);
 	get_files(var->toks);
-	//printf("tokens= \n");
-	//print_list(var->toks, 0);
-	//print_list(var->toks, 1);
 	return (0);
 }

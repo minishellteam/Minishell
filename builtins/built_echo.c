@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/14 15:37:57 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:54:54 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	print_echo(t_data *sh, int bool)
 	sh->j--;
 	while (sh->cmds[++sh->j])
 	{
-		printf("%s", sh->cmds[sh->j]);
+		if (!ft_strcmp(sh->cmds[sh->j], "\"\""))
+			printf(" ");
+		else
+			printf("%s", sh->cmds[sh->j]);
 		if (sh->cmds[sh->j + 1])
 			printf(" ");
 	}

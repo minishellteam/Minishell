@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/02 11:00:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:34:53 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	arg_error(t_data *sh)
 {
 	long long	new_nb;
 
-	printf("res = %d\n", check_long(sh));
 	if (check_long(sh) == 1)
 	{
 		get_error_message(sh->cmds[1], 5);
@@ -93,7 +92,7 @@ void	built_exit(t_data *sh)
 	// if (array_size(sh->cmds) <= 3)
 	// 	free_exit();
 	if (array_size(sh->cmds) == 2)
-		exit(EXIT_SUCCESS);
+		exit(*get_exit_status());
 	else if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
