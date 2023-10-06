@@ -6,20 +6,11 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 22:17:00 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 13:06:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_error(char *message, int x)
-{
-	if (x == 1)
-		perror(message);
-	else if (x == 0)
-		ft_putstr_fd(message, 2);
-	free(message);
-}
 
 void	print_tab(char **tab)
 {
@@ -61,4 +52,19 @@ void	*ft_malloc(size_t size)
 		exit(EXIT_FAILURE);
 	}
 	return (ptr);
+}
+
+int	check_var_name(char *var)
+{
+	int	i;
+
+	i = -1;
+	if (var && var[0] >= '0' && var[0] <= '9')
+		return (1);
+	while (var && var[++i])
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+			return (1);
+	}
+	return (0);
 }

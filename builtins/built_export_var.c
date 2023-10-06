@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/21 13:07:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:58:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exp_env(t_data *sh)
 	sh->expenv[sh->j] = NULL;
 }
 
-static	char	*check_var(char *var)
+char	*check_var(char *var)
 {
 	int		i;
 	char	*final;
@@ -91,7 +91,10 @@ void	export_var(t_data *sh)
 	char	**tmp;
 	int		bool;
 
+	
 	sh->j = -1;
+	if (check_var_name(sh->cmds[sh->v]))
+		get_error_message(sh->cmds[sh->v], 9);
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
 	bool = 0;
 	while (sh->expenv[++sh->j])
@@ -118,3 +121,4 @@ void	export_var(t_data *sh)
 	bool = check_free(sh);
 	update_envs(sh, tmp, bool);
 }
+// SEPARER LA FONCTION ET FAIRE UNE FONCTION POUR COMPTER LE NOMBRE DE VARIABLE SANS '=' À ENLEVER AU MALLOC

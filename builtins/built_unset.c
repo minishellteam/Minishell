@@ -3,19 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/09/19 15:37:44 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:40:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	update_env(t_data *sh, char **tmp)
+static void	update_expenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * array_size(tmp));
+	while (tmp[++sh->j])
+	{
+		sh->expenv[sh->j] = malloc(sizeof(char) \
+			* (ft_strlen(tmp[sh->j]) + 1));
+		ft_strlcpy(sh->expenv[sh->j], tmp[sh->j], \
+			(ft_strlen(tmp[sh->j]) + 1));
+		free(tmp[sh->j]);
+	}
+	sh->expenv[sh->j] = NULL;
+}
+
+static void	update_myenv(t_data *sh, char **tmp)
+{
+	sh->j = -1;
 	while (tmp[++sh->j])
 	{
 		sh->myenv[sh->j] = malloc(sizeof(char) \
@@ -24,21 +37,41 @@ void	update_env(t_data *sh, char **tmp)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
-	//free(tmp);
 	sh->myenv[sh->j] = NULL;
 }
 
 void	search_var(t_data *sh, char **tmp)
 {
 	sh->c = 0;
+	sh->j = -1;
+	while (sh->expenv[++sh->j])
+	{
+		if (!ft_strcmp(check_var(sh->cmds[sh->i]), check_var(sh->expenv[sh->j])))
+		{
+			free(sh->expenv[sh->j]);
+			continue ;
+		}
+		tmp[sh->c] = malloc(sizeof(char) \
+			* (ft_strlen(sh->expenv[sh->j]) + 1));
+		ft_strlcpy(tmp[sh->c], sh->expenv[sh->j], \
+			(ft_strlen(sh->expenv[sh->j]) + 1));
+		free(sh->expenv[sh->j]);
+		sh->c++;
+	}
+	//free(sh->expenv);
+	tmp[sh->c] = NULL;
+	update_expenv(sh, tmp);
+}
+void	search_var_env(t_data *sh, char **tmp)
+{
+	sh->c = 0;
+	sh->j = -1;
 	while (sh->myenv[++sh->j])
 	{
-		if (!ft_strncmp(sh->cmds[sh->i], sh->myenv[sh->j], \
-			ft_strlen(sh->cmds[sh->i])) \
-				&& sh->myenv[sh->j][ft_strlen(sh->cmds[sh->i]) + 1] == '=')
+		if (!ft_strcmp(check_var(sh->cmds[sh->i]), check_var(sh->myenv[sh->j])))
 		{
 			free(sh->myenv[sh->j]);
-			sh->j++;
+			continue ;
 		}
 		tmp[sh->c] = malloc(sizeof(char) \
 			* (ft_strlen(sh->myenv[sh->j]) + 1));
@@ -47,22 +80,24 @@ void	search_var(t_data *sh, char **tmp)
 		free(sh->myenv[sh->j]);
 		sh->c++;
 	}
-	free(sh->myenv);
+	//free(sh->myenv);
 	tmp[sh->c] = NULL;
-	update_env(sh, tmp);
+	update_myenv(sh, tmp);
 }
 
 void	built_unset(t_data *sh)
 {
 	char	**tmp;
+	char	**tmp2;
 
-	sh->j = -1;
 	sh->i = 0;
 	while (sh->cmds[++sh->i])
 	{
 		if (sh->i == 1)
-			tmp = malloc(sizeof(char *) * array_size(sh->myenv));
-		sh->j = -1;
+			tmp = malloc(sizeof(char *) * array_size(sh->expenv));
+		if (sh->i == 1)
+			tmp2 = ft_calloc(sizeof(char *), array_size(sh->myenv) + 1);
 		search_var(sh, tmp);
+		search_var_env(sh, tmp2);
 	}
 }

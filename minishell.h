@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 11:10:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:57:42 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,25 @@ typedef struct s_vars {
 int		main(int ac, char **av, char **env);
 
 void	get_error_message(char *error, int x);
-
-char	*get_cmd_error(char *error, char *begin, char *err_msg);
-char	*get_exit_error(char *error, char *begin, char *err_msg);
-char	*get_mult_arg_err(char *error, char *begin, char *err_msg);
-char	*get_file_error(char *error, char *begin, char *err_msg);
-char	*get_dir_error(char *error, char *begin, char *err_msg);
-
 void	handle_error(char *message, int x);
+
+char	*get_var_name_err(char *error, char *err_msg);
+char	*get_bad_tok_err(char *error, char *err_msg);
+char	*get_syntax_err(char *error, char *err_msg);
+char	*get_quote_error(char *err_msg);
+char	*get_ambig_err(char *error, char *err_msg);
+
+char	*get_cmd_error(char *error, char *err_msg);
+char	*get_exit_error(char *error, char *err_msg);
+char	*get_mult_arg_err(char *error, char *err_msg);
+char	*get_file_error(char *error, char *err_msg);
+char	*get_dir_error(char *error, char *err_msg);
+
 void	print_tab(char **tab);
 void	free_tab(char	**tab, int i);
 void	init_data(t_vars *var);
 void	*ft_malloc(size_t size);
+int		check_var_name(char *var);
 
 int		*get_exit_status(void);
 void	set_exit_status(int status);
@@ -206,7 +213,7 @@ void	my_env(t_data *sh);
 void	exp_env(t_data *sh);
 int		array_size(char **array);
 void	free_array(t_data *sh);
-void	update_env(t_data *sh, char **tmp);
+char	*check_var(char *var);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);
