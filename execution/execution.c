@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/05 14:22:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:11:55 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ static int	handle_dot_cmd(t_vars *var, int i)
 		ft_putstr_fd("minishell: .: filename argument required\n", 2);
 		set_exit_status(2);
 		return (1);
+	}
+	return (0);
+}
+
+int	check_if_dir(char *cmd)
+{
+	struct stat	f_infos;
+
+	if (stat(cmd, &f_infos) != -1)
+	{
+		if (S_ISDIR(f_infos.st_mode))
+		{
+			get_error_message(cmd, 8);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -78,21 +93,22 @@ static char	*get_path(t_vars *var)
 int	exec_cmd(t_vars *var, int i)
 {
 	char	**cmds;
-	char	*path;
 
 	cmds = var->cmd[i].args;
-	path = get_path(var);
+	var->path = get_path(var);
 	if (cmds[0] && cmds[0][0] == '.')
 		if (handle_dot_cmd(var, i))
 			return (1);
 	if (execve(cmds[0], cmds, var->my_env) == -1)
 	{
-		if (!get_cmd_path(cmds[0], path))
+		if (check_if_dir(var->cmd[i].args[0]))
+			return (1);
+		if (!get_cmd_path(cmds[0], var->path))
 		{
 			get_error_message(cmds[0], 4);
 			return (1);
 		}
-		cmds[0] = get_cmd_path(cmds[0], path);
+		cmds[0] = get_cmd_path(cmds[0], var->path);
 		if (execve(cmds[0], cmds, var->my_env) == -1)
 		{
 			set_exit_status(errno);

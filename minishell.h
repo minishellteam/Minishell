@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/05 14:21:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:10:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
@@ -97,16 +98,18 @@ typedef struct s_vars {
 	int		tmp_fd;
 	t_data	*sh;
 	int		here_doc[2];
+	char	*path;
 }			t_vars;
 
 int		main(int ac, char **av, char **env);
 
 void	get_error_message(char *error, int x);
 
-char	*get_cmd_error(char *error, char *begin, char *err_msg, char *end);
-char	*get_exit_error(char *error, char *begin, char *err_msg, char *end);
-char	*get_mult_arg_err(char *error, char *begin, char *err_msg, char *end);
-char	*get_file_error(char *error, char *begin, char *err_msg, char *end);
+char	*get_cmd_error(char *error, char *begin, char *err_msg);
+char	*get_exit_error(char *error, char *begin, char *err_msg);
+char	*get_mult_arg_err(char *error, char *begin, char *err_msg);
+char	*get_file_error(char *error, char *begin, char *err_msg);
+char	*get_dir_error(char *error, char *begin, char *err_msg);
 
 void	handle_error(char *message, int x);
 void	print_tab(char **tab);
@@ -191,6 +194,7 @@ void	set_stdout_pipeline(t_vars *var, int *pfd, int i);
 void	close_files(t_vars *var, int i);
 
 int		exec_cmd(t_vars *var, int i);
+int		check_if_dir(char *cmd);
 
 int		is_builtin(char *cmd);
 void	handle_builtin(t_vars *var, t_data *sh);

@@ -62,16 +62,19 @@ static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 	i = 1;
 	j = i;
 	while (new_tok[i]
-		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_' || new_tok[i] == '?'))
+		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
+			|| new_tok[i] == '?' || new_tok[i] == '$'))
 		i++;
 	var->var = ft_substr(new_tok, j, i - j);
 	get_value(var);
-	free(var->var);
 	free(new_tok);
-	if (!var->value)
+	if (!var->value && !ft_strcmp(var->var, "$"))
+		new_tok = "\"\"";
+	else if (!var->value)
 		new_tok = "";
 	else
 		new_tok = var->value;
+	free(var->var);
 	return (new_tok);
 }
 
