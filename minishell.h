@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 12:57:42 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:37:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ char	*get_var(char *token, t_vars *var, int x);
 char	get_quote_type(char *token);
 
 void	get_value(t_vars *var);
+char	*get_env(t_vars *var, char *variable);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 
 /*==============================REDIRECTIONS==================================*/
