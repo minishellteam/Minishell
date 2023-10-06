@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/05 14:39:40 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/06 10:52:45 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char	*check_var(char *var)
 	return (final);
 }
 
-static void	update_envs(t_data *sh, char **tmp, int bool)
+void	update_envs(t_data *sh, char **tmp, int bool)
 {
 	sh->j = -1;
 	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
 	if (bool == 1)
-		sh->myenv = malloc(sizeof(char *) * array_size(tmp));
+		sh->myenv = malloc(sizeof(char *) * (array_size(tmp) - undeclared_var(tmp)));
 	while (tmp[++sh->j])
 	{
 		if (bool == 1 && ft_strchr(tmp[sh->j], '='))
@@ -66,24 +66,6 @@ static void	update_envs(t_data *sh, char **tmp, int bool)
 	if (bool == 1)
 		sh->myenv[sh->j] = NULL;
 	sh->expenv[sh->j] = NULL;
-}
-
-static	int	check_free(t_data *sh)
-{
-	int	i;
-	int	bool;
-
-	i = -1;
-	bool = 0;
-	if (ft_strchr(sh->cmds[sh->v], '='))
-		bool = 1;
-	while (sh->expenv[++i])
-	{
-		if (bool == 1 && sh->myenv[i])
-			free(sh->myenv[i]);
-		free(sh->expenv[i]);
-	}
-	return (bool);
 }
 
 void	export_var(t_data *sh)
@@ -109,13 +91,5 @@ void	export_var(t_data *sh)
 		ft_strlcpy(tmp[sh->j], sh->expenv[sh->j], \
 			(ft_strlen(sh->expenv[sh->j]) + 1));
 	}
-	if (bool == 0)
-	{
-		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(sh->cmds[sh->v]) + 1));
-		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], ft_strlen(sh->cmds[sh->v]) + 1);
-	}
-	tmp[++sh->j] = NULL;
-	bool = check_free(sh);
-	update_envs(sh, tmp, bool);
+	end_function(sh, tmp, bool);
 }
-// SEPARER LA FONCTION ET FAIRE UNE FONCTION POUR COMPTER LE NOMBRE DE VARIABLE SANS '=' À ENLEVER AU MALLOC

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/05 16:22:49 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:10:57 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	search_var(t_data *sh, char **tmp)
 	tmp[sh->c] = NULL;
 	update_expenv(sh, tmp);
 }
+
 void	search_var_env(t_data *sh, char **tmp)
 {
 	sh->c = 0;

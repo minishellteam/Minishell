@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/05 15:01:52 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/06 10:52:34 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,9 @@ void	exp_env(t_data *sh);
 int		array_size(char **array);
 void	free_array(t_data *sh);
 char	*check_var(char *var);
+int		undeclared_var(char **tmp);
+void	end_function(t_data *sh, char **tmp, int bool);
+void	update_envs(t_data *sh, char **tmp, int bool);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);
