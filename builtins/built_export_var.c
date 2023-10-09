@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_export_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/06 13:12:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:01:10 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*check_var(char *var)
 {
 	int		i;
 	char	*final;
-	
+
 	i = 0;
 	while (var[i] && var[i] != '=')
 		i++;
@@ -42,15 +42,16 @@ char	*check_var(char *var)
 	return (final);
 }
 
-static void	update_envs(t_data *sh, char **tmp, int bool)
+void	update_envs(t_data *sh, char **tmp)
 {
 	sh->j = -1;
 	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
-	if (bool == 1)
-		sh->myenv = malloc(sizeof(char *) * array_size(tmp));
+	if (sh->bool == 1)
+		sh->myenv = malloc(sizeof(char *) * \
+			(array_size(tmp) - undeclared_var(tmp)));
 	while (tmp[++sh->j])
 	{
-		if (bool == 1 && ft_strchr(tmp[sh->j], '='))
+		if (sh->bool == 1 && ft_strchr(tmp[sh->j], '='))
 		{
 			sh->myenv[sh->j] = malloc(sizeof(char) \
 				* (ft_strlen(tmp[sh->j]) + 1));
@@ -63,46 +64,30 @@ static void	update_envs(t_data *sh, char **tmp, int bool)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
-	if (bool == 1)
+	if (sh->bool == 1)
 		sh->myenv[sh->j] = NULL;
 	sh->expenv[sh->j] = NULL;
-}
-
-static	int	check_free(t_data *sh)
-{
-	int	i;
-	int	bool;
-
-	i = -1;
-	bool = 0;
-	if (ft_strchr(sh->cmds[sh->v], '='))
-		bool = 1;
-	while (sh->expenv[++i])
-	{
-		if (bool == 1 && sh->myenv[i])
-			free(sh->myenv[i]);
-		free(sh->expenv[i]);
-	}
-	return (bool);
 }
 
 void	export_var(t_data *sh)
 {
 	char	**tmp;
-	int		bool;
 
-	
+	if (check_var_name(sh->cmds[sh->v]))
+		get_error_message(sh->cmds[sh->v], 9);
 	sh->j = -1;
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
-	bool = 0;
+	sh->bool = 0;
 	while (sh->expenv[++sh->j])
 	{
 		if (!ft_strcmp(check_var(sh->cmds[sh->v]), \
 			check_var(sh->expenv[sh->j])))
 		{
-			tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(sh->cmds[sh->v]) + 1));
-			ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], ft_strlen(sh->cmds[sh->v]) + 1);
-			bool = 1;
+			tmp[sh->j] = malloc(sizeof(char) * \
+				(ft_strlen(sh->cmds[sh->v]) + 1));
+			ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], \
+				ft_strlen(sh->cmds[sh->v]) + 1);
+			sh->bool = 1;
 			continue ;
 		}
 		tmp[sh->j] = malloc(sizeof(char) \
@@ -110,13 +95,5 @@ void	export_var(t_data *sh)
 		ft_strlcpy(tmp[sh->j], sh->expenv[sh->j], \
 			(ft_strlen(sh->expenv[sh->j]) + 1));
 	}
-	if (bool == 0)
-	{
-		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(sh->cmds[sh->v]) + 1));
-		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], ft_strlen(sh->cmds[sh->v]) + 1);
-	}
-	tmp[++sh->j] = NULL;
-	bool = check_free(sh);
-	update_envs(sh, tmp, bool);
+	end_function(sh, tmp);
 }
-// SEPARER LA FONCTION ET FAIRE UNE FONCTION POUR COMPTER LE NOMBRE DE VARIABLE SANS '=' À ENLEVER AU MALLOC

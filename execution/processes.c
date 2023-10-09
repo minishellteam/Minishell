@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 13:31:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:24:40 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 			get_here_doc_input(var, var->here_doc, i);
 		}
 		if (pipe(pfd) == -1)
+		{
 			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
 		pids[i] = fork();
 		if (pids[i] == -1)
 			perror("minishell");

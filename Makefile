@@ -43,6 +43,7 @@ SRCS	=	main.c \
 			./builtins/built_echo.c \
 			./builtins/built_export.c \
 			./builtins/built_export_var.c \
+			./builtins/export_var_utils.c \
 			./builtins/built_unset.c \
 			./builtins/built_utils.c \
 			signal.c \

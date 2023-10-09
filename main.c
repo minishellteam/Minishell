@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 14:19:31 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:38:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ static void	check_args(int ac, char **av, char **env)
 		get_error_message(av[1], 3);
 		if (ac > 2)
 			exit(127);
+		exit(EXIT_FAILURE);
 	}
 	else if (!env[0])
+	{
 		ft_putstr_fd("minishell: the environment is empty\n", 2);
-	exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	main(int ac, char **av, char **env)

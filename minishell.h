@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 12:32:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:30:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ typedef struct s_data {
 	char		*var;
 	char		*final;
 	char		*line;
+	char		**echo;
+	int			bool;
 	int			i;
 	int			j;
 	int			c;
 	int			n;
 	int			v;
-	char		**echo;
 }				t_data;
 
 typedef struct s_vars {
@@ -181,7 +182,6 @@ char	*get_var(char *token, t_vars *var, int x);
 char	get_quote_type(char *token);
 
 char	*get_value(t_vars *var);
-char	*get_env(t_vars *var, char *variable);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 
 /*==============================REDIRECTIONS==================================*/
@@ -215,6 +215,9 @@ void	exp_env(t_data *sh);
 int		array_size(char **array);
 void	free_array(t_data *sh);
 char	*check_var(char *var);
+int		undeclared_var(char **tmp);
+void	end_function(t_data *sh, char **tmp);
+void	update_envs(t_data *sh, char **tmp);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);

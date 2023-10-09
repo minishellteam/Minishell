@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/05 14:34:53 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:59:59 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,15 @@ void	built_exit(t_data *sh)
 	printf("exit\n");
 	// if (array_size(sh->cmds) <= 3)
 	// 	free_exit();
-	if (array_size(sh->cmds) == 2)
-		exit(*get_exit_status());
-	else if (array_size(sh->cmds) == 3)
+	// if (array_size(sh->cmds) == 2)
+	// 	exit(*get_exit_status());
+	if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
 	{
 		get_error_message(NULL, 6);
 		return ;
 	}
+	system("leaks minishell");
 	exit(*get_exit_status());
 }
