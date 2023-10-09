@@ -6,14 +6,17 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 12:43:46 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 15:23:59 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:05:52 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
+static char	*get_bad_tok_err(char *error, char *begin, char *err_msg)
 {
+	char	*end;
+
+	end = NULL;
 	set_exit_status(1);
 	end = ": undefined token\n";
 	err_msg = ft_strjoin(begin, error, 0);
@@ -21,8 +24,11 @@ static char	*get_bad_tok_err(char *error, char *begin, char *err_msg, char *end)
 	return (err_msg);
 }
 
-static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
+static char	*get_syntax_err(char *error, char *begin, char *err_msg)
 {
+	char	*end;
+
+	end = NULL;
 	set_exit_status(2);
 	end = "syntax error near unexpected token `";
 	err_msg = ft_strjoin(begin, end, 0);
@@ -31,16 +37,22 @@ static char	*get_syntax_err(char *error, char *begin, char *err_msg, char *end)
 	return (err_msg);
 }
 
-static char	*get_quote_error(char *begin, char *err_msg, char *end)
+static char	*get_quote_error(char *begin, char *err_msg)
 {
+	char	*end;
+
+	end = NULL;
 	set_exit_status(1);
 	end = "syntax error: expecting closing quote\n";
 	err_msg = ft_strjoin(begin, end, 0);
 	return (err_msg);
 }
 
-static char	*get_ambig_err(char *error, char *begin, char *err_msg, char *end)
+static char	*get_ambig_err(char *error, char *begin, char *err_msg)
 {
+	char	*end;
+
+	end = NULL;
 	set_exit_status(1);
 	end = ": Ambigous redirection\n";
 	err_msg = ft_strjoin(begin, error, 0);
@@ -51,27 +63,27 @@ static char	*get_ambig_err(char *error, char *begin, char *err_msg, char *end)
 void	get_error_message(char *error, int x)
 {
 	char	*begin_msg;
-	char	*end_msg;
 	char	*error_msg;
 
 	begin_msg = "minishell: ";
-	end_msg = NULL;
 	error_msg = NULL;
 	if (x == 0)
-		error_msg = get_bad_tok_err(error, begin_msg, error_msg, end_msg);
+		error_msg = get_bad_tok_err(error, begin_msg, error_msg);
 	else if (x == 1)
-		error_msg = get_syntax_err(error, begin_msg, error_msg, end_msg);
+		error_msg = get_syntax_err(error, begin_msg, error_msg);
 	else if (x == 2)
-		error_msg = get_quote_error(begin_msg, error_msg, end_msg);
+		error_msg = get_quote_error(begin_msg, error_msg);
 	else if (x == 3)
-		error_msg = get_file_error(error, begin_msg, error_msg, end_msg);
+		error_msg = get_file_error(error, begin_msg, error_msg);
 	else if (x == 4)
-		error_msg = get_cmd_error(error, begin_msg, error_msg, end_msg);
+		error_msg = get_cmd_error(error, begin_msg, error_msg);
 	else if (x == 5)
-		error_msg = get_exit_error(error, begin_msg, error_msg, end_msg);
+		error_msg = get_exit_error(error, begin_msg, error_msg);
 	else if (x == 6)
-		error_msg = get_mult_arg_err("exit: ", begin_msg, error_msg, end_msg);
+		error_msg = get_mult_arg_err("exit: ", begin_msg, error_msg);
 	else if (x == 7)
-		error_msg = get_ambig_err(error, begin_msg, error_msg, end_msg);
+		error_msg = get_ambig_err(error, begin_msg, error_msg);
+	else if (x == 8)
+		error_msg = get_dir_error(error, begin_msg, error_msg);
 	handle_error(error_msg, 0);
 }

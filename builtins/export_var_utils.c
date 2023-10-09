@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/06 10:53:37 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:51:01 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static	int	check_free(t_data *sh)
 	return (bool);
 }
 
-void	end_function(t_data *sh, char **tmp, int bool)
+void	end_function(t_data *sh, char **tmp)
 {
-	if (bool == 0)
+	if (sh->bool == 0)
 	{
 		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(sh->cmds[sh->v]) + 1));
 		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], ft_strlen(sh->cmds[sh->v]) + 1);
 	}
 	tmp[++sh->j] = NULL;
-	bool = check_free(sh);
-	update_envs(sh, tmp, bool);
+	sh->bool = check_free(sh);
+	update_envs(sh, tmp);
 }
