@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 15:05:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:15:42 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ void	update_envs(t_data *sh, char **tmp)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
+	free(tmp);
 	if (sh->bool == 1)
 		sh->myenv[sh->j] = NULL;
 	sh->expenv[sh->j] = NULL;
 }
 
-void	get_tmp(t_data *sh, char **tmp)
+static void	get_tmp(t_data *sh, char **tmp)
 {
 	char	*var1;
 	char	*var2;

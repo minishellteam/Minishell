@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 11:58:04 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:40:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*get_cmd_path(char *cmd, char *path)
 	int		i;
 
 	i = -1;
-	if (!cmd)
+	if (!cmd || !path)
 		return (NULL);
 	splitted_paths = ft_split(path, ':');
 	while (splitted_paths[++i])
@@ -79,11 +79,11 @@ static char	*get_path(t_vars *var)
 
 	i = -1;
 	path = NULL;
-	while (var->my_env[++i])
+	while (var->sh->expenv[++i])
 	{
-		if (!ft_strncmp(var->my_env[i], "PATH=", 5))
+		if (!ft_strncmp(var->sh->expenv[i], "PATH=", 5))
 		{
-			path = var->my_env[i] + 5;
+			path = var->sh->expenv[i] + 5;
 			break ;
 		}
 	}
@@ -99,7 +99,7 @@ int	exec_cmd(t_vars *var, int i)
 	if (cmds[0] && cmds[0][0] == '.')
 		if (handle_dot_cmd(var, i))
 			return (1);
-	if (execve(cmds[0], cmds, var->my_env) == -1)
+	if (execve(cmds[0], cmds, var->sh->expenv) == -1)
 	{
 		if (check_if_dir(var->cmd[i].args[0]))
 			return (1);
@@ -109,7 +109,7 @@ int	exec_cmd(t_vars *var, int i)
 			return (1);
 		}
 		cmds[0] = get_cmd_path(cmds[0], var->path);
-		if (execve(cmds[0], cmds, var->my_env) == -1)
+		if (execve(cmds[0], cmds, var->sh->expenv) == -1)
 		{
 			set_exit_status(errno);
 			perror("minishell");

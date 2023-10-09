@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 13:40:52 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:42:34 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int		handle_quotes(t_vars *var);
 char	*get_var(char *token, t_vars *var, int x);
 char	get_quote_type(char *token);
 
-void	get_value(t_vars *var);
+char	*get_value(t_vars *var);
 char	*get_env(t_vars *var, char *variable);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 
@@ -219,6 +219,8 @@ char	*check_var(char *var);
 int		undeclared_var(char **tmp);
 void	end_function(t_data *sh, char **tmp);
 void	update_envs(t_data *sh, char **tmp);
+void	get_tmp_expenv(t_data *sh, char **tmp);
+void	get_tmp_myenv(t_data *sh, char **tmp);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);

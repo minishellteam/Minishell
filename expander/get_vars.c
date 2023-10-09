@@ -40,13 +40,14 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 			while (ft_isalnum(tok[i]) || tok[i] == '_' || tok[i] == '?')
 				i++;
 			var->var = ft_substr(tok, j, i - j);
-			get_value(var);
+			var->value = get_value(var);
 			exp_tok = replace_var_by_value(tok, var->value, j, i);
 			free(tok);
 			tok = ft_strdup(exp_tok);
 			free(exp_tok);
 			i = ft_strlen(var->value);
 			free(var->var);
+			free(var->value);
 		}
 		else
 			i++;
@@ -54,23 +55,18 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 	return (tok);
 }
 
-static char	*replace_unquoted_var(char *new_tok, t_vars *var)
+/*static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 {
 	int	i;
 	int	j;
 
 	i = 1;
 	j = i;
-	if (new_tok[i] == '$' && !new_tok[i + 1])
-		var->var = ft_strdup("$");
-	else
-	{
-		while (new_tok[i]
-			&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
-				|| new_tok[i] == '?') && new_tok[i] != '$')
-			i++;
-		var->var = ft_substr(new_tok, j, i - j);
-	}
+	while (new_tok[i]
+		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
+			|| new_tok[i] == '?'))
+		i++;
+	var->var = ft_substr(new_tok, j, i - j);
 	get_value(var);
 	free(new_tok);
 	if (!var->value && !ft_strcmp(var->var, "$"))
@@ -81,11 +77,11 @@ static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 		new_tok = var->value;
 	free(var->var);
 	return (new_tok);
-}
+}*/
 
-static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token)
+static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token, int i)
 {
-	new_tok = replace_unquoted_var(new_tok, var);
+	new_tok = replace_var(new_tok, var, i);
 	free(token);
 	if (!ft_strcmp(new_tok, ""))
 		token = "";
@@ -109,12 +105,11 @@ char	*get_var(char *token, t_vars *var, int x)
 	{
 		var->value = NULL;
 		new_tok = replace_var(new_tok, var, i);
-		free(var->value);
 		free(token);
 		token = ft_strdup(new_tok);
 		free(new_tok);
 	}
 	else
-		token = handle_unquoted_var(var, new_tok, token);
+		token = handle_unquoted_var(var, new_tok, token, i);
 	return (token);
 }

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/07 12:51:01 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:17:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static	int	check_free(t_data *sh)
 			free(sh->myenv[i]);
 		free(sh->expenv[i]);
 	}
+	if (bool == 1)
+		free(sh->myenv);
+	free(sh->expenv);
 	return (bool);
 }
 

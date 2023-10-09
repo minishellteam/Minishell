@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 15:14:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:09:32 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ char	*get_env(t_vars *var, char *variable)
 	i = -1;
 	j = 0;
 	value = NULL;
-	while (var->my_env[++i])
+	while (var->sh->expenv[++i])
 	{
-		if (!strncmp(variable, var->my_env[i], ft_strlen(variable)))
+		if (!strncmp(variable, var->sh->expenv[i], ft_strlen(variable)))
 		{
-			while (var->my_env[i][j] && var->my_env[i][j] != '=')
+			while (var->sh->expenv[i][j] && var->sh->expenv[i][j] != '=')
 				j++;
-			value = ft_substr(var->my_env[i], j + 1, \
-			ft_strlen(var->my_env[i]) - j);
-			printf("value = %s\n", value);
+			value = ft_substr(var->sh->expenv[i], j + 1, \
+			ft_strlen(var->sh->expenv[i]) - j);
 			return (value);
 		}
 	}
@@ -37,17 +36,15 @@ char	*get_env(t_vars *var, char *variable)
 	return (value);
 }
 
-void	get_value(t_vars *var)
+char	*get_value(t_vars *var)
 {
+	char	*value;
+
 	if (!ft_strcmp(var->var, "?"))
-	{
-		var->value = ft_itoa(*get_exit_status());
-		var->bool = 1;
-	}
-	else if (!ft_strcmp(var ->var, "$"))
-		var->value = ft_strdup("");
+		value = ft_itoa(*get_exit_status());
 	else
-		var->value = get_env(var, var->var);
+		value = get_env(var, var->var);
+	return (value);
 }
 
 char	*replace_var_by_value(char *line, char *value, int start, int end)

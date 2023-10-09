@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/05 14:33:36 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:20:42 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->token = NULL;
 	var->data = NULL;
 	var->bool = 0;
-	var->my_env = sh->myenv;
+	var->sh = sh;
 }
 
 static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
@@ -58,6 +58,22 @@ static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 	return (var);
 }
 
+static void	check_args(int ac, char **av, char **env)
+{
+	if (ac != 1)
+	{
+		get_error_message(av[1], 3);
+		if (ac > 2)
+			exit(127);
+		exit(EXIT_FAILURE);
+	}
+	else if (!env[0])
+	{
+		ft_putstr_fd("minishell: the environment is empty\n", 2);
+		exit(EXIT_FAILURE);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	static char	*line;
@@ -65,11 +81,9 @@ int	main(int ac, char **av, char **env)
 	t_data		sh;
 	//struct sigaction	sig;
 
-	(void)av;
 	set_exit_status(EXIT_SUCCESS);
 	var = NULL;
-	if (ac != 1)
-		handle_error("ERROR: Wrong number of arguments\n", 1);
+	check_args(ac, av, env);
 	sh.env = env;
 	my_env(&sh);
 	exp_env(&sh);
