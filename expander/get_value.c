@@ -6,21 +6,45 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/03 15:29:49 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:40:14 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_value(t_vars *var)
+char	*get_env(t_vars *var, char *variable)
 {
-	if (!ft_strcmp(var->var, "?"))
+	char	*value;
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	value = NULL;
+	while (var->my_env[++i])
 	{
-		var->value = ft_itoa(*get_exit_status());
-		var->bool = 1;
+		if (!strncmp(variable, var->my_env[i], ft_strlen(variable)))
+		{
+			while (var->my_env[i][j] && var->my_env[i][j] != '=')
+				j++;
+			value = ft_substr(var->my_env[i], j + 1, \
+			ft_strlen(var->my_env[i]) - j);
+			return (value);
+		}
 	}
+	value = ft_strdup("");
+	return (value);
+}
+
+char	*get_value(t_vars *var)
+{
+	char	*value;
+
+	if (!ft_strcmp(var->var, "?"))
+		value = ft_itoa(*get_exit_status());
 	else
-		var->value = getenv(var->var);
+		value = get_env(var, var->var);
+	return (value);
 }
 
 char	*replace_var_by_value(char *line, char *value, int start, int end)
