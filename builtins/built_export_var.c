@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 14:01:10 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:05:08 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,32 @@ void	update_envs(t_data *sh, char **tmp)
 	sh->expenv[sh->j] = NULL;
 }
 
+void	get_tmp(t_data *sh, char **tmp)
+{
+	char	*var1;
+	char	*var2;
+
+	var1 = check_var(sh->cmds[sh->v]);
+	var2 = check_var(sh->expenv[sh->j]);
+	if (!ft_strcmp(var1, var2))
+	{
+		tmp[sh->j] = malloc(sizeof(char) * \
+			(ft_strlen(sh->cmds[sh->v]) + 1));
+		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], \
+			ft_strlen(sh->cmds[sh->v]) + 1);
+		sh->bool = 1;
+		free(var1);
+		free(var2);
+		return ;
+	}
+	tmp[sh->j] = malloc(sizeof(char) \
+		* (ft_strlen(sh->expenv[sh->j]) + 1));
+	ft_strlcpy(tmp[sh->j], sh->expenv[sh->j], \
+		(ft_strlen(sh->expenv[sh->j]) + 1));
+	free(var1);
+	free(var2);
+}
+
 void	export_var(t_data *sh)
 {
 	char	**tmp;
@@ -80,20 +106,7 @@ void	export_var(t_data *sh)
 	sh->bool = 0;
 	while (sh->expenv[++sh->j])
 	{
-		if (!ft_strcmp(check_var(sh->cmds[sh->v]), \
-			check_var(sh->expenv[sh->j])))
-		{
-			tmp[sh->j] = malloc(sizeof(char) * \
-				(ft_strlen(sh->cmds[sh->v]) + 1));
-			ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], \
-				ft_strlen(sh->cmds[sh->v]) + 1);
-			sh->bool = 1;
-			continue ;
-		}
-		tmp[sh->j] = malloc(sizeof(char) \
-			* (ft_strlen(sh->expenv[sh->j]) + 1));
-		ft_strlcpy(tmp[sh->j], sh->expenv[sh->j], \
-			(ft_strlen(sh->expenv[sh->j]) + 1));
+		get_tmp(sh, tmp);
 	}
 	end_function(sh, tmp);
 }
