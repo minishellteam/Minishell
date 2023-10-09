@@ -16,6 +16,7 @@ UP = UP = \033[A
 #-------------------SRCS--------------------#
 SRCS	=	main.c \
 			minishell_utils.c \
+			error_msg.c \
 			error_msg_parsing.c \
 			error_msg_exec.c \
 			exit_status.c \

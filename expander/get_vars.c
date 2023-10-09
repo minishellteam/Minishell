@@ -45,7 +45,7 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 			free(tok);
 			tok = ft_strdup(exp_tok);
 			free(exp_tok);
-			i = ft_strlen(getenv(var->var));
+			i = ft_strlen(var->value);
 			free(var->var);
 		}
 		else
@@ -61,11 +61,16 @@ static char	*replace_unquoted_var(char *new_tok, t_vars *var)
 
 	i = 1;
 	j = i;
-	while (new_tok[i]
-		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
-			|| new_tok[i] == '?' || new_tok[i] == '$'))
-		i++;
-	var->var = ft_substr(new_tok, j, i - j);
+	if (new_tok[i] == '$' && !new_tok[i + 1])
+		var->var = ft_strdup("$");
+	else
+	{
+		while (new_tok[i]
+			&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
+				|| new_tok[i] == '?') && new_tok[i] != '$')
+			i++;
+		var->var = ft_substr(new_tok, j, i - j);
+	}
 	get_value(var);
 	free(new_tok);
 	if (!var->value && !ft_strcmp(var->var, "$"))
@@ -86,8 +91,7 @@ static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token)
 		token = "";
 	else
 		token = ft_strdup(new_tok);
-	if (var->bool == 1)
-		free(new_tok);
+	free(new_tok);
 	return (token);
 }
 
@@ -105,8 +109,7 @@ char	*get_var(char *token, t_vars *var, int x)
 	{
 		var->value = NULL;
 		new_tok = replace_var(new_tok, var, i);
-		if (var->bool == 1)
-			free(var->value);
+		free(var->value);
 		free(token);
 		token = ft_strdup(new_tok);
 		free(new_tok);

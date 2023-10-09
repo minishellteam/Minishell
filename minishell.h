@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/07 12:51:52 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:40:52 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ typedef struct s_data {
 	char		*var;
 	char		*final;
 	char		*line;
+	char		**echo;
 	int			bool;
 	int			i;
 	int			j;
 	int			c;
 	int			n;
 	int			v;
-	char		**echo;
 }				t_data;
 
 typedef struct s_vars {
@@ -105,18 +105,25 @@ typedef struct s_vars {
 int		main(int ac, char **av, char **env);
 
 void	get_error_message(char *error, int x);
-
-char	*get_cmd_error(char *error, char *begin, char *err_msg);
-char	*get_exit_error(char *error, char *begin, char *err_msg);
-char	*get_mult_arg_err(char *error, char *begin, char *err_msg);
-char	*get_file_error(char *error, char *begin, char *err_msg);
-char	*get_dir_error(char *error, char *begin, char *err_msg);
-
 void	handle_error(char *message, int x);
+
+char	*get_var_name_err(char *error, char *err_msg);
+char	*get_bad_tok_err(char *error, char *err_msg);
+char	*get_syntax_err(char *error, char *err_msg);
+char	*get_quote_error(char *err_msg);
+char	*get_ambig_err(char *error, char *err_msg);
+
+char	*get_cmd_error(char *error, char *err_msg);
+char	*get_exit_error(char *error, char *err_msg);
+char	*get_mult_arg_err(char *error, char *err_msg);
+char	*get_file_error(char *error, char *err_msg);
+char	*get_dir_error(char *error, char *err_msg);
+
 void	print_tab(char **tab);
 void	free_tab(char	**tab, int i);
 void	init_data(t_vars *var);
 void	*ft_malloc(size_t size);
+int		check_var_name(char *var);
 
 int		*get_exit_status(void);
 void	set_exit_status(int status);
@@ -175,6 +182,7 @@ char	*get_var(char *token, t_vars *var, int x);
 char	get_quote_type(char *token);
 
 void	get_value(t_vars *var);
+char	*get_env(t_vars *var, char *variable);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 
 /*==============================REDIRECTIONS==================================*/
