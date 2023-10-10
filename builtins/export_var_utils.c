@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_var_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/07 12:51:01 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:03:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ static	int	check_free(t_data *sh)
 		bool = 1;
 	while (sh->expenv[++i])
 	{
-		if (bool == 1 && sh->myenv[i])
+		if (bool == 1 && sh->myenv && sh->myenv[i])
 			free(sh->myenv[i]);
 		free(sh->expenv[i]);
 	}
+	if (bool == 1)
+		free(sh->myenv);
+	free(sh->expenv);
 	return (bool);
 }
 

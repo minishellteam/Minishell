@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 14:30:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:48:32 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ char	*get_var(char *token, t_vars *var, int x);
 char	get_quote_type(char *token);
 
 char	*get_value(t_vars *var);
+char	*get_env(t_vars *var, char *variable);
 char	*replace_var_by_value(char *line, char *value, int start, int end);
 
 /*==============================REDIRECTIONS==================================*/
@@ -218,6 +219,8 @@ char	*check_var(char *var);
 int		undeclared_var(char **tmp);
 void	end_function(t_data *sh, char **tmp);
 void	update_envs(t_data *sh, char **tmp);
+void	get_tmp_expenv(t_data *sh, char **tmp);
+void	get_tmp_myenv(t_data *sh, char **tmp);
 
 void	built_pwd(void);
 void	built_exit(t_data *sh);

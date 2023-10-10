@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 10:18:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:43:22 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	update_expenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
+	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
 	while (tmp[++sh->j])
 	{
 		sh->expenv[sh->j] = malloc(sizeof(char) \
@@ -23,12 +24,14 @@ static void	update_expenv(t_data *sh, char **tmp)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
+	free(tmp);
 	sh->expenv[sh->j] = NULL;
 }
 
 static void	update_myenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
+	sh->myenv = malloc(sizeof(char *) * (array_size(tmp - undeclared_var(tmp))));
 	while (tmp[++sh->j])
 	{
 		sh->myenv[sh->j] = malloc(sizeof(char) \
@@ -37,6 +40,7 @@ static void	update_myenv(t_data *sh, char **tmp)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
+	free(tmp);
 	sh->myenv[sh->j] = NULL;
 }
 
@@ -46,19 +50,9 @@ void	search_var_env(t_data *sh, char **tmp)
 	sh->j = -1;
 	while (sh->myenv[++sh->j])
 	{
-		if (!ft_strcmp(check_var(sh->cmds[sh->i]), check_var(sh->myenv[sh->j])))
-		{
-			free(sh->myenv[sh->j]);
-			continue ;
-		}
-		tmp[sh->c] = malloc(sizeof(char) \
-			* (ft_strlen(sh->myenv[sh->j]) + 1));
-		ft_strlcpy(tmp[sh->c], sh->myenv[sh->j], \
-			(ft_strlen(sh->myenv[sh->j]) + 1));
-		free(sh->myenv[sh->j]);
-		sh->c++;
+		get_tmp_myenv(sh, tmp);
 	}
-	//free(sh->myenv);
+	free(sh->myenv);
 	tmp[sh->c] = NULL;
 	update_myenv(sh, tmp);
 }
@@ -69,20 +63,9 @@ void	search_var(t_data *sh, char **tmp)
 	sh->j = -1;
 	while (sh->expenv[++sh->j])
 	{
-		if (!ft_strcmp(check_var(sh->cmds[sh->i]), \
-			check_var(sh->expenv[sh->j])))
-		{
-			free(sh->expenv[sh->j]);
-			continue ;
-		}
-		tmp[sh->c] = malloc(sizeof(char) \
-			* (ft_strlen(sh->expenv[sh->j]) + 1));
-		ft_strlcpy(tmp[sh->c], sh->expenv[sh->j], \
-			(ft_strlen(sh->expenv[sh->j]) + 1));
-		free(sh->expenv[sh->j]);
-		sh->c++;
+		get_tmp_expenv(sh, tmp);
 	}
-	//free(sh->expenv);
+	free(sh->expenv);
 	tmp[sh->c] = NULL;
 	update_expenv(sh, tmp);
 }

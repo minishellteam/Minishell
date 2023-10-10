@@ -105,8 +105,6 @@ char	*get_var(char *token, t_vars *var, int x)
 	{
 		var->value = NULL;
 		new_tok = replace_var(new_tok, var, i);
-		if (var->bool == 1)
-			free(var->value);
 		free(token);
 		token = ft_strdup(new_tok);
 		free(new_tok);
