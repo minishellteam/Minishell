@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:48:32 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:28:02 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_data {
 	int			c;
 	int			n;
 	int			v;
+	int			test;
 }				t_data;
 
 typedef struct s_vars {
@@ -230,5 +231,10 @@ void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	built_export(t_data *sh);
 void	export_var(t_data *sh);
+
+void	update_shlvl(t_vars *var);
+void	update_pwd(t_data *sh);
+void	update_oldpwd(t_data *sh);
+void	update_underscore(t_vars *var);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/06 12:16:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:23:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	cpy_export(t_export *export, int j)
 			bool--;
 			export->exp[j][++k] = export->env[export->j][i];
 			export->exp[j][++k] = '"';
-			//i++;
 		}
 		else
 			export->exp[j][++k] = export->env[export->j][i];
@@ -89,12 +88,12 @@ void	built_export(t_data *sh)
 
 	i = -1;
 	sh->v = 0;
+	sh->export = malloc(sizeof(t_export));
 	while (sh->cmds[++sh->v])
 		export_var(sh);
 	if (sh->v > 1)
 		return ;
 	prefix = "declare -x ";
-	sh->export = malloc(sizeof(t_export));
 	sh->export->exp = malloc(sizeof(char *) * array_size(sh->expenv));
 	sh->export->env = malloc(sizeof(char *) * array_size(sh->expenv));
 	cpy_env(sh);
@@ -105,6 +104,8 @@ void	built_export(t_data *sh)
 		sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 3);
 		sh->export->env[sh->export->j][0] = 126;
 		printf("%s \n", sh->export->exp[i]);
+		free(sh->export->exp[i]);
 	}
-	//free_array(sh);
+	free_tab(sh->export->env, 0);
+	free(sh->export->exp);
 }

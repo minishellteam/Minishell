@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 13:40:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:02:03 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int	handle_dot_cmd(t_vars *var, int i)
 {
 	if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], "./minishell"))
-		//update_lvsh_var(var->sh);
+	{
+		update_shlvl(var);
 		return (0);
+	}
 	else if (var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".."))
 	{
 		get_error_message(var->cmd[i].args[0], 4);

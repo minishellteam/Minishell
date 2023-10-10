@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 11:11:06 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:39:47 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	update_envs(t_data *sh, char **tmp)
 			(ft_strlen(tmp[sh->j]) + 1));
 		free(tmp[sh->j]);
 	}
+	free(tmp);
 	if (sh->bool == 1)
 		sh->myenv[sh->j] = NULL;
 	sh->expenv[sh->j] = NULL;
@@ -105,8 +106,6 @@ void	export_var(t_data *sh)
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
 	sh->bool = 0;
 	while (sh->expenv[++sh->j])
-	{
 		get_tmp(sh, tmp);
-	}
 	end_function(sh, tmp);
 }

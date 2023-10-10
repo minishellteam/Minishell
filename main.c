@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:47:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:24:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 static void	free_vars(char *line, t_vars *var, int x)
 {
 	free(line);
-	if (x == 1)
+	if (x == 1 || x == 2)
 		free_structures(var->cmd, var->pipe_nb);
+	if (x == 2)
+		if (var->sh->export)
+			free(var->sh->export);
 	free_list_input(var->data, var->pipe_nb, 0);
 	free_list(&(var->toks), 0);
 	free(var);
@@ -53,7 +56,7 @@ static t_vars	*readline_loop(t_vars *var, char *line, t_data *sh)
 		else if (create_processes(var, sh))
 			free_vars(line, var, 1);
 		else
-			free_vars(line, var, 1);
+			free_vars(line, var, 2);
 	}
 	return (var);
 }
