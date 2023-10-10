@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 15:17:49 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:34:00 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	undeclared_var(char **tmp)
 	return (res);
 }
 
-static	int	check_free(t_data *sh)
+static	int	check_free(t_data *sh, char *var)
 {
 	int	i;
 	int	bool;
 
 	i = -1;
 	bool = 0;
-	if (ft_strchr(sh->cmds[sh->v], '='))
+	if (ft_strchr(var, '='))
 		bool = 1;
 	while (sh->expenv[++i])
 	{
@@ -46,14 +46,14 @@ static	int	check_free(t_data *sh)
 	return (bool);
 }
 
-void	end_function(t_data *sh, char **tmp)
+void	end_function(t_data *sh, char **tmp, char *var)
 {
 	if (sh->bool == 0)
 	{
-		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(sh->cmds[sh->v]) + 1));
-		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], ft_strlen(sh->cmds[sh->v]) + 1);
+		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(var) + 1));
+		ft_strlcpy(tmp[sh->j], var, ft_strlen(var) + 1);
 	}
 	tmp[++sh->j] = NULL;
-	sh->bool = check_free(sh);
+	sh->bool = check_free(sh,var);
 	update_envs(sh, tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 15:15:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:32:44 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	update_envs(t_data *sh, char **tmp)
 	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
 	if (sh->bool == 1)
 		sh->myenv = malloc(sizeof(char *) * \
-			(array_size(tmp) - undeclared_var(tmp)));
+			(array_size(tmp) - undeclared_var(tmp) + 1));
 	while (tmp[++sh->j])
 	{
 		if (sh->bool == 1 && ft_strchr(tmp[sh->j], '='))
@@ -70,19 +70,19 @@ void	update_envs(t_data *sh, char **tmp)
 	sh->expenv[sh->j] = NULL;
 }
 
-static void	get_tmp(t_data *sh, char **tmp)
+static void	get_tmp(t_data *sh, char **tmp, char *var)
 {
 	char	*var1;
 	char	*var2;
 
-	var1 = check_var(sh->cmds[sh->v]);
+	var1 = check_var(var);
 	var2 = check_var(sh->expenv[sh->j]);
 	if (!ft_strcmp(var1, var2))
 	{
 		tmp[sh->j] = malloc(sizeof(char) * \
-			(ft_strlen(sh->cmds[sh->v]) + 1));
-		ft_strlcpy(tmp[sh->j], sh->cmds[sh->v], \
-			ft_strlen(sh->cmds[sh->v]) + 1);
+			(ft_strlen(var) + 1));
+		ft_strlcpy(tmp[sh->j], var, \
+			ft_strlen(var) + 1);
 		sh->bool = 1;
 		free(var1);
 		free(var2);
@@ -96,18 +96,16 @@ static void	get_tmp(t_data *sh, char **tmp)
 	free(var2);
 }
 
-void	export_var(t_data *sh)
+void	export_var(t_data *sh, char *var)
 {
 	char	**tmp;
 
-	if (check_var_name(sh->cmds[sh->v]))
-		get_error_message(sh->cmds[sh->v], 9);
+	if (check_var_name(var))
+		get_error_message(var, 9);
 	sh->j = -1;
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
 	sh->bool = 0;
 	while (sh->expenv[++sh->j])
-	{
-		get_tmp(sh, tmp);
-	}
-	end_function(sh, tmp);
+		get_tmp(sh, tmp, var);
+	end_function(sh, tmp, var);
 }
