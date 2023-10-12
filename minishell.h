@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/10 14:28:02 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:11:57 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ int		array_size(char **array);
 void	free_array(t_data *sh);
 char	*check_var(char *var);
 int		undeclared_var(char **tmp);
-void	end_function(t_data *sh, char **tmp);
+void	end_function(t_data *sh, char **tmp, char *var);
 void	update_envs(t_data *sh, char **tmp);
 void	get_tmp_expenv(t_data *sh, char **tmp);
 void	get_tmp_myenv(t_data *sh, char **tmp);
@@ -230,11 +230,12 @@ void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	built_export(t_data *sh);
-void	export_var(t_data *sh);
+void	export_var(t_data *sh, char *var);
 
 void	update_shlvl(t_vars *var);
 void	update_pwd(t_data *sh);
 void	update_oldpwd(t_data *sh);
-void	update_underscore(t_vars *var);
+void	update_underscore(t_vars *var, int i);
+void	update_underscore_env(t_data *sh);
 
 #endif

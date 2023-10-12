@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:45:41 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:03:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 			perror("minishell");
 			exit(EXIT_FAILURE);
 		}
+		update_underscore(var, i);
 		pids[i] = fork();
 		if (pids[i] == -1)
 			perror("minishell");
@@ -89,7 +90,10 @@ int	create_processes(t_vars *var, t_data *sh)
 	i = -1;
 	pids = NULL;
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
+	{
+		update_underscore(var, 0);
 		handle_builtin(var, sh);
+	}
 	else if (!var->pipe_nb && var->cmd[0].args[0]
 		&& !ft_strcmp(var->cmd[0].args[0], ""))
 		get_error_message("", 4);

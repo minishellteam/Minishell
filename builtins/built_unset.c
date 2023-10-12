@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 15:43:22 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:20:36 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	update_expenv(t_data *sh, char **tmp)
 static void	update_myenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * (array_size(tmp - undeclared_var(tmp))));
+	sh->myenv = malloc(sizeof(char *) * \
+	(array_size(tmp - undeclared_var(tmp))));
 	while (tmp[++sh->j])
 	{
 		sh->myenv[sh->j] = malloc(sizeof(char) \

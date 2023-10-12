@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/10 14:30:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:19:49 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	update_shlvl(t_vars *var)
 	value++;
 	new_value = ft_itoa(value);
 	new_value = ft_strjoin(prefix, new_value, 3);
-	printf("new_value = %s\n", new_value);
-	//export_var(var->sh, new_value);
+	export_var(var->sh, new_value);
 	free(new_value);
 }
 
@@ -41,7 +40,7 @@ void	update_oldpwd(t_data *sh)
 	else
 	{
 		old_pwd = ft_strjoin("OLDPWD=", buffer, 0);
-		//export_var(sh, old_pwd);
+		export_var(sh, old_pwd);
 		free(old_pwd);
 	}
 }
@@ -56,7 +55,28 @@ void	update_pwd(t_data *sh)
 	else
 	{
 		pwd = ft_strjoin("PWD=", buffer, 0);
-		//export_var(sh, pwd);
+		export_var(sh, pwd);
 		free(pwd);
 	}
+}
+
+void	update_underscore(t_vars *var, int i)
+{
+	char	*underscore;
+	int		j;
+
+	j = 0;
+	while (var->cmd[i].args[j])
+		j++; 
+	underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
+	export_var(var->sh, underscore);
+	free(underscore);
+}
+
+void	update_underscore_env(t_data *sh)
+{
+	char	*underscore;
+
+	underscore = "_=usr/bin/env";
+	export_var(sh, underscore);
 }

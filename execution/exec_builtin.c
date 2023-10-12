@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/02 22:00:02 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:10:12 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	exec_builtin(t_data *sh)
 	else if (!ft_strcmp(sh->cmds[0], "unset"))
 		built_unset(sh);
 	else if (!ft_strcmp(sh->cmds[0], "env"))
+	{
+		update_underscore_env(sh);
 		built_env(sh);
+	}
 }
 
 void	handle_builtin(t_vars *var, t_data *sh)
