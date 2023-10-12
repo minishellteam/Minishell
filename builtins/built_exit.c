@@ -6,18 +6,11 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 14:43:16 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:29:34 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// static void	free_exit(void)
-// {
-// 	//if (sh->export->env || sh->export->exp)
-// 	//	free_tab();
-// 	exit(*get_exit_status());
-// }
 
 long long	ft_atol(const char *str)
 {
@@ -89,10 +82,6 @@ static void	arg_error(t_data *sh)
 void	built_exit(t_data *sh)
 {
 	printf("exit\n");
-	// if (array_size(sh->cmds) <= 3)
-	// 	free_exit();
-	// if (array_size(sh->cmds) == 2)
-	// 	exit(*get_exit_status());
 	if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
@@ -100,6 +89,5 @@ void	built_exit(t_data *sh)
 		get_error_message(NULL, 6);
 		return ;
 	}
-	//system("leaks minishell");
 	exit(*get_exit_status());
 }

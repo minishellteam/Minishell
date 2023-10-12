@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/05 14:32:50 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:27:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ void	built_pwd(void)
 
 void	built_cd(t_data *sh)
 {
+	update_oldpwd(sh);
 	if (chdir(sh->cmds[1]) == -1)
 	{
 		perror("minishell");
 		set_exit_status(EXIT_FAILURE);
 	}
+	update_pwd(sh);
 }
 
 void	built_env(t_data *sh)

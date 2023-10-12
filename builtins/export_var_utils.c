@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 14:34:00 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:37:59 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static	int	check_free(t_data *sh, char *var)
 		bool = 1;
 	while (sh->expenv[++i])
 	{
-		if (bool == 1 && sh->myenv[i])
+		if (bool == 1 && sh->myenv && sh->myenv[i])
 			free(sh->myenv[i]);
 		free(sh->expenv[i]);
 	}

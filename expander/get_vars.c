@@ -64,7 +64,7 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 	j = i;
 	while (new_tok[i]
 		&& (ft_isalnum(new_tok[i]) || new_tok[i] == '_'
-			|| new_tok[i] == '?'))
+			|| new_tok[i] == '?' || new_tok[i] == '$'))
 		i++;
 	var->var = ft_substr(new_tok, j, i - j);
 	get_value(var);

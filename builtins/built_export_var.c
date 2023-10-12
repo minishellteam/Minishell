@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 14:32:44 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:19:35 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*check_var(char *var)
 	char	*final;
 
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while (var && var[i] && var[i] != '=')
 		i++;
 	final = malloc(sizeof(char) * (i + 1));
 	i = -1;
