@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/17 11:52:40 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:12:47 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	search_var_env(t_data *sh, char **tmp)
 	sh->c = 0;
 	sh->j = -1;
 	while (sh->myenv[++sh->j])
-	{
 		get_tmp_myenv(sh, tmp);
-	}
 	free(sh->myenv);
 	tmp[sh->c] = NULL;
 	update_myenv(sh, tmp);
@@ -63,9 +61,7 @@ void	search_var(t_data *sh, char **tmp)
 	sh->c = 0;
 	sh->j = -1;
 	while (sh->expenv[++sh->j])
-	{
 		get_tmp_expenv(sh, tmp);
-	}
 	free(sh->expenv);
 	tmp[sh->c] = NULL;
 	update_expenv(sh, tmp);
@@ -75,16 +71,22 @@ void	built_unset(t_data *sh)
 {
 	char	**tmp;
 	char	**tmp2;
+	int		bool;
 
 	sh->i = 0;
+	bool = 1;
 	while (sh->cmds[++sh->i])
 	{
-		if (ft_strcmp(sh->cmds[sh->i], ""))
-			get_error_message(sh->cmds[sh->i], 9);
-		if (sh->i == 1)
+		if (!ft_strcmp(sh->cmds[sh->i], ""))
+		{
+			set_exit_status(1);
+			continue ;
+		}
+		if (bool == 1)
 			tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
-		if (sh->i == 1)
+		if (bool == 1)
 			tmp2 = ft_calloc(sizeof(char *), array_size(sh->myenv));
+		bool = 0;
 		search_var(sh, tmp);
 		search_var_env(sh, tmp2);
 	}

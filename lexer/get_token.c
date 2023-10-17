@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 10:19:11 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:04:05 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,7 @@ int	tokenize_line(char *line, t_vars *var)
 	check_limiter(var);
 	handle_quotes(var);
 	get_files(var->toks);
+	//print_list(var->toks, 0);
+	//print_list(var->toks, 1);
 	return (0);
 }

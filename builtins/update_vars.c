@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/12 10:45:04 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:05:46 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	update_shlvl(t_vars *var)
 	value++;
 	new_value = ft_itoa(value);
 	new_value = ft_strjoin(prefix, new_value, 3);
-	export_var(var->sh, new_value);
+	export_var(var->sh, new_value, 0);
 	free(new_value);
 }
 
@@ -40,7 +40,7 @@ void	update_oldpwd(t_data *sh)
 	else
 	{
 		old_pwd = ft_strjoin("OLDPWD=", buffer, 0);
-		export_var(sh, old_pwd);
+		export_var(sh, old_pwd, 0);
 		free(old_pwd);
 	}
 }
@@ -55,7 +55,7 @@ void	update_pwd(t_data *sh)
 	else
 	{
 		pwd = ft_strjoin("PWD=", buffer, 0);
-		export_var(sh, pwd);
+		export_var(sh, pwd, 0);
 		free(pwd);
 	}
 }
@@ -66,11 +66,17 @@ void	update_underscore(t_vars *var, int i)
 	int		j;
 
 	j = 0;
-	while (var->cmd[i].args[j])
-		j++; 
-	underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
-	export_var(var->sh, underscore);
-	free(underscore);
+	if (var->cmd && var->cmd[i].args)
+	{
+		while (var->cmd[i].args[j])
+			j++;
+		if (j)
+		{
+			underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
+			export_var(var->sh, underscore, 0);
+			free(underscore);
+		}
+	}
 }
 
 void	update_underscore_env(t_data *sh)
@@ -78,5 +84,5 @@ void	update_underscore_env(t_data *sh)
 	char	*underscore;
 
 	underscore = "_=usr/bin/env";
-	export_var(sh, underscore);
+	export_var(sh, underscore, 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/12 10:03:20 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:22:14 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ static void	access_child_process(t_vars *var, int *pfd, int i)
 	}
 	else if (exec_cmd(var, i))
 		exit(*get_exit_status());
+	else
+	{
+		set_exit_status(0);
+		exit(*get_exit_status());
+	}
 }
 
 static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
@@ -65,9 +70,10 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 		if (pipe(pfd) == -1)
 		{
 			perror("minishell");
-			exit(EXIT_FAILURE);
+			set_exit_status(1);
+			exit(*get_exit_status());
 		}
-		update_underscore(var, i);
+		//update_underscore(var, i);
 		pids[i] = fork();
 		if (pids[i] == -1)
 			perror("minishell");
@@ -91,9 +97,11 @@ int	create_processes(t_vars *var, t_data *sh)
 	pids = NULL;
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
 	{
-		update_underscore(var, 0);
+		//update_underscore(var, 0);
 		handle_builtin(var, sh);
 	}
+	else if (!var->pipe_nb && !ft_strcmp(var->toks->type, "SKIP"))
+		return (0);
 	else if (!var->pipe_nb && var->cmd[0].args[0]
 		&& !ft_strcmp(var->cmd[0].args[0], ""))
 		get_error_message("", 4);
