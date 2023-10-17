@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/12 10:15:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:35:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ void	built_echo(t_data *sh)
 		bool = 0;
 	print_echo(sh, bool);
 	bool = -1;
+	set_exit_status(0);
 }

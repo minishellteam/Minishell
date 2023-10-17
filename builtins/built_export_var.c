@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 15:18:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:01:40 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,16 @@ static void	get_tmp(t_data *sh, char **tmp, char *var)
 	free(var2);
 }
 
-void	export_var(t_data *sh, char *var)
+void	export_var(t_data *sh, char *var, int bool)
 {
 	char	**tmp;
 
-	if (check_var_name(var))
+	if (bool == 1 && check_var_name(var))
 		get_error_message(var, 9);
 	sh->j = -1;
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
 	sh->bool = 0;
 	while (sh->expenv[++sh->j])
-	{
 		get_tmp(sh, tmp, var);
-	}
 	end_function(sh, tmp, var);
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/03 14:37:40 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:27:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void	get_std_stream(int fd, int std_stream)
 	if (dup2(fd, std_stream) == -1)
 	{
 		perror("minishell20");
-		exit(EXIT_FAILURE);
+		set_exit_status(1);
+		exit(*get_exit_status());
 	}
 	if (close(fd) == -1)
 	{
 		perror("minishell21");
-		exit(EXIT_FAILURE);
+		set_exit_status(1);
+		exit(*get_exit_status());
 	}
 }
 

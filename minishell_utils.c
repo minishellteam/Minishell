@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:24:30 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:30:08 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	*ft_malloc(size_t size)
 	if (!ptr)
 	{
 		perror("minishell");
-		exit(EXIT_FAILURE);
+		set_exit_status(1);
+		exit(*get_exit_status());
 	}
 	return (ptr);
 }

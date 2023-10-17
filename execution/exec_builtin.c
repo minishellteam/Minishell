@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/12 10:10:12 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:32:51 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,24 @@ void	exec_builtin(t_data *sh)
 {
 	if (!ft_strcmp(sh->cmds[0], "echo"))
 		built_echo(sh);
-	else if (!ft_strcmp(sh->cmds[0], "exit"))
-		built_exit(sh);
-	else if (!ft_strcmp(sh->cmds[0], "cd"))
-		built_cd(sh);
-	else if (!ft_strcmp(sh->cmds[0], "pwd"))
-		built_pwd();
-	else if (!ft_strcmp(sh->cmds[0], "export"))
-		built_export(sh);
-	else if (!ft_strcmp(sh->cmds[0], "unset"))
-		built_unset(sh);
-	else if (!ft_strcmp(sh->cmds[0], "env"))
+	else
 	{
-		update_underscore_env(sh);
-		built_env(sh);
+		set_exit_status(0);
+		if (!ft_strcmp(sh->cmds[0], "exit"))
+			built_exit(sh);
+		else if (!ft_strcmp(sh->cmds[0], "cd"))
+			built_cd(sh);
+		else if (!ft_strcmp(sh->cmds[0], "pwd"))
+			built_pwd();
+		else if (!ft_strcmp(sh->cmds[0], "export"))
+			built_export(sh);
+		else if (!ft_strcmp(sh->cmds[0], "unset"))
+			built_unset(sh);
+		else if (!ft_strcmp(sh->cmds[0], "env"))
+		{
+			update_underscore_env(sh);
+			built_env(sh);
+		}
 	}
 }
 
