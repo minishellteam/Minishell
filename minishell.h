@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/16 16:45:30 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:00:36 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void	built_cd(t_data *sh);
 void	built_env(t_data *sh);
 void	built_unset(t_data *sh);
 void	built_export(t_data *sh);
-void	export_var(t_data *sh, char *var);
+void	export_var(t_data *sh, char *var, int bool);
 
 void	update_shlvl(t_vars *var);
 void	update_pwd(t_data *sh);

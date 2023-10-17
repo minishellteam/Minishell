@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/12 11:59:22 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:00:27 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	built_export(t_data *sh)
 	sh->v = 0;
 	sh->export = malloc(sizeof(t_export));
 	while (sh->cmds[++sh->v])
-		export_var(sh, sh->cmds[sh->v]);
+		export_var(sh, sh->cmds[sh->v], 1);
 	if (sh->v > 1)
 		return ;
 	prefix = "declare -x ";
