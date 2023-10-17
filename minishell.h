@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/10 14:37:26 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:45:30 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int		*get_exit_status(void);
 void	set_exit_status(int status);
 int		wait_for_processes(t_vars *var);
 
-void	signal_handler(int signal, siginfo_t *sa, void *content);
+void	signal_handler(int signal);
 
 /*===================================LEXER====================================*/
 
@@ -235,6 +235,10 @@ void	export_var(t_data *sh, char *var);
 void	update_shlvl(t_vars *var);
 void	update_pwd(t_data *sh);
 void	update_oldpwd(t_data *sh);
-void	update_underscore(t_vars *var);
+void	update_underscore(t_vars *var, int i);
+void	update_underscore_env(t_data *sh);
+
+extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 14:27:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:10:50 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	built_pwd(void)
 
 void	built_cd(t_data *sh)
 {
+	if (array_size(sh->cmds) > 3)
+	{
+		get_error_message("cd" ,3);
+		return ;
+	}
 	update_oldpwd(sh);
 	if (chdir(sh->cmds[1]) == -1)
 	{

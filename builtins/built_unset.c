@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/09 15:43:22 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:52:40 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	update_expenv(t_data *sh, char **tmp)
 static void	update_myenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * (array_size(tmp - undeclared_var(tmp))));
+	sh->myenv = malloc(sizeof(char *) * \
+	(array_size(tmp - undeclared_var(tmp))));
 	while (tmp[++sh->j])
 	{
 		sh->myenv[sh->j] = malloc(sizeof(char) \
@@ -78,6 +79,8 @@ void	built_unset(t_data *sh)
 	sh->i = 0;
 	while (sh->cmds[++sh->i])
 	{
+		if (ft_strcmp(sh->cmds[sh->i], ""))
+			get_error_message(sh->cmds[sh->i], 9);
 		if (sh->i == 1)
 			tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
 		if (sh->i == 1)

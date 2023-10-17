@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:24:30 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:18:30 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	check_var_name(char *var)
 	int	i;
 
 	i = -1;
+	if (ft_strcmp(var, ""))
+		return (1);
 	if (var && var[0] >= '0' && var[0] <= '9')
 		return (1);
 	while (var && var[++i] && var[i] != '=')

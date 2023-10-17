@@ -48,7 +48,7 @@ SRCS	=	main.c \
 			./builtins/built_unset_utils.c \
 			./builtins/built_utils.c \
 			./builtins/update_vars.c \
-			signal.c \
+			signal.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -71,7 +71,7 @@ $(NAME): $(OBJS)
 	@echo ""
 	@echo "	$(BOLD)$(PINK)$(UNDERLINE)Compiling...$(DEF)  $(PURPLE)$(BOLD)Minishell$(DEF) ⏳"
 	@$(MAKE) -C ./Libft/
-	@$(CC) $(CFLAGS) $(OBJS) -lreadline ./Libft/libft.a -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(shell brew --prefix readline)/lib -lreadline ./Libft/libft.a -o $(NAME)
 	@clear
 	@echo "	$(YELLOW)$(BOLD)Compiled ! ✨$(DEF)"
 

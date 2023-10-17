@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/10 14:37:59 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:45:15 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	end_function(t_data *sh, char **tmp, char *var)
 		ft_strlcpy(tmp[sh->j], var, ft_strlen(var) + 1);
 	}
 	tmp[++sh->j] = NULL;
-	sh->bool = check_free(sh,var);
+	sh->bool = check_free(sh, var);
 	update_envs(sh, tmp);
 }
