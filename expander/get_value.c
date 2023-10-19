@@ -6,23 +6,41 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 12:56:03 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:41:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	*get_spaces(char **split)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	value = ft_strjoin(split[0], " ", 0);
+	while (split[++i])
+	{
+		value = ft_strjoin(value, split[i], 1);
+		value = ft_strjoin(value, " ", 1);
+	}
+	return (value);
+}
+
 void	handle_value(t_vars *var, int bool)
 {
+	char	**splitted_value;
 	char	*value;
 
 	value = get_value(var);
 	if (bool == 1)
 	{
-		var->value = ft_strtrim(value, " ");
-		free(value);
-		if (var->y == 1)
+		splitted_value = ft_split(value, ' ');
+		var->value = get_spaces(splitted_value);
+		free_tab(splitted_value, 0);
+		if (var->y == 1 && value[0] == ' ')
 			var->value = ft_strjoin(" ", var->value, 3);
+		free(value);
 	}
 	else
 		var->value = value;

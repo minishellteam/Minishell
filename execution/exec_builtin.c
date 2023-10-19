@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 11:32:51 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:22:18 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_builtin(t_data *sh)
 			built_unset(sh);
 		else if (!ft_strcmp(sh->cmds[0], "env"))
 		{
-			update_underscore_env(sh);
+			//update_underscore_env(sh);
 			built_env(sh);
 		}
 	}
