@@ -6,11 +6,27 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:45:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:56:03 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	handle_value(t_vars *var, int bool)
+{
+	char	*value;
+
+	value = get_value(var);
+	if (bool == 1)
+	{
+		var->value = ft_strtrim(value, " ");
+		free(value);
+		if (var->y == 1)
+			var->value = ft_strjoin(" ", var->value, 3);
+	}
+	else
+		var->value = value;
+}
 
 char	*get_env(t_vars *var, char *variable)
 {

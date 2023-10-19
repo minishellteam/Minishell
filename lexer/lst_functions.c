@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 10:14:55 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:28:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	free_list(t_tok **lst, int x)
 	free(*lst);
 }
 
-void	print_list(t_tok *token, int x)
+/*void	print_list(t_tok *token, int x)
 {
 	t_tok	*tmp;
 
@@ -111,4 +111,4 @@ void	print_list(t_tok *token, int x)
 			tmp = tmp->next;
 		}
 	}
-}
+}*/

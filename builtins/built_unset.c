@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/12 10:20:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:08:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ void	built_unset(t_data *sh)
 	sh->i = 0;
 	while (sh->cmds[++sh->i])
 	{
+		if (!ft_strcmp(sh->cmds[sh->i], ""))
+		{
+			set_exit_status(1);
+			continue ;
+		}
 		if (sh->i == 1)
 			tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
 		if (sh->i == 1)

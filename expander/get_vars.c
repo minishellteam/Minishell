@@ -26,7 +26,7 @@ char	get_quote_type(char *token)
 	return (token_type);
 }
 
-static char	*replace_var(char *tok, t_vars *var, int i)
+static char	*replace_var(char *tok, t_vars *var, int i, int bool)
 {
 	int		j;
 	char	*exp_tok;
@@ -40,7 +40,7 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 			while (ft_isalnum(tok[i]) || tok[i] == '_' || tok[i] == '?')
 				i++;
 			var->var = ft_substr(tok, j, i - j);
-			var->value = get_value(var);
+			handle_value(var, bool);
 			exp_tok = replace_var_by_value(tok, var->value, j, i);
 			free(tok);
 			tok = ft_strdup(exp_tok);
@@ -57,7 +57,7 @@ static char	*replace_var(char *tok, t_vars *var, int i)
 
 static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token, int i)
 {
-	new_tok = replace_var(new_tok, var, i);
+	new_tok = replace_var(new_tok, var, i, 1);
 	free(token);
 	if (!ft_strcmp(new_tok, ""))
 		token = "";
@@ -67,7 +67,7 @@ static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token, int i)
 	return (token);
 }
 
-char	*get_var(char *token, t_vars *var, int x)
+char	*get_var(char *token, t_vars *var, int x, int bool)
 {
 	char	*new_tok;
 	int		i;
@@ -80,7 +80,7 @@ char	*get_var(char *token, t_vars *var, int x)
 	if (x == 0)
 	{
 		var->value = NULL;
-		new_tok = replace_var(new_tok, var, i);
+		new_tok = replace_var(new_tok, var, i, bool);
 		free(token);
 		token = ft_strdup(new_tok);
 		free(new_tok);

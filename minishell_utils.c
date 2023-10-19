@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 11:30:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:35:34 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ void	*ft_malloc(size_t size)
 
 	ptr = malloc(size);
 	if (!ptr)
-	{
-		perror("minishell");
-		set_exit_status(1);
-		exit(*get_exit_status());
-	}
+		get_fct_error();
 	return (ptr);
 }
 
@@ -60,6 +56,8 @@ int	check_var_name(char *var)
 	int	i;
 
 	i = -1;
+	if (!ft_strcmp(var, ""))
+		return (1);
 	if (var && var[0] >= '0' && var[0] <= '9')
 		return (1);
 	while (var && var[++i] && var[i] != '=')

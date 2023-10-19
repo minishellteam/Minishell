@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/17 13:03:12 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:57:43 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ static void	cpy_env(t_data *sh)
 
 static void	search_min(t_export *export, int i)
 {
-	int	min;
 	int	index;
+	int	k;
 
-	min = export->env[0][0];
 	index = 0;
-	export->j = 0;
+	export->j = -1;
 	while (export->env[++export->j])
 	{
-		if (export->env[export->j][0] < min)
-		{
-			min = export->env[export->j][0];
+		k = 0;
+		while (export->env[export->j][k] && export->env[index][k] &&
+			export->env[export->j][k] == export->env[index][k])
+			k++;
+		if (export->env[export->j][k] < export->env[index][k])
 			index = export->j;
-		}
 	}
 	export->j = index;
 	export->exp[i] = malloc(sizeof(char) \

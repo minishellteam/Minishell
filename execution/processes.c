@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 11:36:11 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:46:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,7 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 			get_here_doc_input(var, var->here_doc, i);
 		}
 		if (pipe(pfd) == -1)
-		{
-			perror("minishell");
-			set_exit_status(1);
-			exit(*get_exit_status());
-		}
+			get_fct_error();
 		update_underscore(var, i);
 		pids[i] = fork();
 		if (pids[i] == -1)
@@ -109,10 +105,7 @@ int	create_processes(t_vars *var, t_data *sh)
 	{
 		pids = (int *)ft_malloc(sizeof(int) * (var->pipe_nb + 1));
 		handle_pipes(var, pfd, pids, i);
-		if (wait_for_processes(var) == -1)
-			perror("minishell");
-		if (close(var->tmp_fd) == -1)
-			perror("minishell");
+		wait_for_processes(var);
 		free(pids);
 	}
 	return (0);

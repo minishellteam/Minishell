@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 11:25:23 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 10:32:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->token = NULL;
 	var->data = NULL;
 	var->bool = 0;
+	var->y = 0;
 	var->sh = sh;
 }
 
@@ -104,7 +105,7 @@ int	main(int ac, char **av, char **env)
 	exp_env(&sh);
 	ft_bzero(&sig, sizeof(sig));
 	sig.sa_flags = SA_RESTART | SA_NODEFER;
-	sig.sa_sigaction = signal_handler;
+	sig.sa_handler = &signal_handler;
 	sigaction(SIGINT, &sig, NULL);
 	var = readline_loop(var, line, &sh);
 	return (EXIT_SUCCESS);
