@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:13:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:01:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	free_vars(char *line, t_vars *var, int x)
 	{
 		if (var->sh->export)
 		{
-			var->sh->export = NULL;
+			//var->sh->export = NULL;
 			free(var->sh->export);
 			var->sh->export = NULL;
 		}

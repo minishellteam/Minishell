@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 11:22:52 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/24 11:57:43 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:25:21 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ static void	print_echo(t_data *sh, int bool)
 	sh->j--;
 	while (sh->cmds[++sh->j])
 	{
-		printf("sh->cmds[j] = %s$\n", sh->cmds[sh->j]);
 		if (!ft_strcmp(sh->cmds[sh->j], "\"\""))
 			printf(" ");
-		else if (!ft_strcmp(sh->cmds[sh->j], "usr/bin/env "))
+		else if (!ft_strcmp(sh->cmds[sh->j], "usr/bin/env"))
 			printf("env");
 		else
 			printf("%s", sh->cmds[sh->j]);

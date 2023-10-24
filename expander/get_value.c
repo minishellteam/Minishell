@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 12:41:04 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:24:52 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ char	*get_spaces(char **split)
 	int		i;
 
 	i = 0;
+	if (split && split[0] && !split[1])
+	{
+		value = ft_strdup(split[0]);
+		return (value);
+	}
 	value = ft_strjoin(split[0], " ", 0);
 	while (split && split[++i])
 	{
 		value = ft_strjoin(value, split[i], 1);
-		value = ft_strjoin(value, " ", 1);
+		if (split[i + 1])
+			value = ft_strjoin(value, " ", 1);
 	}
 	return (value);
 }
@@ -35,9 +41,6 @@ void	handle_value(t_vars *var, int bool)
 	value = get_value(var);
 	if (!ft_strcmp(value, ""))
 	{
-		//if (!ft_strcmp(var->var, "_"))
-		//	var->value = ft_strdup("_");
-		//else
 		var->value = ft_strdup("");
 		free(value);
 		return ;
@@ -66,7 +69,6 @@ char	*get_env(t_vars *var, char *variable)
 	value = NULL;
 	while (var->sh->myenv[++i])
 	{
-		printf("myenv[i] = %s\n", var->sh->myenv[i]);
 		if (!ft_strncmp(variable, var->sh->myenv[i], ft_strlen(variable)))
 		{
 			while (var->sh->myenv[i][j] && var->sh->myenv[i][j] != '=')

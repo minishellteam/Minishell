@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 11:06:14 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:27:11 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ void	exec_builtin(t_data *sh)
 			built_env(sh);
 		}
 	}
+}
+
+void	update_underscore_env(t_data *sh)
+{
+	char	*underscore;
+
+	underscore = "_=usr/bin/env";
+	export_var(sh, underscore, 0);
 }
 
 void	handle_builtin(t_vars *var, t_data *sh)
