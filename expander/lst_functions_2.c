@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 20:24:25 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 14:08:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:01:01 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	free_list_input(t_input **lst, int nb, int x)
 			if (x == 0)
 				free(tmp->input);
 			free(tmp);
-			free(lst[i]);
 		}
 	}
 	free (list);

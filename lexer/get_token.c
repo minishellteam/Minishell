@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/17 11:04:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:26:36 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,11 @@ static char	*get_special_tok(t_vars *var)
 	return (token);
 }
 
-static int	handle_quote_case(t_vars *var, char **token)
+static int	handle_quote_case(t_vars *var)
 {
 	char	*quote;
 
 	quote = var->line;
-	if ((*(var->line) == '\"' && *(var->line + 1) == '\"')
-		|| (*(var->line) == '\'' && *(var->line + 1) == '\''))
-	{
-		var->line += 2;
-		*token = "";
-		return (1);
-	}
 	if (check_quote_in_str(var, var->start, var->end))
 		return (1);
 	var->line++;
@@ -63,12 +56,14 @@ static char	*get_string_tok(t_vars *var)
 	token = NULL;
 	var->start = var->line;
 	var->x = 0;
+	if (handle_empty_quotes(var, &token))
+		return (token);
 	while (*(var->line) && !ft_isspace(*(var->line))
 		&& !is_special_char(*(var->line)))
 	{
 		if (*(var->line) == '\"' || *(var->line) == '\'')
-			if (handle_quote_case(var, &token))
-				return (token);
+			if (handle_quote_case(var))
+				return (NULL);
 		var->line++;
 	}
 	var->end = var->line - 1;
@@ -123,7 +118,5 @@ int	tokenize_line(char *line, t_vars *var)
 	check_limiter(var);
 	handle_quotes(var);
 	get_files(var->toks);
-	//print_list(var->toks, 0);
-	//print_list(var->toks, 1);
 	return (0);
 }

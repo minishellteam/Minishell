@@ -6,11 +6,54 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/09 15:45:58 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:02:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*get_spaces(char **split)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	value = ft_strjoin(split[0], " ", 0);
+	while (split && split[++i])
+	{
+		value = ft_strjoin(value, split[i], 1);
+		value = ft_strjoin(value, " ", 1);
+	}
+	return (value);
+}
+
+void	handle_value(t_vars *var, int bool)
+{
+	char	**splitted_value;
+	char	*value;
+
+	value = get_value(var);
+	if (!ft_strcmp(value, ""))
+	{
+		if (!ft_strcmp(var->var, "_"))
+			var->value = ft_strdup("_");
+		else
+			var->value = ft_strdup("");
+		free(value);
+		return ;
+	}
+	else if (bool == 1)
+	{
+		splitted_value = ft_split(value, ' ');
+		var->value = get_spaces(splitted_value);
+		free_tab(splitted_value, 0);
+		if (var->y == 1 && value[0] == ' ')
+			var->value = ft_strjoin(" ", var->value, 3);
+		free(value);
+	}
+	else
+		var->value = value;
+}
 
 char	*get_env(t_vars *var, char *variable)
 {

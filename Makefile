@@ -30,6 +30,7 @@ SRCS	=	main.c \
 			./expander/here_doc.c \
 			./expander/lst_functions_2.c \
 			./expander/expand_quotes.c \
+			./expander/empty_token.c \
 			./expander/get_vars.c \
 			./expander/get_value.c \
 			./parser/pipe_check.c \

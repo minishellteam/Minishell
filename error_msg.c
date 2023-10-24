@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 12:24:36 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 12:57:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:34:21 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,11 @@ void	handle_error(char *message, int x)
 	else if (x == 0)
 		ft_putstr_fd(message, 2);
 	free(message);
+}
+
+void	get_fct_error(void)
+{
+	perror("minishell");
+	set_exit_status(EXIT_FAILURE);
+	exit(*(get_exit_status()));
 }
