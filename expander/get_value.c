@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 15:41:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:02:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_spaces(char **split)
 
 	i = 0;
 	value = ft_strjoin(split[0], " ", 0);
-	while (split[++i])
+	while (split && split[++i])
 	{
 		value = ft_strjoin(value, split[i], 1);
 		value = ft_strjoin(value, " ", 1);
@@ -33,7 +33,16 @@ void	handle_value(t_vars *var, int bool)
 	char	*value;
 
 	value = get_value(var);
-	if (bool == 1)
+	if (!ft_strcmp(value, ""))
+	{
+		if (!ft_strcmp(var->var, "_"))
+			var->value = ft_strdup("_");
+		else
+			var->value = ft_strdup("");
+		free(value);
+		return ;
+	}
+	else if (bool == 1)
 	{
 		splitted_value = ft_split(value, ' ');
 		var->value = get_spaces(splitted_value);

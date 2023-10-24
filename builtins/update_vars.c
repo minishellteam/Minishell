@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:09:02 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 11:03:53 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,22 @@ void	update_pwd(t_data *sh)
 	}
 }
 
+static void	export_underscore(char **env, char *var)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (ft_strnstr(env[i], "_=", ft_strlen(env[i])))
+		{
+			free(env[i]);
+			env[i] = ft_strdup(var);
+			return ;
+		}
+	}
+}
+
 void	update_underscore(t_vars *var, int i)
 {
 	char	*underscore;
@@ -73,7 +89,8 @@ void	update_underscore(t_vars *var, int i)
 		if (j)
 		{
 			underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
-			export_var(var->sh, underscore, 0);
+			export_underscore(var->sh->expenv, underscore);
+			export_underscore(var->sh->myenv, underscore);
 			free(underscore);
 		}
 	}
