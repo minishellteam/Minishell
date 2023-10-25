@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:13:05 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:11:13 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	free_vars(char *line, t_vars *var, int x)
 		{
 			var->sh->export = NULL;
 			free(var->sh->export);
-			var->sh->export = NULL;
 		}
 	}
 	free_list_input(var->data, var->pipe_nb, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 12:02:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:27:09 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	handle_value(t_vars *var, int bool)
 	value = get_value(var);
 	if (!ft_strcmp(value, ""))
 	{
-		if (!ft_strcmp(var->var, "_"))
-			var->value = ft_strdup("_");
-		else
-			var->value = ft_strdup("");
+		//if (!ft_strcmp(var->var, "_"))
+		//	var->value = ft_strdup("_");
+		//else
+		var->value = ft_strdup("");
 		free(value);
 		return ;
 	}
@@ -64,14 +64,17 @@ char	*get_env(t_vars *var, char *variable)
 	i = -1;
 	j = 0;
 	value = NULL;
-	while (var->sh->expenv[++i])
+	printf("var = %s\n", variable);
+	while (var->sh->myenv[++i])
 	{
-		if (!strncmp(variable, var->sh->expenv[i], ft_strlen(variable)))
+		//printf("myenv[i] = %s\n", var->sh->myenv[i]);
+		//printf("variable = |%s|\n", variable);
+		if (!ft_strncmp("_=", var->sh->myenv[i], 2))
 		{
-			while (var->sh->expenv[i][j] && var->sh->expenv[i][j] != '=')
+			while (var->sh->myenv[i][j] && var->sh->myenv[i][j] != '=')
 				j++;
-			value = ft_substr(var->sh->expenv[i], j + 1, \
-			ft_strlen(var->sh->expenv[i]) - j);
+			value = ft_substr(var->sh->myenv[i], j + 1, \
+			ft_strlen(var->sh->myenv[i]) - j);
 			return (value);
 		}
 	}

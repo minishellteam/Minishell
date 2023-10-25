@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/19 13:08:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:22:58 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	built_unset(t_data *sh)
 	bool = 1;
 	while (sh->cmds[++sh->i])
 	{
+		if (!ft_strcmp("_", sh->cmds[sh->i]))
+			continue ;
 		if (!ft_strcmp(sh->cmds[sh->i], ""))
 		{
 			set_exit_status(1);
