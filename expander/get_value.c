@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 16:24:52 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:19:58 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*get_env(t_vars *var, char *variable)
 	i = -1;
 	j = 0;
 	value = NULL;
+	variable = ft_strjoin(variable, "=", 0);
 	while (var->sh->myenv[++i])
 	{
 		if (!ft_strncmp(variable, var->sh->myenv[i], ft_strlen(variable)))
@@ -75,10 +76,12 @@ char	*get_env(t_vars *var, char *variable)
 				j++;
 			value = ft_substr(var->sh->myenv[i], j + 1, \
 			ft_strlen(var->sh->myenv[i]) - j);
+			free(variable);
 			return (value);
 		}
 	}
 	value = ft_strdup("");
+	free(variable);
 	return (value);
 }
 

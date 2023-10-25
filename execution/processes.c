@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 22:57:32 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:27:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,24 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 		perror("minishell");
 }
 
-void	set_null_stdout(void)
+/*void	set_null_stdin(void)
 {
 	int		null_fd;
 
-	null_fd = open("/dev/null", O_WRONLY);
-	dup2(null_fd, STDOUT_FILENO);
+	null_fd = open("/dev/null", O_RDONLY);
+	dup2(null_fd, STDIN_FILENO);
 	close(null_fd);
-}
+}*/
 
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
 	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
-	if (!ft_strcmp(var->cmd[i].args[0], "cat") && !var->cmd[i].args[1])
-	{
-		set_null_stdout();
-		if (close(pfd[1]) == -1)
-			perror("minishell");
-	}
-	else
-		set_stdout_pipeline(var, pfd, i);
+	set_stdout_pipeline(var, pfd, i);
 	if (is_builtin(var->cmd[i].args[0]))
 	{
 		var->sh->cmds = var->cmd[i].args;
-		exec_builtin(var->sh);
+		if (ft_strcmp(var->cmd[i].args[0], "exit"))
+			exec_builtin(var->sh);
 		exit(*get_exit_status());
 	}
 	else if (exec_cmd(var, i))

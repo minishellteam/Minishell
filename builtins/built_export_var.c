@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/19 13:07:45 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:38:54 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ void	export_var(t_data *sh, char *var, int bool)
 	char	**tmp;
 
 	if (bool == 1 && check_var_name(var))
+	{
 		get_error_message(var, 9);
+		return ;
+	}
 	sh->j = -1;
 	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
 	sh->bool = 0;

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 19:17:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 10:57:02 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:29:31 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ int	get_out_redir(t_vars *var)
 			&& (!ft_strcmp(tmp->prev->type, "GREATER")
 				|| !ft_strcmp(tmp->prev->type, "D_GREATER")
 				|| !ft_strcmp(tmp->prev->type, "LESSER")))
+		{
 			get_error_message(tmp->tok, 7);
+			return (-1);
+		}
 		tmp = tmp->next;
 	}
 	return (fd);

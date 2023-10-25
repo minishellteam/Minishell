@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/10 14:02:03 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:56:33 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static char	*get_path(t_vars *var)
 
 	i = -1;
 	path = NULL;
-	while (var->sh->expenv[++i])
+	while (var->sh->myenv[++i])
 	{
-		if (!ft_strncmp(var->sh->expenv[i], "PATH=", 5))
+		if (!ft_strncmp(var->sh->myenv[i], "PATH=", 5))
 		{
-			path = var->sh->expenv[i] + 5;
+			path = var->sh->myenv[i] + 5;
 			break ;
 		}
 	}
