@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 13:11:13 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:41:45 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int ac, char **av, char **env)
 	static char			*line;
 	t_vars				*var;
 	t_data				sh;
-	struct sigaction	sig;
 
 	set_exit_status(EXIT_SUCCESS);
 	var = NULL;
@@ -102,10 +101,7 @@ int	main(int ac, char **av, char **env)
 	sh.env = env;
 	my_env(&sh);
 	exp_env(&sh);
-	ft_bzero(&sig, sizeof(sig));
-	sig.sa_flags = SA_RESTART | SA_NODEFER;
-	sig.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sig, NULL);
+	//signal(SIGINT, basic_signal(1));
 	var = readline_loop(var, line, &sh);
 	return (EXIT_SUCCESS);
 }

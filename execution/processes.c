@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 10:55:17 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:52:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,26 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 		perror("minishell");
 }
 
+void	set_null_stdout(void)
+{
+	int		null_fd;
+
+	null_fd = open("/dev/null", O_WRONLY);
+	dup2(null_fd, STDOUT_FILENO);
+	close(null_fd);
+}
+
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
 	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
-	set_stdout_pipeline(var, pfd, i);
+	if (!ft_strcmp(var->cmd[i].args[0], "cat") && !var->cmd[i].args[1])
+	{
+		set_null_stdout();
+		if (close(pfd[1]) == -1)
+			perror("minishell");
+	}
+	else
+		set_stdout_pipeline(var, pfd, i);
 	if (is_builtin(var->cmd[i].args[0]))
 	{
 		var->sh->cmds = var->cmd[i].args;
@@ -69,7 +85,7 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 		}
 		if (pipe(pfd) == -1)
 			get_fct_error();
-		update_underscore(var, i);
+		//update_underscore(var, i);
 		pids[i] = fork();
 		if (pids[i] == -1)
 			perror("minishell");
@@ -93,7 +109,7 @@ int	create_processes(t_vars *var, t_data *sh)
 	pids = NULL;
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
 	{
-		update_underscore(var, 0);
+		//update_underscore(var, 0);
 		handle_builtin(var, sh);
 	}
 	else if (!var->pipe_nb && !ft_strcmp(var->toks->type, "SKIP"))

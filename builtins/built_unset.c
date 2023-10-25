@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/24 13:22:58 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:37:54 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ void	built_unset(t_data *sh)
 {
 	char	**tmp;
 	char	**tmp2;
-	int		bool;
 
 	sh->i = 0;
-	bool = 1;
 	while (sh->cmds[++sh->i])
 	{
 		if (!ft_strcmp("_", sh->cmds[sh->i]))
@@ -84,11 +82,8 @@ void	built_unset(t_data *sh)
 			set_exit_status(1);
 			continue ;
 		}
-		if (bool == 1)
-			tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
-		if (bool == 1)
-			tmp2 = ft_calloc(sizeof(char *), array_size(sh->myenv));
-		bool = 0;
+		tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
+		tmp2 = ft_calloc(sizeof(char *), array_size(sh->myenv));
 		search_var(sh, tmp);
 		search_var_env(sh, tmp2);
 	}

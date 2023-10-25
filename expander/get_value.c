@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 13:27:09 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:22:40 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ char	*get_spaces(char **split)
 	int		i;
 
 	i = 0;
+	if (split && split[0] && !split[1])
+	{
+		value = ft_strdup(split[0]);
+		return (value);
+	}
 	value = ft_strjoin(split[0], " ", 0);
 	while (split && split[++i])
 	{
 		value = ft_strjoin(value, split[i], 1);
-		value = ft_strjoin(value, " ", 1);
+		if (split[i + 1])
+			value = ft_strjoin(value, " ", 1);
 	}
 	return (value);
 }
@@ -35,9 +41,6 @@ void	handle_value(t_vars *var, int bool)
 	value = get_value(var);
 	if (!ft_strcmp(value, ""))
 	{
-		//if (!ft_strcmp(var->var, "_"))
-		//	var->value = ft_strdup("_");
-		//else
 		var->value = ft_strdup("");
 		free(value);
 		return ;
@@ -64,21 +67,21 @@ char	*get_env(t_vars *var, char *variable)
 	i = -1;
 	j = 0;
 	value = NULL;
-	printf("var = %s\n", variable);
+	variable = ft_strjoin(variable, "=", 0);
 	while (var->sh->myenv[++i])
 	{
-		//printf("myenv[i] = %s\n", var->sh->myenv[i]);
-		//printf("variable = |%s|\n", variable);
-		if (!ft_strncmp("_=", var->sh->myenv[i], 2))
+		if (!ft_strncmp(variable, var->sh->myenv[i], ft_strlen(variable)))
 		{
 			while (var->sh->myenv[i][j] && var->sh->myenv[i][j] != '=')
 				j++;
 			value = ft_substr(var->sh->myenv[i], j + 1, \
 			ft_strlen(var->sh->myenv[i]) - j);
+			free(variable);
 			return (value);
 		}
 	}
 	value = ft_strdup("");
+	free(variable);
 	return (value);
 }
 

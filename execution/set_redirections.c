@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 12:34:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/24 22:58:26 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	get_std_stream(int fd, int std_stream)
 {
 	if (dup2(fd, std_stream) == -1)
 	{
-		perror("minishell20");
+		perror("minishell");
 		set_exit_status(1);
 		exit(*get_exit_status());
 	}
 	if (close(fd) == -1)
 	{
-		perror("minishell21");
+		perror("minishell");
 		set_exit_status(1);
 		exit(*get_exit_status());
 	}
@@ -33,7 +33,7 @@ void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i)
 	if (var->cmd[i].fdin == -2)
 	{
 		if (close(pfd[0]) == -1)
-			perror("minishell6");
+			perror("minishell");
 		get_std_stream(var->here_doc[0], STDIN_FILENO);
 	}
 	else if (var->cmd[i].fdin != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:18:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:09:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:33:10 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_var_name(char *var)
 	int	i;
 
 	i = -1;
-	if (!ft_strcmp(var, ""))
+	if (!ft_strcmp(var, "") || var[0] == '=')
 		return (1);
 	if (var && var[0] >= '0' && var[0] <= '9')
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_vars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 11:03:53 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:52:08 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,9 @@ void	update_underscore(t_vars *var, int i)
 		if (j)
 		{
 			underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
-			export_underscore(var->sh->expenv, underscore);
 			export_underscore(var->sh->myenv, underscore);
+			export_underscore(var->sh->expenv, underscore);
 			free(underscore);
 		}
 	}
-}
-
-void	update_underscore_env(t_data *sh)
-{
-	char	*underscore;
-
-	underscore = "_=usr/bin/env";
-	export_var(sh, underscore, 0);
 }

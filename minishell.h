@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:23:44 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:28:16 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_data {
 	int			c;
 	int			n;
 	int			v;
-	int			test;
 }				t_data;
 
 typedef struct s_vars {
@@ -135,7 +134,7 @@ int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
 
-void		signal_handler(int signal);
+void		basic_signal(int signal);
 
 /*===================================LEXER====================================*/
 
