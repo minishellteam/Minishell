@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 17:46:06 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/27 00:29:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,19 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
-	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+	if (var->empty_pipe == 1 || (i == 0 && var->cmd[i].fdin == 0))
+		set_null_stdin();
+	else
+		set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+	var->empty_pipe = 0;
 	set_stdout_pipeline(var, pfd, i);
+	var->sh->exit_pipe = 0;
 	if (is_builtin(var->cmd[i].args[0]))
 	{
 		var->sh->cmds = var->cmd[i].args;
-		if (ft_strcmp(var->cmd[i].args[0], "exit"))
-			exec_builtin(var->sh);
+		if (!ft_strcmp(var->cmd[i].args[0], "exit"))
+			var->sh->exit_pipe = 1;
+		exec_builtin(var->sh);
 		exit(*get_exit_status());
 	}
 	else if (exec_cmd(var, i))

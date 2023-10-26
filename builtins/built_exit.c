@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 13:05:58 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/26 21:24:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ static void	arg_error(t_data *sh)
 
 void	built_exit(t_data *sh)
 {
-	printf("exit\n");
+	if (sh->exit_pipe != 1)
+		printf("exit\n");
 	if (array_size(sh->cmds) == 3)
 		arg_error(sh);
 	else if (array_size(sh->cmds) > 3)
@@ -89,5 +90,6 @@ void	built_exit(t_data *sh)
 		get_error_message(NULL, 6);
 		return ;
 	}
-	exit(*get_exit_status());
+	if (sh->exit_pipe != 1)
+		exit(*get_exit_status());
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/26 15:30:38 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/26 23:37:56 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_data {
 	char		*line;
 	char		**echo;
 	int			bool;
+	int			exit_pipe;
 	int			i;
 	int			j;
 	int			c;
@@ -99,6 +100,7 @@ typedef struct s_vars {
 	int		orig_stdin;
 	int		orig_stdout;
 	int		tmp_fd;
+	int		empty_pipe;
 	t_data	*sh;
 	int		here_doc[2];
 	char	*path;
@@ -153,6 +155,7 @@ int			is_chevron(char	*token, int x);
 char		*get_ex_code_token(t_vars *var);
 t_tok		*get_token_type(t_tok *toks);
 int			check_spaces(char *line);
+int			handle_quote_case(t_vars *var);
 
 t_tok		*ft_lst_new(char *token);
 void		ft_lst_add_back(t_tok **lst, t_tok *new);
@@ -209,10 +212,12 @@ void		get_here_doc_input(t_vars *var, int *pfd, int i);
 void		get_std_stream(int fd, int std_stream);
 void		set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
 void		set_stdout_pipeline(t_vars *var, int *pfd, int i);
+void		set_null_stdin(void);
 void		close_files(t_vars *var, int i);
 
-int			exec_cmd(t_vars *var, int i);
+int			check_permission(char *file);
 int			check_if_dir(char *cmd);
+int			exec_cmd(t_vars *var, int i);
 
 int			is_builtin(char *cmd);
 void		handle_builtin(t_vars *var, t_data *sh);

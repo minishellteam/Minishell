@@ -37,6 +37,7 @@ SRCS	=	main.c \
 			get_cmd_infos.c \
 			get_redirections.c \
 			./execution/processes.c \
+			./execution/check_exec_file.c \
 			./execution/set_redirections.c \
 			./execution/execution.c \
 			./execution/exec_builtin.c \

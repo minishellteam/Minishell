@@ -37,6 +37,13 @@ static char	*replace_var(char *tok, t_vars *var, int i, int bool)
 		{
 			i++;
 			j = i;
+			if (!tok[i])
+				return (tok);
+			if (tok[i] && (ft_isspace(tok[i]) || tok[i] == '$'))
+			{
+				i++;
+				continue ;
+			}
 			while (ft_isalnum(tok[i]) || tok[i] == '_' || tok[i] == '?')
 				i++;
 			var->var = ft_substr(tok, j, i - j);

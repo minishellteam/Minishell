@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 22:17:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 15:37:34 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/26 21:26:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_exit_error(char *error, char *err_msg)
 	char	*begin;
 	char	*end;
 
-	set_exit_status(255);
+	set_exit_status(2);
 	exit_msg = "exit: ";
 	begin = "minishell: ";
 	end = ": numeric argument required\n";
