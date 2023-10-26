@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 13:23:44 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:30:38 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_data {
 	int			c;
 	int			n;
 	int			v;
-	int			test;
 }				t_data;
 
 typedef struct s_vars {
@@ -135,7 +134,7 @@ int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
 
-void		signal_handler(int signal);
+void		basic_signal(int signal);
 
 /*===================================LEXER====================================*/
 
@@ -153,6 +152,7 @@ int			is_chevron(char	*token, int x);
 
 char		*get_ex_code_token(t_vars *var);
 t_tok		*get_token_type(t_tok *toks);
+int			check_spaces(char *line);
 
 t_tok		*ft_lst_new(char *token);
 void		ft_lst_add_back(t_tok **lst, t_tok *new);

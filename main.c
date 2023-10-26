@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/24 16:01:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:53:36 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static void	free_vars(char *line, t_vars *var, int x)
 	{
 		if (var->sh->export)
 		{
-			//var->sh->export = NULL;
-			free(var->sh->export);
 			var->sh->export = NULL;
+			free(var->sh->export);
 		}
 	}
 	free_list_input(var->data, var->pipe_nb, 0);
@@ -95,7 +94,6 @@ int	main(int ac, char **av, char **env)
 	static char			*line;
 	t_vars				*var;
 	t_data				sh;
-	struct sigaction	sig;
 
 	set_exit_status(EXIT_SUCCESS);
 	var = NULL;
@@ -103,10 +101,7 @@ int	main(int ac, char **av, char **env)
 	sh.env = env;
 	my_env(&sh);
 	exp_env(&sh);
-	ft_bzero(&sig, sizeof(sig));
-	sig.sa_flags = SA_RESTART | SA_NODEFER;
-	sig.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sig, NULL);
+	//signal(SIGINT, basic_signal(1));
 	var = readline_loop(var, line, &sh);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 14:38:54 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:43:49 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ char	*check_var(char *var)
 void	update_envs(t_data *sh, char **tmp)
 {
 	sh->j = -1;
+	sh->i = -1;
 	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
 	if (sh->bool == 1)
 		sh->myenv = malloc(sizeof(char *) * \
-			(array_size(tmp) - undeclared_var(tmp) + 1));
+			(array_size(tmp) - undeclared_var(tmp)));
 	while (tmp[++sh->j])
 	{
 		if (sh->bool == 1 && ft_strchr(tmp[sh->j], '='))
 		{
-			sh->myenv[sh->j] = malloc(sizeof(char) \
+			sh->myenv[++sh->i] = malloc(sizeof(char) \
 				* (ft_strlen(tmp[sh->j]) + 1));
-			ft_strlcpy(sh->myenv[sh->j], tmp[sh->j], \
+			ft_strlcpy(sh->myenv[sh->i], tmp[sh->j], \
 				(ft_strlen(tmp[sh->j]) + 1));
 		}
 		sh->expenv[sh->j] = malloc(sizeof(char) \
@@ -66,7 +67,7 @@ void	update_envs(t_data *sh, char **tmp)
 	}
 	free(tmp);
 	if (sh->bool == 1)
-		sh->myenv[sh->j] = NULL;
+		sh->myenv[++sh->i] = NULL;
 	sh->expenv[sh->j] = NULL;
 }
 

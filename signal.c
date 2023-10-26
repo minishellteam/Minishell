@@ -6,15 +6,15 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 16:39:20 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:56:02 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int signal)
+void	basic_signal(int signal)
 {
-	if (signal == SIGINT)
+	if (signal == 1)
 	{
 		set_exit_status(130);
 		printf("\n");
@@ -22,7 +22,7 @@ void	signal_handler(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (signal == SIGQUIT)
+	if (signal == 2)
 	{
 		rl_on_new_line();
 		rl_redisplay();

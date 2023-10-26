@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 12:26:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:58:12 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,14 @@ int	tokenize_line(char *line, t_vars *var)
 		get_error_message("?", 0);
 		return (1);
 	}
+	if (check_spaces(var->line))
+		return (1);
 	while (*(var->line))
 	{
 		var->start = line;
 		var->token = get_token(var);
 		if (!var->token)
-			return (1);
+			return (0);
 		var->tok = ft_lst_new(var->token);
 		ft_lst_add_back(&(var->toks), var->tok);
 		while (*(var->line) && ft_isspace(*(var->line)))

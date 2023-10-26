@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 17:27:59 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:46:06 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 	if (close(pfd[1]) == -1)
 		perror("minishell");
 }
-
-/*void	set_null_stdin(void)
-{
-	int		null_fd;
-
-	null_fd = open("/dev/null", O_RDONLY);
-	dup2(null_fd, STDIN_FILENO);
-	close(null_fd);
-}*/
 
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
