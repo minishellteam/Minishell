@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:02:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 16:35:12 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:22:23 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	wait_for_processes(t_vars *var)
 		else if (WIFSIGNALED(status))
 			set_exit_status(128 + WTERMSIG(status));
 	}
+	signal(SIGINT, basic_signal);
+	signal(SIGQUIT, basic_signal);
 	if (close(var->tmp_fd) == -1)
 		perror("minishell");
 }

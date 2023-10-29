@@ -6,23 +6,25 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/27 00:29:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/29 17:31:52 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_here_doc_input(t_vars *var, int *pfd, int i)
+void	get_here_doc_input(t_vars *var, int i)
 {
 	t_input	*tmp;
 
+	if (pipe(var->here_doc) == -1)
+		perror("minishell");
 	tmp = var->data[i];
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->input, pfd[1]);
+		ft_putstr_fd(tmp->input, var->here_doc[1]);
 		tmp = tmp->next;
 	}
-	if (close(pfd[1]) == -1)
+	if (close(var->here_doc[1]) == -1)
 		perror("minishell");
 }
 
@@ -40,11 +42,10 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
-	if (var->empty_pipe == 1 || (i == 0 && var->cmd[i].fdin == 0))
-		set_null_stdin();
-	else
-		set_stdin_pipeline(var, pfd, var->tmp_fd, i);
+	signal(SIGINT, command_signal);
+	signal(SIGQUIT, command_signal);
 	var->empty_pipe = 0;
+	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
 	set_stdout_pipeline(var, pfd, i);
 	var->sh->exit_pipe = 0;
 	if (is_builtin(var->cmd[i].args[0]))
@@ -69,11 +70,7 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 	while (++i < var->pipe_nb + 1)
 	{
 		if (var->cmd[i].fdin == -2)
-		{
-			if (pipe(var->here_doc) == -1)
-				perror("minishell");
-			get_here_doc_input(var, var->here_doc, i);
-		}
+			get_here_doc_input(var, i);
 		if (pipe(pfd) == -1)
 			get_fct_error();
 		update_underscore(var, i);
@@ -84,6 +81,11 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 			var->cmd[i].pid = pids[i];
 		if (pids[i] == 0)
 			access_child_process(var, pfd, i);
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+		}
 		close_pipes(var, pfd, i);
 		close_files(var, i);
 		var->tmp_fd = dup(pfd[0]);

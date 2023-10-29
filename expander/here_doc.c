@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 10:05:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/29 19:28:48 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ static void	expand_input(t_vars *var, int i)
 	}
 }
 
-static int	is_limiter(char *line, char *limiter)
-{
-	if (!ft_strcmp(line, limiter))
-		return (1);
-	return (0);
-}
-
 static int	get_input(t_vars *var, char *limiter, int i)
 {
 	char	*line;
@@ -44,17 +37,24 @@ static int	get_input(t_vars *var, char *limiter, int i)
 
 	limiter = ft_strjoin(limiter, "\n", 0);
 	line = get_next_line(0);
-	if (!line || is_limiter(line, limiter))
+	if (!line || !ft_strcmp(line, limiter))
 	{
 		free(line);
 		free(limiter);
-		return (1);
 	}
 	data = ft_lstnew_input(line);
 	while (line)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, here_doc_signal);
+		if (*get_exit_status() == 130) // exit status vaut 0 ici don't know why
+		{
+			free(line);
+			free(limiter);
+			return (1);
+		}
 		line = get_next_line(0);
-		if (is_limiter(line, limiter))
+		if (!line || !ft_strcmp(line, limiter))
 		{
 			var->data[i] = data;
 			break ;
@@ -93,15 +93,8 @@ static t_tok	*remove_quotes_limiter(t_tok *tmp)
 	return (tmp);
 }
 
-int	check_limiter(t_vars *var)
+static int	handle_here_doc(t_vars *var, t_tok *tmp, int i)
 {
-	t_tok	*tmp;
-	int		i;
-
-	tmp = var->toks;
-	var->data = (t_input **)ft_malloc(sizeof(t_input *) * (var->pipe_nb + 2));
-	init_data(var);
-	i = 0;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->type, "PIPE"))
@@ -111,13 +104,32 @@ int	check_limiter(t_vars *var)
 			if (ft_strchr(tmp->tok, '\"') || ft_strchr(tmp->tok, '\''))
 			{
 				tmp = remove_quotes_limiter(tmp);
-				get_input(var, tmp->tok, i);
+				if (get_input(var, tmp->tok, i))
+					return (1);
 			}
 			else
+			{
 				if (!get_input(var, tmp->tok, i))
 					expand_input(var, i);
+				else
+					return (1);
+			}
 		}
 		tmp = tmp->next;
 	}
+	return (0);
+}
+
+int	check_limiter(t_vars *var)
+{
+	t_tok	*tmp;
+	int		i;
+
+	tmp = var->toks;
+	var->data = (t_input **)ft_malloc(sizeof(t_input *) * (var->pipe_nb + 2));
+	init_data(var);
+	i = 0;
+	if (handle_here_doc(var, tmp, i))
+		return (1);
 	return (0);
 }
