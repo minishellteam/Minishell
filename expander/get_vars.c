@@ -30,6 +30,13 @@ static char	*get_replaced_tok(t_vars *var, char *tok, int j, int bool)
 {
 	char	*exp_tok;
 
+	if (!ft_strcmp(tok, "\"$\""))
+	{
+		free(tok);
+		tok = ft_strdup("$");
+		var->i = 1;
+		return (tok);
+	}
 	var->var = ft_substr(tok, j, var->i - j);
 	handle_value(var, bool);
 	exp_tok = replace_var_by_value(tok, var->value, j, var->i);

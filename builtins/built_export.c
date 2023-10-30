@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/30 14:17:35 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:43:23 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,14 @@ int	arr_size(char **array)
 void	built_export(t_data *sh)
 {
 	int		i;
-	char	*prefix;
 
 	i = -1;
 	sh->v = 0;
-	sh->export = (t_export *)ft_malloc(sizeof(t_export));
 	while (sh->cmds[++sh->v])
 		export_var(sh, sh->cmds[sh->v], 1);
 	if (sh->v > 1)
 		return ;
-	prefix = "declare -x ";
+	sh->export = (t_export *)ft_malloc(sizeof(t_export));
 	sh->export->exp = (char **)ft_malloc(sizeof(char *) * arr_size(sh->expenv));
 	sh->export->env = (char **)ft_malloc(sizeof(char *) * arr_size(sh->expenv));
 	cpy_env(sh);
@@ -101,11 +99,12 @@ void	built_export(t_data *sh)
 	{
 		search_min(sh->export, i);
 		cpy_export(sh->export, i);
-		sh->export->exp[i] = ft_strjoin(prefix, sh->export->exp[i], 3);
+		sh->export->exp[i] = ft_strjoin("declare -x ", sh->export->exp[i], 3);
 		sh->export->env[sh->export->j][0] = 126;
 		printf("%s \n", sh->export->exp[i]);
 		free(sh->export->exp[i]);
 	}
 	free_tab(sh->export->env, 0);
 	free(sh->export->exp);
+	free(sh->export);
 }

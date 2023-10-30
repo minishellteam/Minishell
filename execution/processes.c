@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 10:31:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:10:20 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	create_processes(t_vars *var, t_data *sh)
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
 	{
 		update_underscore(var, 0);
+		sh->exit_pipe = 0;
 		handle_builtin(var, sh);
 	}
 	else if (!var->pipe_nb && !ft_strcmp(var->toks->type, "SKIP"))

@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 14:24:15 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:41:28 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ typedef struct s_vars {
 	int		here_doc[2];
 	char	*path;
 }			t_vars;
-
-extern void	rl_replace_line(const char *text, int clear_undo);
 
 int			main(int ac, char **av, char **env);
 
