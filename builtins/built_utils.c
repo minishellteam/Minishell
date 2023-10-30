@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:07:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:43:20 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	built_env(t_data *sh)
 	int	i;
 
 	i = -1;
-	while (sh->myenv[++i])
+	while (sh->myenv && sh->myenv[++i])
 		printf("%s\n", sh->myenv[i]);
 }
 

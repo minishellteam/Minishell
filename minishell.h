@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 17:28:16 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:12:31 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
 
-void		basic_signal(int signal);
+void		basic_sigint(int signal);
+void		basic_sigquit(int signal);
 
 /*===================================LEXER====================================*/
 

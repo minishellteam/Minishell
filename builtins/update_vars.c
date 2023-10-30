@@ -6,11 +6,27 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 15:52:08 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:43:40 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	export_var_to_update(char **env, char *var)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (ft_strnstr(env[i], "_=", ft_strlen(env[i])))
+		{
+			free(env[i]);
+			env[i] = ft_strdup(var);
+			return ;
+		}
+	}
+}
 
 void	update_shlvl(t_vars *var)
 {
@@ -26,7 +42,7 @@ void	update_shlvl(t_vars *var)
 	value++;
 	new_value = ft_itoa(value);
 	new_value = ft_strjoin(prefix, new_value, 3);
-	export_var(var->sh, new_value, 0);
+	export_var_to_update(var->sh->myenv, new_value);
 	free(new_value);
 }
 
@@ -40,7 +56,7 @@ void	update_oldpwd(t_data *sh)
 	else
 	{
 		old_pwd = ft_strjoin("OLDPWD=", buffer, 0);
-		export_var(sh, old_pwd, 0);
+		export_var_to_update(sh->myenv, old_pwd);
 		free(old_pwd);
 	}
 }
@@ -55,24 +71,8 @@ void	update_pwd(t_data *sh)
 	else
 	{
 		pwd = ft_strjoin("PWD=", buffer, 0);
-		export_var(sh, pwd, 0);
+		export_var_to_update(sh->myenv, pwd);
 		free(pwd);
-	}
-}
-
-static void	export_underscore(char **env, char *var)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-	{
-		if (ft_strnstr(env[i], "_=", ft_strlen(env[i])))
-		{
-			free(env[i]);
-			env[i] = ft_strdup(var);
-			return ;
-		}
 	}
 }
 
@@ -89,8 +89,8 @@ void	update_underscore(t_vars *var, int i)
 		if (j)
 		{
 			underscore = ft_strjoin("_=", var->cmd[i].args[j - 1], 0);
-			export_underscore(var->sh->myenv, underscore);
-			export_underscore(var->sh->expenv, underscore);
+			export_var_to_update(var->sh->myenv, underscore);
+			export_var_to_update(var->sh->expenv, underscore);
 			free(underscore);
 		}
 	}

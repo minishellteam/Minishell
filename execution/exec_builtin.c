@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 15:53:21 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:45:45 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_builtin(t_data *sh)
 			built_unset(sh);
 		else if (!ft_strcmp(sh->cmds[0], "env"))
 		{
-			//update_underscore_env(sh);
+			update_underscore_env(sh);
 			built_env(sh);
 		}
 	}
