@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:36:22 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:33:25 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:11:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_tmp_expenv(t_data *sh, char **tmp)
 		free(var2);
 		return ;
 	}
-	tmp[sh->c] = malloc(sizeof(char) \
+	tmp[sh->c] = (char *)ft_malloc(sizeof(char) \
 		* (ft_strlen(sh->expenv[sh->j]) + 1));
 	ft_strlcpy(tmp[sh->c], sh->expenv[sh->j], \
 		(ft_strlen(sh->expenv[sh->j]) + 1));
@@ -50,7 +50,7 @@ void	get_tmp_myenv(t_data *sh, char **tmp)
 		free(var2);
 		return ;
 	}
-	tmp[sh->c] = malloc(sizeof(char) \
+	tmp[sh->c] = (char *)ft_malloc(sizeof(char) \
 		* (ft_strlen(sh->myenv[sh->j]) + 1));
 	ft_strlcpy(tmp[sh->c], sh->myenv[sh->j], \
 		(ft_strlen(sh->myenv[sh->j]) + 1));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 08:58:33 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:37:54 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:17:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	update_expenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
-	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
+	sh->expenv = (char **)ft_malloc(sizeof(char *) * arr_size(tmp));
 	while (tmp[++sh->j])
 	{
-		sh->expenv[sh->j] = malloc(sizeof(char) \
+		sh->expenv[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(tmp[sh->j]) + 1));
 		ft_strlcpy(sh->expenv[sh->j], tmp[sh->j], \
 			(ft_strlen(tmp[sh->j]) + 1));
@@ -31,11 +31,11 @@ static void	update_expenv(t_data *sh, char **tmp)
 static void	update_myenv(t_data *sh, char **tmp)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * \
-	(array_size(tmp - undeclared_var(tmp))));
+	sh->myenv = (char **)ft_malloc(sizeof(char *) * \
+	(arr_size(tmp - undeclared_var(tmp))));
 	while (tmp[++sh->j])
 	{
-		sh->myenv[sh->j] = malloc(sizeof(char) \
+		sh->myenv[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(tmp[sh->j]) + 1));
 		ft_strlcpy(sh->myenv[sh->j], tmp[sh->j], \
 			(ft_strlen(tmp[sh->j]) + 1));
@@ -82,8 +82,8 @@ void	built_unset(t_data *sh)
 			set_exit_status(1);
 			continue ;
 		}
-		tmp = ft_calloc(sizeof(char *), array_size(sh->expenv));
-		tmp2 = ft_calloc(sizeof(char *), array_size(sh->myenv));
+		tmp = ft_calloc(sizeof(char *), arr_size(sh->expenv));
+		tmp2 = ft_calloc(sizeof(char *), arr_size(sh->myenv));
 		search_var(sh, tmp);
 		search_var_env(sh, tmp2);
 	}

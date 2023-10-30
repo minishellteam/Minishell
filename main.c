@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/29 16:02:08 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:56:09 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->data = NULL;
 	var->bool = 0;
 	var->y = 0;
+	var->j = 0;
 	var->sh = sh;
 }
 

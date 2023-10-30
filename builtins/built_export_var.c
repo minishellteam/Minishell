@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 10:18:56 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:43:49 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:17:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	exp_env(t_data *sh)
 {
 	sh->j = -1;
-	sh->expenv = malloc(sizeof(char *) * array_size(sh->myenv));
+	sh->expenv = (char **)ft_malloc(sizeof(char *) * arr_size(sh->myenv));
 	while (sh->myenv[++sh->j])
 	{
-		sh->expenv[sh->j] = malloc(sizeof(char) \
+		sh->expenv[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(sh->myenv[sh->j]) + 1));
 		ft_strlcpy(sh->expenv[sh->j], sh->myenv[sh->j], \
 			(ft_strlen(sh->myenv[sh->j]) + 1));
@@ -34,7 +34,7 @@ char	*check_var(char *var)
 	i = 0;
 	while (var && var[i] && var[i] != '=')
 		i++;
-	final = malloc(sizeof(char) * (i + 1));
+	final = (char *)ft_malloc(sizeof(char) * (i + 1));
 	i = -1;
 	while (var[++i] && var[i] != '=')
 		final[i] = var[i];
@@ -46,20 +46,20 @@ void	update_envs(t_data *sh, char **tmp)
 {
 	sh->j = -1;
 	sh->i = -1;
-	sh->expenv = malloc(sizeof(char *) * array_size(tmp));
+	sh->expenv = (char **)ft_malloc(sizeof(char *) * arr_size(tmp));
 	if (sh->bool == 1)
-		sh->myenv = malloc(sizeof(char *) * \
-			(array_size(tmp) - undeclared_var(tmp)));
+		sh->myenv = (char **)ft_malloc(sizeof(char *) * \
+			(arr_size(tmp) - undeclared_var(tmp)));
 	while (tmp[++sh->j])
 	{
 		if (sh->bool == 1 && ft_strchr(tmp[sh->j], '='))
 		{
-			sh->myenv[++sh->i] = malloc(sizeof(char) \
+			sh->myenv[++sh->i] = (char *)ft_malloc(sizeof(char) \
 				* (ft_strlen(tmp[sh->j]) + 1));
 			ft_strlcpy(sh->myenv[sh->i], tmp[sh->j], \
 				(ft_strlen(tmp[sh->j]) + 1));
 		}
-		sh->expenv[sh->j] = malloc(sizeof(char) \
+		sh->expenv[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(tmp[sh->j]) + 1));
 		ft_strlcpy(sh->expenv[sh->j], tmp[sh->j], \
 			(ft_strlen(tmp[sh->j]) + 1));
@@ -80,7 +80,7 @@ static void	get_tmp(t_data *sh, char **tmp, char *var)
 	var2 = check_var(sh->expenv[sh->j]);
 	if (!ft_strcmp(var1, var2))
 	{
-		tmp[sh->j] = malloc(sizeof(char) * \
+		tmp[sh->j] = (char *)ft_malloc(sizeof(char) * \
 			(ft_strlen(var) + 1));
 		ft_strlcpy(tmp[sh->j], var, \
 			ft_strlen(var) + 1);
@@ -89,7 +89,7 @@ static void	get_tmp(t_data *sh, char **tmp, char *var)
 		free(var2);
 		return ;
 	}
-	tmp[sh->j] = malloc(sizeof(char) \
+	tmp[sh->j] = (char *)ft_malloc(sizeof(char) \
 		* (ft_strlen(sh->expenv[sh->j]) + 1));
 	ft_strlcpy(tmp[sh->j], sh->expenv[sh->j], \
 		(ft_strlen(sh->expenv[sh->j]) + 1));
@@ -107,7 +107,7 @@ void	export_var(t_data *sh, char *var, int bool)
 		return ;
 	}
 	sh->j = -1;
-	tmp = ft_calloc(sizeof(char *), array_size(sh->expenv) + 2);
+	tmp = ft_calloc(sizeof(char *), arr_size(sh->expenv) + 2);
 	sh->bool = 0;
 	while (sh->expenv[++sh->j])
 		get_tmp(sh, tmp, var);

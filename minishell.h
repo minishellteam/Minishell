@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/29 18:29:09 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:24:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_vars {
 	int		x;
 	int		y;
 	int		i;
+	int		j;
 	int		bool;
 	int		pipe_nb;
 	t_input	**data;
@@ -174,7 +175,6 @@ void		print_list_input(t_input *input);
 void		free_list_input(t_input **lst, int nb, int x);
 
 void		get_limiter(t_tok *toks);
-int			check_limiter(t_vars *var);
 
 /*===================================PARSER===================================*/
 
@@ -189,6 +189,10 @@ void		get_files(t_tok *toks);
 /*==================================EXPANDER==================================*/
 
 int			handle_quotes(t_vars *var);
+
+int			check_limiter(t_vars *var);
+t_tok		*remove_quotes_limiter(t_tok *tmp);
+int			handle_here_doc(t_vars *var, t_tok *tmp, int i);
 
 char		*get_var(char *token, t_vars *var, int x, int bool);
 char		get_quote_type(char *token);
@@ -233,7 +237,7 @@ void		exec_builtin(t_data *sh);
 
 void		my_env(t_data *sh);
 void		exp_env(t_data *sh);
-int			array_size(char **array);
+int			arr_size(char **array);
 void		free_array(t_data *sh);
 char		*check_var(char *var);
 int			undeclared_var(char **tmp);

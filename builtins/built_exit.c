@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/26 21:24:00 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:17:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	built_exit(t_data *sh)
 {
 	if (sh->exit_pipe != 1)
 		printf("exit\n");
-	if (array_size(sh->cmds) == 3)
+	if (arr_size(sh->cmds) == 3)
 		arg_error(sh);
-	else if (array_size(sh->cmds) > 3)
+	else if (arr_size(sh->cmds) > 3)
 	{
 		get_error_message(NULL, 6);
 		return ;

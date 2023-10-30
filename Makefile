@@ -28,6 +28,7 @@ SRCS	=	main.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
 			./expander/here_doc.c \
+			./expander/handle_limiter.c \
 			./expander/lst_functions_2.c \
 			./expander/expand_quotes.c \
 			./expander/empty_token.c \

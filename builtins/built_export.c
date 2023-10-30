@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/19 13:08:01 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:17:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	cpy_env(t_data *sh)
 	sh->j = -1;
 	while (sh->expenv[++sh->j])
 	{
-		sh->export->env[sh->j] = malloc(sizeof(char) \
+		sh->export->env[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(sh->expenv[sh->j]) + 1));
 		ft_strlcpy(sh->export->env[sh->j], sh->expenv[sh->j], \
 			(ft_strlen(sh->expenv[sh->j]) + 1));
@@ -42,7 +42,7 @@ static void	search_min(t_export *export, int i)
 			index = export->j;
 	}
 	export->j = index;
-	export->exp[i] = malloc(sizeof(char) \
+	export->exp[i] = (char *)ft_malloc(sizeof(char) \
 		* (ft_strlen(export->env[export->j]) + 3));
 }
 
@@ -71,7 +71,7 @@ static void	cpy_export(t_export *export, int j)
 	export->exp[j][++k] = '\0';
 }
 
-int	array_size(char **array)
+int	arr_size(char **array)
 {
 	int	len;
 
@@ -88,14 +88,14 @@ void	built_export(t_data *sh)
 
 	i = -1;
 	sh->v = 0;
-	sh->export = malloc(sizeof(t_export));
+	sh->export = (t_export *)ft_malloc(sizeof(t_export));
 	while (sh->cmds[++sh->v])
 		export_var(sh, sh->cmds[sh->v], 1);
 	if (sh->v > 1)
 		return ;
 	prefix = "declare -x ";
-	sh->export->exp = malloc(sizeof(char *) * array_size(sh->expenv));
-	sh->export->env = malloc(sizeof(char *) * array_size(sh->expenv));
+	sh->export->exp = (char **)ft_malloc(sizeof(char *) * arr_size(sh->expenv));
+	sh->export->env = (char **)ft_malloc(sizeof(char *) * arr_size(sh->expenv));
 	cpy_env(sh);
 	while (sh->export->env[++i])
 	{
