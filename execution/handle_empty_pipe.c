@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:08:30 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/29 15:09:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:31:33 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ int	is_empty_pipe(int fd)
 	if (ret == 0)
 		return (1);
 	return (0);
+}
+
+void	close_pipes(t_vars *var, int *pfd, int i)
+{
+	if (i)
+		if (close(var->tmp_fd) == -1)
+			perror("minishell");
+	if (var->cmd[i].fdin == -2)
+		if (close(var->here_doc[0]) == -1)
+			perror("minishell");
+	if (close(pfd[1]) == -1)
+		perror("minishell");
 }

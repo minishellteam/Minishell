@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:36:49 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/30 15:43:23 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:48:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	arr_size(char **array)
 
 void	built_export(t_data *sh)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	sh->v = 0;

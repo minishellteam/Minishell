@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 16:38:31 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:55:35 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,45 @@ static int	here_doc_loop(t_vars *var, char *line, char *limiter, t_input *data)
 	return (0);
 }
 
-static int	get_input(t_vars *var, char *limiter, int i)
+static void	handle_hd_process(t_vars *var, char *limiter)
 {
-	char	*line;
 	t_input	*data;
+	char	*line;
 
 	signal(SIGINT, here_doc_signal);
-	var->i = i;
-	limiter = ft_strjoin(limiter, "\n", 0);
 	line = readline("> ");
 	line = ft_strjoin(line, "\n", 1);
-	if (!line || !ft_strcmp(line, limiter) || *get_exit_status() == 130)
+	if (!line || !ft_strcmp(line, limiter))
 	{
 		free(line);
 		free(limiter);
-		return (1);
+		exit(0);
 	}
 	data = ft_lstnew_input(line);
 	if (here_doc_loop(var, line, limiter, data))
-		return (1);
+		exit(1);
+	exit(0);
+}
+
+static int	get_input(t_vars *var, char *limiter, int i)
+{
+	int		pid;
+	int		status;
+
+	var->i = i;
+	limiter = ft_strjoin(limiter, "\n", 0);
+	pid = fork();
+	if (pid == -1)
+		perror("minishell:");
+	if (pid == 0)
+		handle_hd_process(var, limiter);
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	if (waitpid(pid, &status, 0) == -1)
+		perror("minishell :");
 	free(limiter);
 	return (0);
 }
@@ -98,7 +118,6 @@ int	handle_here_doc(t_vars *var, t_tok *tmp, int i)
 				else
 					return (1);
 			}
-			signal(SIGINT, basic_signal);
 		}
 		tmp = tmp->next;
 	}

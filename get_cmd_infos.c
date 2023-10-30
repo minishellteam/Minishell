@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 23:00:47 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/06 15:08:54 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 23:15:19 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,6 @@ int	get_cmd_infos(t_vars *var)
 	while (++i < var->pipe_nb + 1)
 	{
 		cmd[i] = get_cmd_pipeline(var, cmd[i]);
-		if (cmd[i].fdout == -1 || cmd[i].fdin == -1)
-		{
-			free_structures(cmd, i);
-			return (1);
-		}
 		if (var->pipeline && var->pipeline->next)
 			var->pipeline = var->pipeline->next;
 	}

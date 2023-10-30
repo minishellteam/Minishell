@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:09:27 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/30 16:17:17 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:45:15 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ long long	ft_atol(const char *str)
 	return (res * sign);
 }
 
+static int	ft_digit(t_data *sh, int c)
+{
+	if ((c >= '0' && c <= '9') || (sh->bool == 0 && \
+		(sh->cmds[1][0] == '-' || sh->cmds[1][0] == '+')))
+		return (1);
+	return (0);
+}
+
 static int	check_long(t_data *sh)
 {
 	int	i;
@@ -44,9 +52,13 @@ static int	check_long(t_data *sh)
 
 	i = -1;
 	sign = 1;
+	sh->bool = 0;
 	while (sh->cmds[1][++i])
-		if (!ft_isdigit(sh->cmds[1][i]) && sh->cmds[1][0] != '-')
+	{
+		if (!ft_digit(sh, sh->cmds[1][i]))
 			return (1);
+		sh->bool = 1;
+	}
 	if (sh->cmds[1][0] == '-')
 		sign = -1;
 	if (ft_strlen(sh->cmds[1]) >= 19)

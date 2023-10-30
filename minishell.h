@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 15:41:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:38:27 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd {
 typedef struct s_export {
 	char	**env;
 	char	**exp;
+	char	*pre;
 	int		j;
 }	t_export;
 
@@ -97,6 +98,7 @@ typedef struct s_vars {
 	int		j;
 	int		bool;
 	int		pipe_nb;
+	int		*pids;
 	t_input	**data;
 	t_cmd	*cmd;
 	int		orig_stdin;
@@ -135,10 +137,12 @@ int			check_var_name(char *var);
 int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
+void		set_correct_status(t_vars *var, char **cmds, int i);
 
 void		basic_signal(int signal);
 void		command_signal(int signal);
 void		here_doc_signal(int signal);
+void		ignore_signals(void);
 
 /*===================================LEXER====================================*/
 
@@ -219,11 +223,12 @@ void		set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
 void		set_stdout_pipeline(t_vars *var, int *pfd, int i);
 void		close_files(t_vars *var, int i);
 
+void		close_pipes(t_vars *var, int *pfd, int i);
 void		set_null_stdout(void);
 void		read_stdin(void);
 int			is_empty_pipe(int fd);
 
-int			check_permission(char *file);
+int			check_permission(char *file, int x);
 int			check_if_dir(char *cmd);
 int			exec_cmd(t_vars *var, int i);
 

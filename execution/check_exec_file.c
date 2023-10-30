@@ -6,18 +6,21 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 00:05:40 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/27 00:07:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:32:32 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_permission(char *file)
+int	check_permission(char *file, int x)
 {
 	char	*message;
 
+	if (x == 1)
+		file += 2;
+	if (check_if_dir(file))
+		return (1);
 	message = ft_strjoin("minishell: ", file, 0);
-	file += 2;
 	if (access(file, X_OK))
 	{
 		perror(message);
@@ -25,7 +28,7 @@ int	check_permission(char *file)
 		if (errno == EACCES)
 			set_exit_status(126);
 		else
-			set_exit_status(127);
+			set_exit_status(1);
 		return (1);
 	}
 	free(message);

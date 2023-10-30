@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:02:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 10:40:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:37:39 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,15 @@ void	wait_for_processes(t_vars *var)
 	signal(SIGQUIT, basic_signal);
 	if (close(var->tmp_fd) == -1)
 		perror("minishell");
+}
+
+void	set_correct_status(t_vars *var, char **cmds, int i)
+{
+	if (var->cmd[i].args[0][0] == '/')
+	{
+		get_error_message(cmds[0], 3);
+		set_exit_status(127);
+	}
+	else
+		get_error_message(cmds[0], 4);
 }

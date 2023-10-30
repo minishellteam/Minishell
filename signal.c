@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/30 12:04:55 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:28:21 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,14 @@ void	here_doc_signal(int signal)
 {
 	if (signal == SIGINT)
 	{
-		set_exit_status(128 + 2);
+		set_exit_status(1);
 		printf("\n");
+		exit(*get_exit_status());
 	}
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }

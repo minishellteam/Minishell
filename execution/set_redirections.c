@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/29 15:19:18 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:19:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i)
 			perror("minishell");
 		get_std_stream(var->here_doc[0], STDIN_FILENO);
 	}
-	else if (var->cmd[i].fdin != 0)
+	else if (var->cmd[i].fdin != 0 && var->cmd[i].fdin != -1)
 	{
 		if (close(pfd[0]) == -1)
 			perror("minishell");
@@ -58,7 +58,8 @@ void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i)
 		get_pipe_data(var, tmp_fd, i);
 	else
 	{
-		if (!ft_strcmp(var->cmd[i].args[0], "cat") && !var->cmd[i].args[1])
+		if (!ft_strcmp(var->cmd[i].args[0], "cat") && !var->cmd[i].args[1]
+			&& var->cmd[i].fdin != -1)
 		{
 			read_stdin();
 			var->empty_pipe = 1;
@@ -81,7 +82,7 @@ void	set_stdout_pipeline(t_vars *var, int *pfd, int i)
 		else
 			get_std_stream(pfd[1], STDOUT_FILENO);
 	}
-	else if (var->cmd[i].fdout != 1)
+	else if (var->cmd[i].fdout != 1 && var->cmd[i].fdout != -1)
 	{
 		if (close(pfd[1]) == -1)
 			perror("minishell");
@@ -95,10 +96,15 @@ void	set_stdout_pipeline(t_vars *var, int *pfd, int i)
 
 void	close_files(t_vars *var, int i)
 {
-	if (var->cmd[i].fdin != 0 && var->cmd[i].fdin != -2)
+	if (var->cmd[i].fdin != 0 && var->cmd[i].fdin != -2
+		&& var->cmd[0].fdin != -1)
+	{
 		if (close(var->cmd[i].fdin) == -1)
 			perror("minishell");
-	if (var->cmd[i].fdout != 1)
+	}
+	if (var->cmd[i].fdout != 1 && var->cmd[i].fdout != -1)
+	{
 		if (close(var->cmd[i].fdout) == -1)
 			perror("minishell");
+	}
 }

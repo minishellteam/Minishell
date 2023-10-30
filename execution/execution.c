@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/27 00:07:00 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:37:55 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	handle_dot_cmd(t_vars *var, int i)
 	}
 	else if (var->cmd[i].args[0] && !ft_strncmp(var->cmd[i].args[0], "./", 2))
 	{
-		if (check_permission(var->cmd[i].args[0]))
+		if (check_permission(var->cmd[i].args[0], 1))
 			return (1);
 	}
 	return (0);
@@ -94,11 +94,11 @@ int	exec_cmd(t_vars *var, int i)
 			return (1);
 	if (execve(cmds[0], cmds, var->sh->expenv) == -1)
 	{
-		if (check_if_dir(var->cmd[i].args[0]))
+		if (var->cmd[i].args[0][0] == '/' && check_if_dir(var->cmd[i].args[0]))
 			return (1);
 		if (!get_cmd_path(cmds[0], var->path))
 		{
-			get_error_message(cmds[0], 4);
+			set_correct_status(var, cmds, i);
 			return (1);
 		}
 		cmds[0] = get_cmd_path(cmds[0], var->path);
