@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 14:23:50 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:30:37 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	here_doc_loop(t_vars *var, char *line, char *limiter, t_input *data)
 		if (!line || !ft_strcmp(line, limiter))
 		{
 			var->data[var->i] = data;
+			free(line);
 			break ;
 		}
 		ft_lstadd_back_input(&data, ft_lstnew_input(line));
@@ -75,7 +76,6 @@ static int	get_input(t_vars *var, char *limiter, int i)
 	if (here_doc_loop(var, line, limiter, data))
 		return (1);
 	signal(SIGINT, basic_signal);
-	//free(line);
 	free(limiter);
 	return (0);
 }
