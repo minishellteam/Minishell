@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 09:39:01 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:43:20 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:53:40 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	built_pwd(void)
 
 void	built_cd(t_data *sh)
 {
-	if (array_size(sh->cmds) > 3)
+	if (arr_size(sh->cmds) > 3)
 	{
 		get_error_message("cd", 6);
 		return ;
@@ -64,10 +64,10 @@ void	built_env(t_data *sh)
 void	my_env(t_data *sh)
 {
 	sh->j = -1;
-	sh->myenv = malloc(sizeof(char *) * array_size(sh->env));
+	sh->myenv = (char **)ft_malloc(sizeof(char *) * arr_size(sh->env));
 	while (sh->env[++sh->j])
 	{
-		sh->myenv[sh->j] = malloc(sizeof(char) \
+		sh->myenv[sh->j] = (char *)ft_malloc(sizeof(char) \
 			* (ft_strlen(sh->env[sh->j]) + 1));
 		ft_strlcpy(sh->myenv[sh->j], sh->env[sh->j], \
 			(ft_strlen(sh->env[sh->j]) + 1));

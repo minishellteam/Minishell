@@ -26,31 +26,47 @@ char	get_quote_type(char *token)
 	return (token_type);
 }
 
+static char	*get_replaced_tok(t_vars *var, char *tok, int j, int bool)
+{
+	char	*exp_tok;
+
+	var->var = ft_substr(tok, j, var->i - j);
+	handle_value(var, bool);
+	exp_tok = replace_var_by_value(tok, var->value, j, var->i);
+	free(tok);
+	tok = ft_strdup(exp_tok);
+	free(exp_tok);
+	var->i = ft_strlen(var->value);
+	free(var->var);
+	free(var->value);
+	return (tok);
+}
+
 static char	*replace_var(char *tok, t_vars *var, int i, int bool)
 {
 	int		j;
-	char	*exp_tok;
 
-	while (tok[i])
+	var->i = i;
+	while (tok[var->i])
 	{
-		if (tok[i] == '$')
+		if (tok[var->i] == '$')
 		{
-			i++;
-			j = i;
-			while (ft_isalnum(tok[i]) || tok[i] == '_' || tok[i] == '?')
-				i++;
-			var->var = ft_substr(tok, j, i - j);
-			handle_value(var, bool);
-			exp_tok = replace_var_by_value(tok, var->value, j, i);
-			free(tok);
-			tok = ft_strdup(exp_tok);
-			free(exp_tok);
-			i = ft_strlen(var->value);
-			free(var->var);
-			free(var->value);
+			var->i++;
+			j = var->i;
+			if (!tok[var->i])
+				return (tok);
+			if (tok[var->i] && (ft_isspace(tok[var->i]) || tok[var->i] == '$'))
+			{
+				var->i++;
+				continue ;
+			}
+			while (ft_isalnum(tok[var->i]) || tok[var->i] == '_'
+				|| tok[var->i] == '?')
+				var->i++;
+			tok = get_replaced_tok(var, tok, j, bool);
 		}
 		else
-			i++;
+			var->i++;
 	}
 	return (tok);
 }

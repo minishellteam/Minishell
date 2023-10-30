@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/26 17:12:31 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:39:50 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd {
 typedef struct s_export {
 	char	**env;
 	char	**exp;
+	char	*pre;
 	int		j;
 }	t_export;
 
@@ -70,6 +71,7 @@ typedef struct s_data {
 	char		*line;
 	char		**echo;
 	int			bool;
+	int			exit_pipe;
 	int			i;
 	int			j;
 	int			c;
@@ -92,6 +94,8 @@ typedef struct s_vars {
 	char	*line;
 	int		x;
 	int		y;
+	int		i;
+	int		j;
 	int		bool;
 	int		pipe_nb;
 	t_input	**data;
@@ -99,12 +103,11 @@ typedef struct s_vars {
 	int		orig_stdin;
 	int		orig_stdout;
 	int		tmp_fd;
+	int		empty_pipe;
 	t_data	*sh;
 	int		here_doc[2];
 	char	*path;
 }			t_vars;
-
-extern void	rl_replace_line(const char *text, int clear_undo);
 
 int			main(int ac, char **av, char **env);
 
@@ -134,8 +137,9 @@ int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
 
-void		basic_sigint(int signal);
-void		basic_sigquit(int signal);
+void		basic_signal(int signal);
+void		command_signal(int signal);
+void		here_doc_signal(int signal);
 
 /*===================================LEXER====================================*/
 
@@ -153,6 +157,8 @@ int			is_chevron(char	*token, int x);
 
 char		*get_ex_code_token(t_vars *var);
 t_tok		*get_token_type(t_tok *toks);
+int			check_spaces(char *line);
+int			handle_quote_case(t_vars *var);
 
 t_tok		*ft_lst_new(char *token);
 void		ft_lst_add_back(t_tok **lst, t_tok *new);
@@ -168,7 +174,6 @@ void		print_list_input(t_input *input);
 void		free_list_input(t_input **lst, int nb, int x);
 
 void		get_limiter(t_tok *toks);
-int			check_limiter(t_vars *var);
 
 /*===================================PARSER===================================*/
 
@@ -183,6 +188,10 @@ void		get_files(t_tok *toks);
 /*==================================EXPANDER==================================*/
 
 int			handle_quotes(t_vars *var);
+
+int			check_limiter(t_vars *var);
+t_tok		*remove_quotes_limiter(t_tok *tmp);
+int			handle_here_doc(t_vars *var, t_tok *tmp, int i);
 
 char		*get_var(char *token, t_vars *var, int x, int bool);
 char		get_quote_type(char *token);
@@ -204,15 +213,20 @@ void		free_structures(t_cmd *cmd, int stop);
 /*=============================EXECUTION======================================*/
 
 int			create_processes(t_vars *var, t_data *sh);
-void		get_here_doc_input(t_vars *var, int *pfd, int i);
+void		get_here_doc_input(t_vars *var, int i);
 
 void		get_std_stream(int fd, int std_stream);
 void		set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
 void		set_stdout_pipeline(t_vars *var, int *pfd, int i);
 void		close_files(t_vars *var, int i);
 
-int			exec_cmd(t_vars *var, int i);
+void		set_null_stdout(void);
+void		read_stdin(void);
+int			is_empty_pipe(int fd);
+
+int			check_permission(char *file);
 int			check_if_dir(char *cmd);
+int			exec_cmd(t_vars *var, int i);
 
 int			is_builtin(char *cmd);
 void		handle_builtin(t_vars *var, t_data *sh);
@@ -222,7 +236,7 @@ void		exec_builtin(t_data *sh);
 
 void		my_env(t_data *sh);
 void		exp_env(t_data *sh);
-int			array_size(char **array);
+int			arr_size(char **array);
 void		free_array(t_data *sh);
 char		*check_var(char *var);
 int			undeclared_var(char **tmp);

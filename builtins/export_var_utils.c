@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_var_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 10:25:15 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/25 17:10:19 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:14:19 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	end_function(t_data *sh, char **tmp, char *var)
 {
 	if (sh->bool == 0)
 	{
-		tmp[sh->j] = malloc(sizeof(char) * (ft_strlen(var) + 1));
+		tmp[sh->j] = (char *)ft_malloc(sizeof(char) * (ft_strlen(var) + 1));
 		ft_strlcpy(tmp[sh->j], var, ft_strlen(var) + 1);
 	}
 	tmp[++sh->j] = NULL;

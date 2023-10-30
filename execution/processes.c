@@ -6,23 +6,25 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 17:45:52 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:08:34 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_here_doc_input(t_vars *var, int *pfd, int i)
+void	get_here_doc_input(t_vars *var, int i)
 {
 	t_input	*tmp;
 
+	if (pipe(var->here_doc) == -1)
+		perror("minishell");
 	tmp = var->data[i];
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->input, pfd[1]);
+		ft_putstr_fd(tmp->input, var->here_doc[1]);
 		tmp = tmp->next;
 	}
-	if (close(pfd[1]) == -1)
+	if (close(var->here_doc[1]) == -1)
 		perror("minishell");
 }
 
@@ -38,24 +40,20 @@ static void	close_pipes(t_vars *var, int *pfd, int i)
 		perror("minishell");
 }
 
-/*void	set_null_stdin(void)
-{
-	int		null_fd;
-
-	null_fd = open("/dev/null", O_RDONLY);
-	dup2(null_fd, STDIN_FILENO);
-	close(null_fd);
-}*/
-
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
+	signal(SIGINT, command_signal);
+	signal(SIGQUIT, command_signal);
+	var->empty_pipe = 0;
 	set_stdin_pipeline(var, pfd, var->tmp_fd, i);
 	set_stdout_pipeline(var, pfd, i);
+	var->sh->exit_pipe = 0;
 	if (is_builtin(var->cmd[i].args[0]))
 	{
 		var->sh->cmds = var->cmd[i].args;
-		if (ft_strcmp(var->cmd[i].args[0], "exit"))
-			exec_builtin(var->sh);
+		if (!ft_strcmp(var->cmd[i].args[0], "exit"))
+			var->sh->exit_pipe = 1;
+		exec_builtin(var->sh);
 		exit(*get_exit_status());
 	}
 	else if (exec_cmd(var, i))
@@ -72,11 +70,7 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 	while (++i < var->pipe_nb + 1)
 	{
 		if (var->cmd[i].fdin == -2)
-		{
-			if (pipe(var->here_doc) == -1)
-				perror("minishell");
-			get_here_doc_input(var, var->here_doc, i);
-		}
+			get_here_doc_input(var, i);
 		if (pipe(pfd) == -1)
 			get_fct_error();
 		update_underscore(var, i);
@@ -87,6 +81,11 @@ static void	handle_pipes(t_vars *var, int *pfd, int *pids, int i)
 			var->cmd[i].pid = pids[i];
 		if (pids[i] == 0)
 			access_child_process(var, pfd, i);
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+		}
 		close_pipes(var, pfd, i);
 		close_files(var, i);
 		var->tmp_fd = dup(pfd[0]);
@@ -104,6 +103,7 @@ int	create_processes(t_vars *var, t_data *sh)
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0]))
 	{
 		update_underscore(var, 0);
+		var->sh->exit_pipe = 0;
 		handle_builtin(var, sh);
 	}
 	else if (!var->pipe_nb && !ft_strcmp(var->toks->type, "SKIP"))

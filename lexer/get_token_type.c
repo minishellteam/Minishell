@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:51:03 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/29 13:41:28 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/26 21:13:46 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,26 @@ char	*get_ex_code_token(t_vars *var)
 	ft_strlcpy(token, var->start, var->len + 1);
 	var->line += 2;
 	return (token);
+}
+
+int	check_spaces(char *line)
+{
+	while (*line && ft_isspace(*line))
+		line++;
+	if (!*line)
+		return (1);
+	return (0);
+}
+
+int	handle_quote_case(t_vars *var)
+{
+	char	*quote;
+
+	quote = var->line;
+	if (check_quote_in_str(var, var->start, var->end))
+		return (1);
+	var->line++;
+	while (*(var->line) != *quote)
+		var->line++;
+	return (0);
 }

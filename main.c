@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/26 17:17:42 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:39:37 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@ static void	free_vars(char *line, t_vars *var, int x)
 	free(line);
 	if (x == 1 || x == 2)
 		free_structures(var->cmd, var->pipe_nb);
-	if (x == 2)
-	{
-		if (var->sh->export)
-		{
-			var->sh->export = NULL;
-			free(var->sh->export);
-		}
-	}
 	free_list_input(var->data, var->pipe_nb, 0);
 	free_list(&(var->toks), 0);
 	free(var);
@@ -37,6 +29,7 @@ static void	init_var(t_vars *var, t_data *sh)
 	var->data = NULL;
 	var->bool = 0;
 	var->y = 0;
+	var->j = 0;
 	var->sh = sh;
 }
 
@@ -101,8 +94,8 @@ int	main(int ac, char **av, char **env)
 	sh.env = env;
 	my_env(&sh);
 	exp_env(&sh);
-	signal(SIGINT, basic_sigquit);
-	signal(SIGINT, basic_sigint);
+	signal(SIGINT, basic_signal);
+	signal(SIGQUIT, basic_signal);
 	var = readline_loop(var, line, &sh);
 	return (EXIT_SUCCESS);
 }

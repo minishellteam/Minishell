@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 12:26:36 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/29 18:53:43 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static char	*get_special_tok(t_vars *var)
 	if (is_forbidden_char(special_tok[0]))
 	{
 		get_error_message(special_tok, 0);
+		var->bool = 1;
 		return (NULL);
 	}
 	if (check_question_mark(var->line, special_tok))
@@ -34,19 +35,6 @@ static char	*get_special_tok(t_vars *var)
 	ft_strlcpy(token, special_tok, var->len + 1);
 	var->line++;
 	return (token);
-}
-
-static int	handle_quote_case(t_vars *var)
-{
-	char	*quote;
-
-	quote = var->line;
-	if (check_quote_in_str(var, var->start, var->end))
-		return (1);
-	var->line++;
-	while (*(var->line) != *quote)
-		var->line++;
-	return (0);
 }
 
 static char	*get_string_tok(t_vars *var)
@@ -62,8 +50,13 @@ static char	*get_string_tok(t_vars *var)
 		&& !is_special_char(*(var->line)))
 	{
 		if (*(var->line) == '\"' || *(var->line) == '\'')
+		{
 			if (handle_quote_case(var))
+			{
+				var->bool = 1;
 				return (NULL);
+			}
+		}
 		var->line++;
 	}
 	var->end = var->line - 1;
@@ -92,30 +85,50 @@ static char	*get_token(t_vars *var)
 	return (token);
 }
 
+static int	get_token_list(t_vars *var, char *line)
+{
+	while (*(var->line))
+	{
+		var->start = line;
+		var->token = get_token(var);
+		if (!var->token)
+		{
+			if (var->bool == 1)
+				return (1);
+			else
+				return (0);
+		}
+		var->tok = ft_lst_new(var->token);
+		ft_lst_add_back(&(var->toks), var->tok);
+		while (*(var->line) && ft_isspace(*(var->line)))
+			var->line++;
+	}
+	return (2);
+}
+
 int	tokenize_line(char *line, t_vars *var)
 {
+	int	ret;
+
 	var->line = line;
 	if (*(var->line) == '?')
 	{
 		get_error_message("?", 0);
 		return (1);
 	}
-	while (*(var->line))
-	{
-		var->start = line;
-		var->token = get_token(var);
-		if (!var->token)
-			return (1);
-		var->tok = ft_lst_new(var->token);
-		ft_lst_add_back(&(var->toks), var->tok);
-		while (*(var->line) && ft_isspace(*(var->line)))
-			var->line++;
-	}
+	if (check_spaces(var->line))
+		return (1);
+	ret = get_token_list(var, line);
+	if (ret == 1)
+		return (1);
+	if (ret == 0)
+		return (0);
 	var->toks = get_token_type(var->toks);
 	if (parse_tokens(var))
 		return (1);
 	get_limiter(var->toks);
-	check_limiter(var);
+	if (check_limiter(var))
+		return (1);
 	handle_quotes(var);
 	get_files(var->toks);
 	return (0);

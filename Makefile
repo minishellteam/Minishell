@@ -28,6 +28,7 @@ SRCS	=	main.c \
 			./parser/parsing.c \
 			./parser/get_string_type.c \
 			./expander/here_doc.c \
+			./expander/handle_limiter.c \
 			./expander/lst_functions_2.c \
 			./expander/expand_quotes.c \
 			./expander/empty_token.c \
@@ -37,7 +38,9 @@ SRCS	=	main.c \
 			get_cmd_infos.c \
 			get_redirections.c \
 			./execution/processes.c \
+			./execution/check_exec_file.c \
 			./execution/set_redirections.c \
+			./execution/handle_empty_pipe.c \
 			./execution/execution.c \
 			./execution/exec_builtin.c \
 			./builtins/built_exit.c \

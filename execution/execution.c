@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:31 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 14:56:33 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/27 00:07:00 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,17 @@ static int	handle_dot_cmd(t_vars *var, int i)
 		get_error_message(var->cmd[i].args[0], 4);
 		return (1);
 	}
-	else if ((var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], ".")))
+	else if ((var->cmd[i].args[0] && !ft_strcmp(var->cmd[i].args[0], "."))
+		&& !var->cmd[i].args[0][1])
 	{
 		ft_putstr_fd("minishell: .: filename argument required\n", 2);
 		set_exit_status(2);
 		return (1);
 	}
-	return (0);
-}
-
-int	check_if_dir(char *cmd)
-{
-	struct stat	f_infos;
-
-	if (stat(cmd, &f_infos) != -1)
+	else if (var->cmd[i].args[0] && !ft_strncmp(var->cmd[i].args[0], "./", 2))
 	{
-		if (S_ISDIR(f_infos.st_mode))
-		{
-			get_error_message(cmd, 8);
+		if (check_permission(var->cmd[i].args[0]))
 			return (1);
-		}
 	}
 	return (0);
 }
