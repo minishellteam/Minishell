@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 06:43:25 by ykifadji          #+#    #+#             */
-/*   Updated: 2023/10/30 21:28:21 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:33:33 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,23 @@ void	basic_signal(int signal)
 
 void	command_signal(int signal)
 {
+	set_termios(1);
 	if (signal == SIGINT)
 	{
 		set_exit_status(128 + 2);
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	if (signal == SIGQUIT)
 	{
 		set_exit_status(128 + 3);
-		printf("Quit (core dumped)\n");
+		ft_putstr_fd("Quit 3\n", STDOUT_FILENO);
 	}
 	exit(*get_exit_status());
 }
 
 void	here_doc_signal(int signal)
 {
+	set_termios(1);
 	if (signal == SIGINT)
 	{
 		set_exit_status(1);
@@ -58,4 +60,10 @@ void	ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	set_basic_signals(void)
+{
+	signal(SIGINT, basic_signal);
+	signal(SIGQUIT, basic_signal);
 }

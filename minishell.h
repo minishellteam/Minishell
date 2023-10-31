@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 00:38:27 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:59:49 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Libft/inc/libft.h"
 # include "Libft/inc/get_next_line.h"
 # include "Libft/inc/ft_printf.h"
+# include <termios.h>
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -104,7 +105,9 @@ typedef struct s_vars {
 	int		orig_stdin;
 	int		orig_stdout;
 	int		tmp_fd;
+	int		pfd[2];
 	int		empty_pipe;
+	int		only_empty;
 	t_data	*sh;
 	int		here_doc[2];
 	char	*path;
@@ -143,6 +146,8 @@ void		basic_signal(int signal);
 void		command_signal(int signal);
 void		here_doc_signal(int signal);
 void		ignore_signals(void);
+void		set_basic_signals(void);
+void		set_termios(int bool);
 
 /*===================================LEXER====================================*/
 
@@ -194,7 +199,11 @@ int			handle_quotes(t_vars *var);
 
 int			check_limiter(t_vars *var);
 t_tok		*remove_quotes_limiter(t_tok *tmp);
+
 int			handle_here_doc(t_vars *var, t_tok *tmp, int i);
+void		read_from_pipe(t_vars *var, int i);
+
+int			get_hd_input(t_vars *var, char *limiter);
 
 char		*get_var(char *token, t_vars *var, int x, int bool);
 char		get_quote_type(char *token);
@@ -227,6 +236,7 @@ void		close_pipes(t_vars *var, int *pfd, int i);
 void		set_null_stdout(void);
 void		read_stdin(void);
 int			is_empty_pipe(int fd);
+int			check_only_empty_pipes(t_vars *var);
 
 int			check_permission(char *file, int x);
 int			check_if_dir(char *cmd);

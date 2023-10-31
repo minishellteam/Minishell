@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 00:08:34 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:17:55 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,38 +82,15 @@ static void	handle_pipes(t_vars *var, int i)
 	}
 }
 
-static void	handle_no_input(t_vars *var)
-{
-	int	pid;
-	int	status;
-
-	pid = fork();
-	if (pid == -1)
-		perror("minishell:");
-	else if (pid == 0)
-	{
-		signal(SIGINT, command_signal);
-		signal(SIGQUIT, command_signal);
-		if (exec_cmd(var, 0))
-			exit(*get_exit_status());
-		else
-		{
-			set_exit_status(0);
-			exit(*get_exit_status());
-		}
-	}
-	else
-		ignore_signals();
-	if (waitpid(pid, &status, 0) == -1)
-		perror("minishell:");
-}
-
 int	create_processes(t_vars *var, t_data *sh)
 {
 	int	i;
 
 	i = -1;
 	var->pids = NULL;
+	var->only_empty = 0;
+	if (!check_only_empty_pipes(var))
+		var->only_empty = 1;
 	if (!var->pipe_nb && is_builtin(var->cmd[0].args[0])
 		&& var->cmd[0].fdin != -1 && var->cmd[0].fdout != -1)
 	{
@@ -125,9 +102,6 @@ int	create_processes(t_vars *var, t_data *sh)
 		get_error_message("", 4);
 	else if (!var->pipe_nb && !ft_strcmp(var->toks->type, "SKIP"))
 		return (0);
-	else if (!var->pipe_nb && !ft_strcmp(var->cmd[0].args[0], "cat")
-		&& !var->cmd[0].args[1] && var->cmd[0].fdin == 0)
-		handle_no_input(var);
 	else
 	{
 		handle_pipes(var, i);

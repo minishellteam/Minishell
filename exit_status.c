@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:02:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 00:37:39 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:33:47 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,15 @@ void	wait_for_processes(t_vars *var)
 		if (WIFEXITED(status))
 			set_exit_status(WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
+		{
+			if (status == 2)
+				printf("\n");
+			else if (status == 131)
+				printf("Quit 3\n");
 			set_exit_status(128 + WTERMSIG(status));
+		}
 	}
-	signal(SIGINT, basic_signal);
-	signal(SIGQUIT, basic_signal);
+	set_basic_signals();
 	if (close(var->tmp_fd) == -1)
 		perror("minishell");
 }
@@ -57,4 +62,16 @@ void	set_correct_status(t_vars *var, char **cmds, int i)
 	}
 	else
 		get_error_message(cmds[0], 4);
+}
+
+void	set_termios(int bool)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	if (bool == 0)
+		term.c_lflag &= ~ECHOCTL;
+	else
+		term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

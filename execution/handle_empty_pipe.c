@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:08:30 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 21:31:33 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:40:56 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	read_stdin(void)
 	pipe(tmp_fd);
 	input = get_next_line(0);
 	if (!input)
-		return ;
+		exit(*get_exit_status());
 	new_input = ft_substr(input, 0, ft_strlen(input) - 1);
 	free(input);
 	write(tmp_fd[1], new_input, ft_strlen(new_input));
@@ -61,4 +61,18 @@ void	close_pipes(t_vars *var, int *pfd, int i)
 			perror("minishell");
 	if (close(pfd[1]) == -1)
 		perror("minishell");
+}
+
+int	check_only_empty_pipes(t_vars *var)
+{
+	int	i;
+
+	i = 0;
+	while (i < var->pipe_nb + 1 && var->cmd[i].args)
+	{
+		if (ft_strcmp(var->cmd[i].args[0], "cat") || var->cmd[i].args[1])
+			return (1);
+		i++;
+	}
+	return (0);
 }

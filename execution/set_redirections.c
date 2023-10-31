@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:49:54 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 00:19:00 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:13:40 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i)
 			perror("minishell");
 		get_std_stream(var->cmd[i].fdin, STDIN_FILENO);
 	}
-	else if (i && var->cmd[i].fdin == 0)
+	else if (i && var->cmd[i].fdin == 0 && !var->only_empty)
 		get_pipe_data(var, tmp_fd, i);
 	else
 	{
 		if (!ft_strcmp(var->cmd[i].args[0], "cat") && !var->cmd[i].args[1]
-			&& var->cmd[i].fdin != -1)
+			&& var->cmd[i].fdin != -1 && !var->only_empty)
 		{
 			read_stdin();
 			var->empty_pipe = 1;
@@ -73,7 +73,7 @@ void	set_stdout_pipeline(t_vars *var, int *pfd, int i)
 {
 	if (i < var->pipe_nb && var->cmd[i].fdout == 1)
 	{
-		if (var->empty_pipe == 1)
+		if (var->empty_pipe == 1 && !var->only_empty)
 		{
 			set_null_stdout();
 			if (close(pfd[1]) == -1)
