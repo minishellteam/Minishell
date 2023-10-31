@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:02:10 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 18:33:47 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 19:08:25 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,18 @@ void	wait_for_processes(t_vars *var)
 	while (++i < var->pipe_nb + 1)
 	{
 		if (waitpid(var->cmd[i].pid, &status, 0) == -1)
-		{
 			perror("minishell");
-			return ;
-		}
 		if (WIFEXITED(status))
 			set_exit_status(WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
 		{
+			set_termios(1);
 			if (status == 2)
 				printf("\n");
 			else if (status == 131)
 				printf("Quit 3\n");
 			set_exit_status(128 + WTERMSIG(status));
+			return ;
 		}
 	}
 	set_basic_signals();
