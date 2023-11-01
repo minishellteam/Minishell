@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:08:30 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 13:40:56 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:55:22 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	check_only_empty_pipes(t_vars *var)
 	i = 0;
 	while (i < var->pipe_nb + 1 && var->cmd[i].args)
 	{
-		if (ft_strcmp(var->cmd[i].args[0], "cat") || var->cmd[i].args[1])
+		if (var->cmd[i].args[0]
+			&& (ft_strcmp(var->cmd[i].args[0], "cat") || var->cmd[i].args[1]))
 			return (1);
 		i++;
 	}
