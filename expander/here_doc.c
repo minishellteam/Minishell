@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 22:59:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 16:16:28 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:56:49 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	here_doc_loop(t_vars *var, char *line, char *limiter, t_input *data)
 			var->data[var->i] = data;
 			free(line);
 			free(limiter);
-			signal(SIGINT, basic_signal);
 			return (1);
 		}
 		if (!line || !ft_strcmp(line, limiter))
@@ -69,13 +68,11 @@ static int	get_input(t_vars *var, char *limiter, int i)
 	{
 		free(line);
 		free(limiter);
-		signal(SIGINT, basic_signal);
 		return (1);
 	}
 	data = ft_lstnew_input(line);
 	if (here_doc_loop(var, line, limiter, data))
 		return (1);
-	signal(SIGINT, basic_signal);
 	free(limiter);
 	return (0);
 }
@@ -101,6 +98,7 @@ int	handle_here_doc(t_vars *var, t_tok *tmp, int i)
 				else
 					return (1);
 			}
+			signal(SIGINT, basic_signal);
 		}
 		tmp = tmp->next;
 	}
