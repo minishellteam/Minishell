@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 09:22:28 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 17:26:23 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:26:46 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static char	*get_non_quoted_tok(t_vars *var)
 	if (*(var->start) && *(var->start) != '\'' && *(var->start) != '\"')
 	{
 		start = var->start;
-		while (*(var->start) && *(var->start) != '\'' && *(var->start) != '\"')
+		while (*(var->start) && *(var->start) != '\''
+			&& *(var->start) != '\"')
 			var->start++;
 		var->end = var->start - 1;
 		var->len = var->end - start + 1;

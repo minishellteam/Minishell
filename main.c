@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:06 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 16:41:46 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:27:21 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ int	main(int ac, char **av, char **env)
 	sh.env = env;
 	my_env(&sh);
 	exp_env(&sh);
-	signal(SIGINT, basic_signal);
-	signal(SIGQUIT, basic_signal);
+	set_basic_signals();
 	var = readline_loop(var, line, &sh);
+	set_termios(1);
 	return (EXIT_SUCCESS);
 }

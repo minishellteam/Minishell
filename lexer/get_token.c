@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:46:12 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/29 18:53:43 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:46:53 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*get_special_tok(t_vars *var)
 		var->bool = 1;
 		return (NULL);
 	}
-	if (check_question_mark(var->line, special_tok))
+	if (check_question_mark(var, var->line, special_tok))
 		return (NULL);
 	token = (char *)ft_malloc(sizeof(char) * (var->len + 1));
 	ft_strlcpy(token, special_tok, var->len + 1);

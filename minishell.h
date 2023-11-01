@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 16:40:59 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:27:35 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Libft/inc/libft.h"
 # include "Libft/inc/get_next_line.h"
 # include "Libft/inc/ft_printf.h"
+# include <termios.h>
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -98,12 +99,15 @@ typedef struct s_vars {
 	int		j;
 	int		bool;
 	int		pipe_nb;
+	int		*pids;
 	t_input	**data;
 	t_cmd	*cmd;
 	int		orig_stdin;
 	int		orig_stdout;
 	int		tmp_fd;
+	int		pfd[2];
 	int		empty_pipe;
+	int		only_empty;
 	t_data	*sh;
 	int		here_doc[2];
 	char	*path;
@@ -136,10 +140,14 @@ int			check_var_name(char *var);
 int			*get_exit_status(void);
 void		set_exit_status(int status);
 void		wait_for_processes(t_vars *var);
+void		set_correct_status(t_vars *var, char **cmds, int i);
 
 void		basic_signal(int signal);
 void		command_signal(int signal);
 void		here_doc_signal(int signal);
+void		ignore_signals(void);
+void		set_basic_signals(void);
+void		set_termios(int bool);
 
 /*===================================LEXER====================================*/
 
@@ -148,7 +156,7 @@ int			tokenize_line(char *line, t_vars *var);
 int			is_special_char(char token);
 int			ft_isspace(char token);
 int			is_forbidden_char(char token);
-int			check_question_mark(char *line, char *token);
+int			check_question_mark(t_vars *var, char *line, char *token);
 int			check_quote_in_str(t_vars *var, char *start, char *end);
 
 char		*get_double_chevrons_token(t_vars *var);
@@ -191,7 +199,11 @@ int			handle_quotes(t_vars *var);
 
 int			check_limiter(t_vars *var);
 t_tok		*remove_quotes_limiter(t_tok *tmp);
+
 int			handle_here_doc(t_vars *var, t_tok *tmp, int i);
+void		read_from_pipe(t_vars *var, int i);
+
+int			get_hd_input(t_vars *var, char *limiter);
 
 char		*get_var(char *token, t_vars *var, int x, int bool);
 char		get_quote_type(char *token);
@@ -220,11 +232,13 @@ void		set_stdin_pipeline(t_vars *var, int *pfd, int tmp_fd, int i);
 void		set_stdout_pipeline(t_vars *var, int *pfd, int i);
 void		close_files(t_vars *var, int i);
 
+void		close_pipes(t_vars *var, int *pfd, int i);
 void		set_null_stdout(void);
 void		read_stdin(void);
 int			is_empty_pipe(int fd);
+int			check_only_empty_pipes(t_vars *var);
 
-int			check_permission(char *file);
+int			check_permission(char *file, int x);
 int			check_if_dir(char *cmd);
 int			exec_cmd(t_vars *var, int i);
 

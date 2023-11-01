@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 22:17:16 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 15:49:48 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:42:48 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_cmd_error(char *error, char *err_msg)
 
 	set_exit_status(127);
 	begin = "minishell: ";
-	end = ": Command not found\n";
+	end = ": command not found\n";
 	err_msg = ft_strjoin(begin, error, 0);
 	err_msg = ft_strjoin(err_msg, end, 1);
 	return (err_msg);

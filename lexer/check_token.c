@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:43:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/09/15 10:15:30 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:47:10 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ int	is_forbidden_char(char token)
 	return (0);
 }
 
-int	check_question_mark(char *line, char *token)
+int	check_question_mark(t_vars *var, char *line, char *token)
 {
 	if (token[0] == '?')
 	{
 		if (*(line - 1) != '$')
 		{
 			get_error_message(token, 0);
+			var->bool = 1;
 			return (1);
 		}
 	}

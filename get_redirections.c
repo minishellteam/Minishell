@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 19:17:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/25 17:29:31 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:22:59 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ static int	get_file_fd(char *file_name, int x)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0777);
 	if (fd == -1)
 	{
-		if (check_if_dir(file_name))
+		if (check_permission(file_name, 0))
 			return (fd);
-		else
-			get_error_message(file_name, 3);
 	}
 	return (fd);
 }

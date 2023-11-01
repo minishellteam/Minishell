@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:03:13 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 14:54:07 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:09:07 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ void	update_underscore_env(t_data *sh)
 
 void	handle_builtin(t_vars *var, t_data *sh)
 {
+	update_underscore(var, 0);
 	var->orig_stdin = dup(STDIN_FILENO);
 	var->orig_stdout = dup(STDOUT_FILENO);
 	sh->cmds = var->cmd[0].args;
-	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)
+	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2 
+		&& var->cmd[0].fdin != -1)
 		get_std_stream(var->cmd[0].fdin, STDIN_FILENO);
-	if (var->cmd[0].fdout != 1)
+	if (var->cmd[0].fdout != 1 && var->cmd[0].fdout != -1)
 		get_std_stream(var->cmd[0].fdout, STDOUT_FILENO);
 	exec_builtin(sh);
 	if (var->cmd[0].fdin != 0 && var->cmd[0].fdin != -2)

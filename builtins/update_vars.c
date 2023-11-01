@@ -6,7 +6,7 @@
 /*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:31:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 14:53:53 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:39:23 by ykifadji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	export_var_to_update(t_data *sh, char *prefix, char *var)
 	i = -1;
 	while (sh->expenv[++i])
 	{
-		if (ft_strnstr(sh->myenv[i], prefix, ft_strlen(sh->myenv[i])))
+		if (ft_strnstr(sh->expenv[i], prefix, ft_strlen(sh->expenv[i])))
 		{
-			free(sh->myenv[i]);
-			sh->myenv[i] = ft_strdup(var);
+			free(sh->expenv[i]);
+			sh->expenv[i] = ft_strdup(var);
 			return ;
 		}
 	}
