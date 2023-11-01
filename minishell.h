@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 17:59:49 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:47:43 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int			tokenize_line(char *line, t_vars *var);
 int			is_special_char(char token);
 int			ft_isspace(char token);
 int			is_forbidden_char(char token);
-int			check_question_mark(char *line, char *token);
+int			check_question_mark(t_vars *var, char *line, char *token);
 int			check_quote_in_str(t_vars *var, char *start, char *end);
 
 char		*get_double_chevrons_token(t_vars *var);
