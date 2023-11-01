@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 09:54:19 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/11/01 14:47:43 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 16:04:45 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ int			handle_quote_case(t_vars *var);
 
 t_tok		*ft_lst_new(char *token);
 void		ft_lst_add_back(t_tok **lst, t_tok *new);
-void		print_list(t_tok *token, int x);
 t_tok		*ft_lst_last(t_tok *lst);
 int			ft_lst_size(t_tok *lst);
 void		free_list(t_tok **lst, int x);
