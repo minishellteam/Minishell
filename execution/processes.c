@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:33:20 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 18:17:55 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:24:23 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	get_here_doc_input(t_vars *var, int i)
 
 static void	access_child_process(t_vars *var, int *pfd, int i)
 {
+	set_termios(1);
 	signal(SIGINT, command_signal);
 	signal(SIGQUIT, command_signal);
 	var->empty_pipe = 0;

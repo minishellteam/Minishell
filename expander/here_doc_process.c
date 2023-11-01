@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:40:05 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/31 19:09:07 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:27:31 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	handle_hd_process(t_vars *var, char *limiter)
 	char	*line;
 
 	close(var->pfd[0]);
+	set_termios(1);
 	signal(SIGINT, here_doc_signal);
 	line = readline("> ");
 	line = ft_strjoin(line, "\n", 1);
@@ -58,7 +59,6 @@ static int	wait_hd_process(t_vars *var, int pid, char *limiter)
 	set_basic_signals();
 	if (WIFEXITED(status))
 	{
-		set_termios(1);
 		set_exit_status(WEXITSTATUS(status));
 		if (*get_exit_status() == 1)
 		{
