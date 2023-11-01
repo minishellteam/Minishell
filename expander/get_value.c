@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykifadji <ykifadji@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:24:41 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/30 14:54:38 by ykifadji         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:41:04 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ char	*get_env(t_vars *var, char *variable)
 	j = 0;
 	value = NULL;
 	variable = ft_strjoin(variable, "=", 0);
-	while (var->sh->myenv[++i])
+	while (var->sh->expenv[++i])
 	{
-		if (!ft_strncmp(variable, var->sh->myenv[i], ft_strlen(variable)))
+		if (!ft_strncmp(variable, var->sh->expenv[i], ft_strlen(variable)))
 		{
-			while (var->sh->myenv[i][j] && var->sh->myenv[i][j] != '=')
+			while (var->sh->expenv[i][j] && var->sh->expenv[i][j] != '=')
 				j++;
-			value = ft_substr(var->sh->myenv[i], j + 1, \
-			ft_strlen(var->sh->myenv[i]) - j);
+			value = ft_substr(var->sh->expenv[i], j + 1, \
+			ft_strlen(var->sh->expenv[i]) - j);
 			free(variable);
 			return (value);
 		}
