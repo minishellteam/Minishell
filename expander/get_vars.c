@@ -83,7 +83,7 @@ static char	*handle_unquoted_var(t_vars *var, char *new_tok, char *token, int i)
 	new_tok = replace_var(new_tok, var, i, 1);
 	free(token);
 	if (!ft_strcmp(new_tok, ""))
-		token = "";
+		token = ft_strdup("");
 	else
 		token = ft_strdup(new_tok);
 	free(new_tok);

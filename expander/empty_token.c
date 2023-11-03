@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:54:25 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/10/19 12:56:26 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:49:46 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	handle_empty_quotes(t_vars *var, char **token)
 		if (!*(var->line + 2))
 		{
 			var->line += 2;
-			*token = "";
+			*token = ft_strdup("");
 			return (1);
 		}
 	}

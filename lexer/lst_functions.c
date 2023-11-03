@@ -6,7 +6,7 @@
 /*   By: mkerkeni <mkerkeni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 16:19:27 by mkerkeni          #+#    #+#             */
-/*   Updated: 2023/11/03 09:45:57 by mkerkeni         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:53:49 by mkerkeni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	free_list(t_tok **lst, int x)
 {
 	t_tok	*tmp;
 
-	while (*lst && (*lst)->next)
+	while (*lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
